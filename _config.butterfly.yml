@@ -16,6 +16,7 @@ menu:
    娱乐 || fas fa-list:
       音乐: /music/ || fas fa-music
    友情链接: /link/ || fas fa-link
+   留言板: /messageboard/ || fas fa-comment-dots
    关于我: /about/ || fas fa-heart
 
 # Code Blocks (代碼相關)
@@ -279,7 +280,7 @@ runtimeshow:
 
 # Aside widget - Newest Comments
 newest_comments:
-  enable: true
+  enable: false
   sort_order: # Don't modify the setting unless you know how it works
   limit: 6
   storage: 10 # unit: mins, save data to localStorage
