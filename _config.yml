@@ -103,3 +103,21 @@ theme: butterfly
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+plugins:
+  - hexo-algoliasearch
+
+algolia:
+  appId: "ZUCKI03DK0"
+  apiKey: "353881b9ce5f891f9ac47525986ff483"
+  adminApiKey: "d552cadaa939c3f22d7aae4e4dc1c99f"
+  chunkSize: 5000
+  indexName: "hexo"
+  fields:
+    - title
+    - path
+    - categories
+    - content:strip:truncate,0,2000
+    - gallery
+    - photos
+    - tags

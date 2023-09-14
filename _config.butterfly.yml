@@ -352,10 +352,9 @@ katex:
 # search (搜索)
 # see https://butterfly.js.org/posts/ceeb73f/#搜索系統
 # --------------------------------------
-
 # Algolia search
 algolia_search:
-  enable: false
+  enable: true
   hits:
     per_page: 6
 
@@ -987,4 +986,12 @@ CDN:
     # artalk_js:
     # artalk_css:
     # busuanzi:
-    # abcjs_basic_js:
+    # abcjs_basic_js:  
+kramed:
+  gfm: true
+  pedantic: false
+  sanitize: false
+  tables: true
+  breaks: true
+  smartLists: true
+  smartypants: true
