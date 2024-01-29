@@ -4,23 +4,27 @@
     - name: Hexo
       link: https://hexo.io/zh-tw/
       avatar: https://d33wubrfki0l68.cloudfront.net/6657ba50e702d84afb32fe846bed54fba1a77add/827ae/logo.svg
-      descr: 快速、簡單且強大的網誌框架
+      descr: 快速、简单且強大的网站框架
     - name: butterfly
       link: https://butterfly.js.org/
       avatar: https://tpc.googlesyndication.com/simgad/11752616899842625936?sqp=4sqPyQQ7QjkqNxABHQAAtEIgASgBMAk4A0DwkwlYAWBfcAKAAQGIAQGdAQAAgD-oAQGwAYCt4gS4AV_FAS2ynT4&rs=AOga4qnVmwQYFmpd10nAVk5_VSri61EDrw
       descr: butterfly
 
-- class_name: 網站
-  class_desc: 值得推薦的網站
+- class_name: 常用网站
+  class_desc: 值得推荐的网站
   link_list:
-    - name: Youtube
-      link: https://www.youtube.com/
-      avatar: https://i.loli.net/2020/05/14/9ZkGg8v3azHJfM1.png
-      descr: 視頻網站
     - name: Weibo
       link: https://www.weibo.com/
       avatar: https://i.loli.net/2020/05/14/TLJBum386vcnI1P.png
-      descr: 中國最大社交分享平台
+      descr: 中国最大社交分享平台
+    - name: 哔哩哔哩
+      link: https://www.bilibili.com/
+      avatar: https://www.bilibili.com/favicon.ico
+      descr: 哔哩哔哩 (゜-゜)つロ
+    - name: Youtube
+      link: https://www.youtube.com/
+      avatar: https://i.loli.net/2020/05/14/9ZkGg8v3azHJfM1.png
+      descr: 視頻网站
     - name: Twitter
       link: https://twitter.com/
       avatar: https://i.loli.net/2020/05/14/5VyHPQqR6LWF39a.png
@@ -28,8 +32,24 @@
     - name: 第一PPT
       link: https://www.1ppt.com/
       avatar: https://js.1ppt.com/logo.gif
-      descr: PPT網站
+      descr: PPT网站
+
+
+
+ 
+
+- class_name: 资源网站
+  class_desc: 值得收藏的资源汇总导航网站
+  link_list:
+    - name: 在线工具
+      link: https://www.zxgj.cn/
+      avatar: https://res.zxgj.cn/images/ata.png
+      descr: 在线工具
+    - name: 我爱分享网
+      link: http://www.zhanshaoyi.com
+      avatar: http://www.zhanshaoyi.com/wp-content/themes/begin/img/favicon.png
+      descr: 软件下载资源网站
     - name: 程序员宝盒
       link: https://www.baoboxs.com/
       avatar: https://www.baoboxs.com/img/cxybb_logo.838eb836.png
-      descr: 导航網站
+      descr: 导航网站
