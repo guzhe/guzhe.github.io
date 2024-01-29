@@ -3,7 +3,7 @@
 # --------------------------------------
 
 nav:
-  logo: https://s11.ax1x.com/2024/01/29/pFu588s.jpg # 網站的 logo，支持圖片，直接填入圖片鏈接
+  logo: https://s11.ax1x.com/2024/01/11/pFCeeyj.png # 網站的 logo，支持圖片，直接填入圖片鏈接
   display_title: true # 是否顯示網站標題，填寫 true 或者 false
   fixed: false # fixed navigation bar 是否固定狀態欄，填寫 true 或者 false
 
@@ -210,7 +210,7 @@ footer:
   owner:
     enable: true
     since: 2023
-  custom_text: Hi, welcome to my <a href="https://guzhehome.gitee.io/">blog</a>!</br> 备案号：xxxxxxx <a href="xxxxx" target="_blank">去备案</a>
+  custom_text: Hi, welcome to my <a href="https://guzhe.github.io/">blog</a>!</br> 备案号：xxxxxxx <a href="xxxxx" target="_blank">去备案</a>
   copyright: true # Copyright of theme and framework
 
 # aside (側邊欄)
