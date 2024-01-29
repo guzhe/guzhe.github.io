@@ -3,9 +3,9 @@
 # --------------------------------------
 
 nav:
-  logo: https://files.guzlife.top/hexo/20230227151144.png
-  display_title: true
-  fixed: false # fixed navigation bar
+  logo: https://s11.ax1x.com/2024/01/29/pFu588s.jpg # 網站的 logo，支持圖片，直接填入圖片鏈接
+  display_title: true # 是否顯示網站標題，填寫 true 或者 false
+  fixed: false # fixed navigation bar 是否固定狀態欄，填寫 true 或者 false
 
 # Menu 目錄
 menu:
@@ -15,6 +15,7 @@ menu:
    分类: /categories/ || fas fa-folder-open
    娱乐 || fas fa-list:
       音乐: /music/ || fas fa-music
+      图库: /gallery/ || fas fa-image
    友情链接: /link/ || fas fa-link
    留言板: /messageboard/ || fas fa-comment-dots
    关于我: /about/ || fas fa-heart
@@ -26,32 +27,33 @@ highlight_theme: pale night #  darker / pale night / light / ocean / mac / mac l
 highlight_copy: true # copy button
 highlight_lang: true # show the code language
 highlight_shrink: false # true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button
-highlight_height_limit: false # unit: px
-code_word_wrap: false
+highlight_height_limit: 200 # unit: px
+code_word_wrap: true
 
 # Social Settings (社交圖標設置)
 # formal:
 #   icon: link || the description || color
 social:
-  # fab fa-github: https://github.com/guzhe/guzhe.github.io || Github || '#24292e'
-  # fas fa-envelope: mefreesd@126.com || Email || '#4a7dbe'
+   fab fa-github: https://guzhe.github.io || Github || '#24292e'
+   fas fa-envelope: mefreesd@126.com || Email || '#4a7dbe'
 
 # Image (圖片設置)
 # --------------------------------------
 
 # Favicon（網站圖標）
-favicon: /img/favicon.png
+favicon: /img/guz.jpg
 
 # Avatar (頭像)
 avatar:
-  img: https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png
+  img: /img/guz.jpg # https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png
   effect: true
 
 # Disable all banner image
 disable_top_img: false
 
 # The banner image of home page
-index_img: https://files.guzlife.top/hexo/SW-70678DD7853035E463D68B57F8CEDCAD.jpg
+index_img: https://s11.ax1x.com/2024/01/11/pFCZWJU.jpg
+# https://gitee.com/GuZheHome/fdiensoeniet/raw/master/wallpaper/index_img.jpg
 
 # If the banner of page not setting, it will show the top_img
 default_top_img:
@@ -96,9 +98,9 @@ error_img:
 
 # A simple 404 page
 error_404:
-  enable: false
+  enable: true
   subtitle: 'Page Not Found'
-  background: https://i.loli.net/2020/05/19/aKOcLiyPl2JQdFD.png
+  background: /img/404.jpg
 
 post_meta:
   page: # Home Page
@@ -208,7 +210,7 @@ footer:
   owner:
     enable: true
     since: 2023
-  custom_text: Hi, welcome to my <a href="https://guzhe.github.io/">blog</a>!
+  custom_text: Hi, welcome to my <a href="https://guzhehome.gitee.io/">blog</a>!</br> 备案号：xxxxxxx <a href="xxxxx" target="_blank">去备案</a>
   copyright: true # Copyright of theme and framework
 
 # aside (側邊欄)
@@ -231,7 +233,7 @@ aside:
       enable: true
       icon: fab fa-github
       text: Follow Me
-      link: https://github.com/guzhe/
+      link: https://gitee.com/guzhehome/
   card_announcement:
     enable: true
     content: This is my Blog
@@ -275,8 +277,8 @@ busuanzi:
 # Time difference between publish date and now (網頁運行時間)
 # Formal: Month/Day/Year Time or Year/Month/Day Time
 runtimeshow:
-  enable: false
-  publish_date:
+  enable: true
+  publish_date: 2023/09/16
 
 # Aside widget - Newest Comments
 newest_comments:
@@ -360,7 +362,7 @@ algolia_search:
 
 # Local search
 local_search:
-  enable: true
+  enable: false
   # Preload the search data when the page loads.
   preload: false
   # Show top n results per article, show all results by setting to -1
@@ -404,7 +406,7 @@ addtoany:
 comments:
   # Up to two comments system, the first will be shown as default
   # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42/Artalk
-  use: Gitalk # Valine,Disqus
+  use: valine # Valine,Disqus
   text: true # Display the comment name next to the button
   # lazyload: The comment system will be load when comment element enters the browser's viewport.
   # If you set it to true, the comment count will be invalid
@@ -444,8 +446,8 @@ gitalk:
 # valine
 # https://valine.js.org
 valine:
-  appId: # leancloud application app id
-  appKey: # leancloud application app key
+  appId: di242ugHjXnViuaZl2VsiTdu-gzGzoHsz # leancloud application app id
+  appKey: bwru8rzxmev2WzRDie1dP1lz # leancloud application app key
   avatar: monsterid # gravatar style https://valine.js.org/#/avatar
   serverURLs: # This configuration is suitable for domestic custom domain name users, overseas version will be automatically detected (no need to manually fill in)
   bg: # valine background
@@ -723,10 +725,10 @@ display_mode: light
 
 # Beautify (美化頁面顯示)
 beautify:
-  enable: false
+  enable: true
   field: post # site/post
-  title-prefix-icon: # '\f0c1'
-  title-prefix-icon-color: # '#F47466'
+  title-prefix-icon: '\f0c1'
+  title-prefix-icon-color:  '#F47466'
 
 # Global font settings
 # Don't modify the following settings unless you know how they work (非必要不要修改)
@@ -753,6 +755,11 @@ subtitle:
   enable: true
   # Typewriter Effect (打字效果)
   effect: true
+  startDelay: 300 # time before typing starts in milliseconds
+  typeSpeed: 150 # type speed in milliseconds
+  backSpeed: 50 # backspacing speed in milliseconds
+  # loop (循環打字)
+  loop: true
   # Customize typed.js (配置typed.js)
   # https://github.com/mattboldt/typed.js/#customization
   typed_option:
@@ -779,10 +786,10 @@ preloader:
 # wordcount (字數統計)
 # see https://butterfly.js.org/posts/ceeb73f/#字數統計
 wordcount:
-  enable: false
+  enable: true
   post_wordcount: true
   min2read: true
-  total_wordcount: true
+  hexo: true
 
 # Lightbox (圖片大圖查看模式)
 # --------------------------------------
@@ -842,7 +849,7 @@ pjax:
 
 # Inject the css and script (aplayer/meting)
 aplayerInject:
-  enable: false
+  enable: true
   per_page: true
 
 # Snackbar (Toast Notification 彈窗)
@@ -906,7 +913,10 @@ css_prefix: true
 inject:
   head:
     # - <link rel="stylesheet" href="/xxx.css">
+    - <script src="/js/jquery-3.4.1.min.js"></script>
+    - <script src="/js/pw.js"></script>
   bottom:
+    - <div class="aplayer no-destroy" data-id="60198" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="false" data-order="random"> </div>
     # - <script src="xxxx"></script>
 
 # CDN

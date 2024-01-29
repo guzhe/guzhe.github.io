@@ -10,10 +10,12 @@ keywords: 生活分享 个人心得
 author: 吉吉
 language: zh-CN
 timezone: 'Asia/Shanghai'
+email: mefreesd@126.com
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: https://guzlife.top
+url: https://guzhe.github.io
+root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -121,3 +123,7 @@ algolia:
     - gallery
     - photos
     - tags
+
+aplayer:
+  meting: true
+  asset_inject: false
