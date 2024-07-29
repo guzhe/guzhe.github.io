@@ -227,3 +227,6 @@ docker run -d --name nacos \
 -v D:\docker_mapping\nacos\data:/home/nacos/data \
 nacos/nacos-server:v2.3.1
 > 注意如果使用数据库方式需要先执行脚本，然后在启动容器不然会报错
+
+#### naxus3
+docker run --privileged=true --name nexus -p 43633:43633 -p 9081:8081 -v D:\docker_mapping\nexus:/nexus-data -d sonatype/nexus3
