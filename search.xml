@@ -562,14 +562,61 @@ db.createUser(&#123; user:&#39;root&#39;,pwd:&#39;123456&#39;,roles:[ &#123; rol
 db.auth(&#39;root&#39;, &#39;123456&#39;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 <h4 id="NIFI"><a href="#NIFI" class="headerlink" title="NIFI"></a>NIFI</h4><p>docker run —privileged=true —name nifi -p 8443:8443 -p 9999:9999 -e NIFI_WEB_HTTP_PORT=8443 -d apache/nifi:1.24.0</p>
 <h4 id="nacos"><a href="#nacos" class="headerlink" title="nacos"></a>nacos</h4><ol>
-<li><h1 id="安装容器"><a href="#安装容器" class="headerlink" title="安装容器"></a>安装容器</h1>docker run —name nacos -d -p 8848:8848 -e MODE=standalone  nacos/nacos-server:v2.3.1</li>
-<li><h1 id="创建挂载需要的目录"><a href="#创建挂载需要的目录" class="headerlink" title="创建挂载需要的目录"></a>创建挂载需要的目录</h1>mkdir -p /mydata/nacos/logs/                      #新建logs目录<br>mkdir -p /mydata/nacos/conf/            #新建conf目录<br>mkdir -p /mydata/nacos/data/            #新建data目录</li>
-<li><h1 id="复制文件到挂载目录"><a href="#复制文件到挂载目录" class="headerlink" title="复制文件到挂载目录"></a>复制文件到挂载目录</h1>docker cp nacos:/home/nacos/logs/ D:\docker_mapping\nacos<br>docker cp nacos:/home/nacos/conf/ D:\docker_mapping\nacos<br>docker cp nacos:/home/nacos/data/ D:\docker_mapping\nacos</li>
-<li><h1 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h1>docker rm -f nacos</li>
+<li>安装容器<br>docker run —name nacos -d -p 8848:8848 -e MODE=standalone  nacos/nacos-server:v2.3.1</li>
+<li>创建挂载需要的目录<br>mkdir -p /mydata/nacos/logs/                      #新建logs目录<br>mkdir -p /mydata/nacos/conf/            #新建conf目录<br>mkdir -p /mydata/nacos/data/            #新建data目录</li>
+<li>复制文件到挂载目录<br>docker cp nacos:/home/nacos/logs/ D:\docker_mapping\nacos<br>docker cp nacos:/home/nacos/conf/ D:\docker_mapping\nacos<br>docker cp nacos:/home/nacos/data/ D:\docker_mapping\nacos</li>
+<li>删除容器<br>docker rm -f nacos</li>
 <li>进入挂载目录找到application.properties完成配置</li>
-<li><h1 id="重新安装（完成配置文件挂载）"><a href="#重新安装（完成配置文件挂载）" class="headerlink" title="重新安装（完成配置文件挂载）"></a>重新安装（完成配置文件挂载）</h1>docker run -d —name nacos \<br>-p 8848:8848 \<br>-p 9848:9848 \<br>-p 9849:9849 \<br>—env MODE=standalone \<br>—env NACOS_AUTH_ENABLE=true \<br>-v D:\docker_mapping\nacos\conf:/home/nacos/conf \<br>-v D:\docker_mapping\nacos\logs:/home/nacos/logs \<br>-v D:\docker_mapping\nacos\data:/home/nacos/data \<br>nacos/nacos-server:v2.3.1<blockquote>
+<li>重新安装（完成配置文件挂载）<br>docker run -d —name nacos \<br>-p 8848:8848 \<br>-p 9848:9848 \<br>-p 9849:9849 \<br>—env MODE=standalone \<br>—env NACOS_AUTH_ENABLE=true \<br>-v D:\docker_mapping\nacos\conf:/home/nacos/conf \<br>-v D:\docker_mapping\nacos\logs:/home/nacos/logs \<br>-v D:\docker_mapping\nacos\data:/home/nacos/data \<br>nacos/nacos-server:v2.3.1<blockquote>
 <p>注意如果使用数据库方式需要先执行脚本，然后在启动容器不然会报错</p>
 </blockquote>
+</li>
+</ol>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h4 id="Apollo-多环境分布式部署（dev-pro）"><a href="#Apollo-多环境分布式部署（dev-pro）" class="headerlink" title="Apollo 多环境分布式部署（dev,pro）"></a>Apollo 多环境分布式部署（dev,pro）</h4><ol>
+<li><p>新建数据库（多个环境需要建立多个config库）执行sql 文件 文件参考：<br>config库： <a href="https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloconfigdb.sql">https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloconfigdb.sql</a><br>portal库： <a href="https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloportaldb.sql">https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloportaldb.sql</a><br>建立完成后应该有两个config库 和一个 protal库 例如：apollo_config_dev，apollo_config_pro，apollo_portal_db</p>
+</li>
+<li><p>建立本地映射目录 例如D盘下新建Apollo文件夹，随便起一个apollo-configservice容器和apollo-adminservice容器<br>将这两个服务的配置文件拷贝一份到对应的目录中  </p>
+<blockquote>
+<p>docker cp apollo-configservice:/apollo-configservice/config D:\docker_mapping\apollo\config-service-dev<br>docker cp apollo-adminservice容器:/apollo-adminservice/config D:\docker_mapping\apollo\admin-service-dev </p>
+</blockquote>
+</li>
+<li>将配置也复制一份到对应的pro文件夹里  </li>
+</ol>
+<p>完成后的目录结构：<br><pre class="line-numbers language-none"><code class="language-none">├─admin-service-dev
+│  └─config
+├─admin-service-pro
+│  └─config
+├─config-service-dev
+│  └─config
+├─config-service-pro
+│  └─config
+└─protal
+    └─config<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+<ol>
+<li><p>修改本地config-service-dev和config-service-pro下config目录下的配置文件application-github.properties<br>里面只需要配置数据库相关信息即可</p>
+</li>
+<li><p>启动apollo-configservice容器</p>
+<pre class="line-numbers language-none"><code class="language-none">docker run -d -p 8109:8080 --name apollo-configservice-dev -v D:\docker_mapping\apollo\config-service-dev\config:&#x2F;apollo-configservice&#x2F;config apolloconfig&#x2F;apollo-configservice:2.2.0  
+docker run -d -p 8110:8080 --name apollo-configservice-pro -v D:\docker_mapping\apollo\config-service-pro\config:&#x2F;apollo-configservice&#x2F;config apolloconfig&#x2F;apollo-configservice:2.2.0  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<blockquote>
+<p>注意configservice 服务自带注册中心</p>
+</blockquote>
+</li>
+<li><p>注意在 apollo_config 对应的库中找到表ServerConfig，修改eureka.service.url地址，地址为上面的config-service注册中心地址例如：<a href="http://本机IP:8109/eureka/">http://本机IP:8109/eureka/</a><br>dev和 pro config库都需要配置好，否则apollo-adminservice服务注册不上来</p>
+</li>
+<li><p>启动apollo-adminservice容器</p>
+<pre class="line-numbers language-none"><code class="language-none">docker run -d -p 8111:8090 --name apollo-adminservice-dev -v D:\docker_mapping\apollo\admin-service-dev\config:&#x2F;apollo-adminservice&#x2F;config apolloconfig&#x2F;apollo-adminservice:2.2.0  
+docker run -d -p 8112:8090 --name apollo-adminservice-pro -v D:\docker_mapping\apollo\admin-service-pro\config:&#x2F;apollo-adminservice&#x2F;config apolloconfig&#x2F;apollo-adminservice:2.2.0  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li><p>启动apollo-portal容器  </p>
+<ul>
+<li>在apollo_portal_db 中 找到表ServerConfig  <ul>
+<li>修改apollo.portal.envs 配置多环境例如：DEV,PRO </li>
+<li>修改apollo.portal.meta.servers地址，地址为上面的config-service地址例如：{“DEV”:”<a href="http://10.92.33.112:8109&quot;,&quot;PRO&quot;:&quot;http://10.92.33.112:8110&quot;}">http://10.92.33.112:8109&quot;,&quot;PRO&quot;:&quot;http://10.92.33.112:8110&quot;}</a>  </li>
+</ul>
+</li>
+<li>执行命令<br>docker run -p 8120:8070 -d —name apollo-portal -v D:\docker_mapping\apollo\protal\config:/apollo-portal/config apolloconfig/apollo-portal:2.2.0  </li>
+</ul>
 </li>
 </ol>
 <h4 id="naxus3"><a href="#naxus3" class="headerlink" title="naxus3"></a>naxus3</h4><p>docker run —privileged=true —name nexus -p 43633:43633 -p 9081:8081 -v D:\docker_mapping\nexus:/nexus-data -d sonatype/nexus3</p>
@@ -633,85 +680,6 @@ db.auth(&#39;root&#39;, &#39;123456&#39;);<span aria-hidden="true" class="line-n
       </categories>
       <tags>
         <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>maven-archetype-plugin使用</title>
-    <url>/2024/07/28/maven-archetype-plugin%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<blockquote>
-<p>导语： 做项目架构时发现公司项目结构不一致导致建项问题多，为了统一使用模版建项，故此使用此maven功能插件</p>
-</blockquote>
-<h4 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h4><ol>
-<li>在项目 pom.xml 中 添加一下内容  <pre class="line-numbers language-none"><code class="language-none">&lt;plugin&gt;
-    &lt;groupId&gt;org.apache.maven.plugins&lt;&#x2F;groupId&gt;
-    &lt;artifactId&gt;maven-archetype-plugin&lt;&#x2F;artifactId&gt;
-    &lt;version&gt;3.2.0&lt;&#x2F;version&gt;
-    &lt;configuration&gt;
-        &lt;propertyFile&gt;archetype.properties&lt;&#x2F;propertyFile&gt;
-    &lt;&#x2F;configuration&gt;
-&lt;&#x2F;plugin&gt;
-       <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li>在项目根目录下新建 archetype.properties 内容如下<pre class="line-numbers language-none"><code class="language-none"># 定义模板groupId
-archetype.groupId&#x3D;org.voice
-# 定义模板artifactId（一般以 ‘-archetype’结尾区分）
-archetype.artifactId&#x3D;webTemplateApplication-archetype
-archetype.version&#x3D;1.0
-# 排除的文件
-excludePatterns&#x3D;**&#x2F;.idea&#x2F;**,**&#x2F;*.iml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li>创建archetype骨架<br>在项目根目录下运行以下代码：<pre class="line-numbers language-none"><code class="language-none">mvn clean archetype:create-from-project<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-<li><p>安装archetype到本地<br>进入target/generated-sources/archetype目录下，执行指令：</p>
-<pre class="line-numbers language-none"><code class="language-none">mvn clean install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>生成archetype-catalog.xml文件  </p>
-<pre class="line-numbers language-none"><code class="language-none">mvn archetype:crawl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-</ol>
-<h4 id="如果需要安装archetype到远程naxus私服"><a href="#如果需要安装archetype到远程naxus私服" class="headerlink" title="如果需要安装archetype到远程naxus私服"></a>如果需要安装archetype到远程naxus私服</h4><p>进入target/generated-sources/archetype目录下，打开此目录下的pom.xml 文件 添加distributionManagement配置后执行 mvn deploy 命令   </p>
-<blockquote>
-<p>注：需在maven settings.xml 中增加私服账号密码配置<br><pre class="line-numbers language-none"><code class="language-none">&lt;distributionManagement&gt;
-   &lt;repository&gt;
-     &lt;id&gt;maven-releases&lt;&#x2F;id&gt;
-     &lt;name&gt;Nexus Releases&lt;&#x2F;name&gt;
-     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-releases&lt;&#x2F;url&gt;
-   &lt;&#x2F;repository&gt;
-   &lt;snapshotRepository&gt;
-     &lt;id&gt;maven-snapshots&lt;&#x2F;id&gt;&lt;!-- id 需要对应 settings 中的配置 id --&gt;
-     &lt;name&gt;Nexus Snapshot&lt;&#x2F;name&gt;
-     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-snapshots&#x2F;&lt;&#x2F;url&gt;
-   &lt;&#x2F;snapshotRepository&gt;
- &lt;&#x2F;distributionManagement&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-</blockquote>
-<h4 id="使用模版创建项目"><a href="#使用模版创建项目" class="headerlink" title="使用模版创建项目"></a>使用模版创建项目</h4><ol>
-<li><p>工具生成 以idea为例<br>依次选择菜单 file—&gt; new —&gt; project<br>在打开的弹框中 catalog  选择 Default_Local (这个从本地maven仓库中找到模版，之前步骤中已将模版坐标生成到本地的archetype-catalog.xml中)<br>archetype 点击 add 在弹框输入 在（archetype.properties）文件中对应的信息即可</p>
-</li>
-<li><p>使用脚本bat或shell生成项目</p>
-</li>
-</ol>
-<p>shell</p>
-<pre class="line-numbers language-none"><code class="language-none">mvn --version
-mvn archetype:generate -B 
--DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
--DarchetypeGroupId&#x3D;xx 
--DarchetypeArtifactId&#x3D;xx
--DarchetypeVersion&#x3D;xx
--DgroupId&#x3D;xx
--DartifactId&#x3D;xx
--Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>bat<br><pre class="line-numbers language-none"><code class="language-none">mvn --version
-mvn archetype:generate -B ^
--DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
--DarchetypeGroupId&#x3D;xx
--DarchetypeArtifactId&#x3D;xx
--DarchetypeVersion&#x3D;1.0.0 
--DgroupId&#x3D;xx.xx
--DartifactId&#x3D;xx
--Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -935,6 +903,85 @@ binlog_expire_logs_seconds&#x3D;604800
       <tags>
         <tag>docker</tag>
         <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>maven-archetype-plugin使用</title>
+    <url>/2024/07/28/maven-archetype-plugin%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>导语： 做项目架构时发现公司项目结构不一致导致建项问题多，为了统一使用模版建项，故此使用此maven功能插件</p>
+</blockquote>
+<h4 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h4><ol>
+<li>在项目 pom.xml 中 添加一下内容  <pre class="line-numbers language-none"><code class="language-none">&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;maven-archetype-plugin&lt;&#x2F;artifactId&gt;
+    &lt;version&gt;3.2.0&lt;&#x2F;version&gt;
+    &lt;configuration&gt;
+        &lt;propertyFile&gt;archetype.properties&lt;&#x2F;propertyFile&gt;
+    &lt;&#x2F;configuration&gt;
+&lt;&#x2F;plugin&gt;
+       <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>在项目根目录下新建 archetype.properties 内容如下<pre class="line-numbers language-none"><code class="language-none"># 定义模板groupId
+archetype.groupId&#x3D;org.voice
+# 定义模板artifactId（一般以 ‘-archetype’结尾区分）
+archetype.artifactId&#x3D;webTemplateApplication-archetype
+archetype.version&#x3D;1.0
+# 排除的文件
+excludePatterns&#x3D;**&#x2F;.idea&#x2F;**,**&#x2F;*.iml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>创建archetype骨架<br>在项目根目录下运行以下代码：<pre class="line-numbers language-none"><code class="language-none">mvn clean archetype:create-from-project<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>安装archetype到本地<br>进入target/generated-sources/archetype目录下，执行指令：</p>
+<pre class="line-numbers language-none"><code class="language-none">mvn clean install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>生成archetype-catalog.xml文件  </p>
+<pre class="line-numbers language-none"><code class="language-none">mvn archetype:crawl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ol>
+<h4 id="如果需要安装archetype到远程naxus私服"><a href="#如果需要安装archetype到远程naxus私服" class="headerlink" title="如果需要安装archetype到远程naxus私服"></a>如果需要安装archetype到远程naxus私服</h4><p>进入target/generated-sources/archetype目录下，打开此目录下的pom.xml 文件 添加distributionManagement配置后执行 mvn deploy 命令   </p>
+<blockquote>
+<p>注：需在maven settings.xml 中增加私服账号密码配置<br><pre class="line-numbers language-none"><code class="language-none">&lt;distributionManagement&gt;
+   &lt;repository&gt;
+     &lt;id&gt;maven-releases&lt;&#x2F;id&gt;
+     &lt;name&gt;Nexus Releases&lt;&#x2F;name&gt;
+     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-releases&lt;&#x2F;url&gt;
+   &lt;&#x2F;repository&gt;
+   &lt;snapshotRepository&gt;
+     &lt;id&gt;maven-snapshots&lt;&#x2F;id&gt;&lt;!-- id 需要对应 settings 中的配置 id --&gt;
+     &lt;name&gt;Nexus Snapshot&lt;&#x2F;name&gt;
+     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-snapshots&#x2F;&lt;&#x2F;url&gt;
+   &lt;&#x2F;snapshotRepository&gt;
+ &lt;&#x2F;distributionManagement&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+</blockquote>
+<h4 id="使用模版创建项目"><a href="#使用模版创建项目" class="headerlink" title="使用模版创建项目"></a>使用模版创建项目</h4><ol>
+<li><p>工具生成 以idea为例<br>依次选择菜单 file—&gt; new —&gt; project<br>在打开的弹框中 catalog  选择 Default_Local (这个从本地maven仓库中找到模版，之前步骤中已将模版坐标生成到本地的archetype-catalog.xml中)<br>archetype 点击 add 在弹框输入 在（archetype.properties）文件中对应的信息即可</p>
+</li>
+<li><p>使用脚本bat或shell生成项目</p>
+</li>
+</ol>
+<p>shell</p>
+<pre class="line-numbers language-none"><code class="language-none">mvn --version
+mvn archetype:generate -B 
+-DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
+-DarchetypeGroupId&#x3D;xx 
+-DarchetypeArtifactId&#x3D;xx
+-DarchetypeVersion&#x3D;xx
+-DgroupId&#x3D;xx
+-DartifactId&#x3D;xx
+-Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>bat<br><pre class="line-numbers language-none"><code class="language-none">mvn --version
+mvn archetype:generate -B ^
+-DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
+-DarchetypeGroupId&#x3D;xx
+-DarchetypeArtifactId&#x3D;xx
+-DarchetypeVersion&#x3D;1.0.0 
+-DgroupId&#x3D;xx.xx
+-DartifactId&#x3D;xx
+-Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -1328,6 +1375,38 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
+    <title>吉丽装修记【1】</title>
+    <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
+    <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
+>> 装修整理清单1.4版
+<iframe 
+style="width: 100%;
+    height: 100%" 
+src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D">
+</iframe>
+</div>
+
+<div style="position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;">
+<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;"
+    src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
+</iframe>
+</div>]]></content>
+      <categories>
+        <category>吉丽装修记</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>装修清单</title>
     <url>/2023/10/17/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E6%B8%85%E5%8D%95/</url>
     <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
@@ -1358,30 +1437,22 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
-    <title>吉丽装修记【1】</title>
-    <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
-    <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
->> 装修整理清单1.4版
-<iframe 
+    <title>吉丽装修记【2】</title>
+    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
+    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
+<blockquote>
+<blockquote>
+<p>装修整理文档1.1版</p>
+<p><iframe 
 style="width: 100%;
-    height: 100%" 
-src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D">
-</iframe>
-</div>
-
-<div style="position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;">
-<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;"
-    src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
-</iframe>
-</div>]]></content>
+    height: 90%" 
+src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
+</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
+<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
+<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
+</blockquote>
+</blockquote>
+]]></content>
       <categories>
         <category>吉丽装修记</category>
       </categories>
@@ -1419,30 +1490,6 @@ src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZ
 <h5 id="PDF设计图纸下载"><a href="#PDF设计图纸下载" class="headerlink" title="PDF设计图纸下载"></a>PDF设计图纸下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/白沙洲阅江府.pdf">点击下载—&gt;</a></p>
 <h5 id="10栋总平面图下载"><a href="#10栋总平面图下载" class="headerlink" title="10栋总平面图下载"></a>10栋总平面图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋总平面图.pdf">点击下载—&gt;</a></p>
 <h5 id="10栋2单元dwg户型图下载"><a href="#10栋2单元dwg户型图下载" class="headerlink" title="10栋2单元dwg户型图下载"></a>10栋2单元dwg户型图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋01户户型平面图_t3.dwg">点击下载—&gt;</a></p>
-]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>吉丽装修记【2】</title>
-    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
-    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
-<blockquote>
-<blockquote>
-<p>装修整理文档1.1版</p>
-<p><iframe 
-style="width: 100%;
-    height: 90%" 
-src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
-</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
-<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
-<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
-</blockquote>
-</blockquote>
 ]]></content>
       <categories>
         <category>吉丽装修记</category>
@@ -1521,48 +1568,6 @@ public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUni
       </categories>
       <tags>
         <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>结合apollo动态刷新日志级别</title>
-    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><blockquote>
-<p>/**</p>
-<ul>
-<li>结合apollo动态刷新日志级别</li>
-<li>@author: zhumh17</li>
-<li><p>@date: 11点50分<br>*/<br> @Configuration<br> public class LogListenerConfig {</p>
-<p> private static final Logger logger = LoggerFactory.getLogger&gt; (LoggerConfiguration.class);<br> /**</p>
-<ul>
-<li><p>监听关键字，当配置中心的依次开头的配置发生变化时，日志级别刷新<br>*/<br>private static final String LOGGER_TAG = “logging.level”;</p>
-<p>private LoggingSystem loggingSystem;<br>public LogListenerConfig(LoggingSystem loggingSystem) {<br> Assert.notNull(loggingSystem, “LoggingSystem must not be null”);<br> this.loggingSystem = loggingSystem;<br>}</p>
-</li>
-</ul>
-</li>
-</ul>
-<pre><code>@ApolloConfigChangeListener(value = &quot;application.yml&quot;)
-public void configChangeLister(ConfigChangeEvent changeEvent) &#123;
-    refreshLoggingLevels(changeEvent);
-&#125;
-
-private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
-    ConfigChange configChange = changeEvent.getChange(LOGGER_TAG);
-    String strLevel = configChange.getNewValue();
-    LogLevel level = LogLevel.valueOf(strLevel.toUpperCase());
-    loggingSystem.setLogLevel(&quot;com.vx&quot;, level);
-    logger.info(&quot;日志级别变化&#123;&#125;:&#123;&#125;&quot;,LOGGER_TAG,strLevel);
-&#125;
-</code></pre><p>}</p>
-</blockquote>
-<h2 id="这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别"><a href="#这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别" class="headerlink" title="这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别"></a>这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别</h2><h2 id="末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog"><a href="#末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog" class="headerlink" title="末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog"></a>末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog</h2><blockquote>
-<p>TLog提供了一种最简单的方式来解决日志追踪问题，它不收集日志，也不需要另外的存储空间，它只是自动的对你的日志进行打标签，自动生成TraceId贯穿你微服务的一整条链路。并且提供上下游节点信息。适合中小型企业以及想快速解决日志追踪问题的公司项目使用。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>日志</tag>
       </tags>
   </entry>
   <entry>
@@ -1673,6 +1678,48 @@ private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
       </categories>
       <tags>
         <tag>sql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>结合apollo动态刷新日志级别</title>
+    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><blockquote>
+<p>/**</p>
+<ul>
+<li>结合apollo动态刷新日志级别</li>
+<li>@author: zhumh17</li>
+<li><p>@date: 11点50分<br>*/<br> @Configuration<br> public class LogListenerConfig {</p>
+<p> private static final Logger logger = LoggerFactory.getLogger&gt; (LoggerConfiguration.class);<br> /**</p>
+<ul>
+<li><p>监听关键字，当配置中心的依次开头的配置发生变化时，日志级别刷新<br>*/<br>private static final String LOGGER_TAG = “logging.level”;</p>
+<p>private LoggingSystem loggingSystem;<br>public LogListenerConfig(LoggingSystem loggingSystem) {<br> Assert.notNull(loggingSystem, “LoggingSystem must not be null”);<br> this.loggingSystem = loggingSystem;<br>}</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>@ApolloConfigChangeListener(value = &quot;application.yml&quot;)
+public void configChangeLister(ConfigChangeEvent changeEvent) &#123;
+    refreshLoggingLevels(changeEvent);
+&#125;
+
+private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
+    ConfigChange configChange = changeEvent.getChange(LOGGER_TAG);
+    String strLevel = configChange.getNewValue();
+    LogLevel level = LogLevel.valueOf(strLevel.toUpperCase());
+    loggingSystem.setLogLevel(&quot;com.vx&quot;, level);
+    logger.info(&quot;日志级别变化&#123;&#125;:&#123;&#125;&quot;,LOGGER_TAG,strLevel);
+&#125;
+</code></pre><p>}</p>
+</blockquote>
+<h2 id="这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别"><a href="#这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别" class="headerlink" title="这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别"></a>这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别</h2><h2 id="末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog"><a href="#末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog" class="headerlink" title="末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog"></a>末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog</h2><blockquote>
+<p>TLog提供了一种最简单的方式来解决日志追踪问题，它不收集日志，也不需要另外的存储空间，它只是自动的对你的日志进行打标签，自动生成TraceId贯穿你微服务的一整条链路。并且提供上下游节点信息。适合中小型企业以及想快速解决日志追踪问题的公司项目使用。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>日志</tag>
       </tags>
   </entry>
   <entry>
