@@ -202,20 +202,20 @@ db.auth('root', '123456');
 docker run --privileged=true --name nifi -p 8443:8443 -p 9999:9999 -e NIFI_WEB_HTTP_PORT=8443 -d apache/nifi:1.24.0
 
 #### nacos
-1. #安装容器
+1. 安装容器
 docker run --name nacos -d -p 8848:8848 -e MODE=standalone  nacos/nacos-server:v2.3.1
-2. #创建挂载需要的目录
+2. 创建挂载需要的目录
 mkdir -p /mydata/nacos/logs/                      #新建logs目录
 mkdir -p /mydata/nacos/conf/            #新建conf目录
 mkdir -p /mydata/nacos/data/            #新建data目录
-3. #复制文件到挂载目录
+3. 复制文件到挂载目录
 docker cp nacos:/home/nacos/logs/ D:\docker_mapping\nacos
 docker cp nacos:/home/nacos/conf/ D:\docker_mapping\nacos
 docker cp nacos:/home/nacos/data/ D:\docker_mapping\nacos
-4. #删除容器
+4. 删除容器
 docker rm -f nacos
 5. 进入挂载目录找到application.properties完成配置
-6. #重新安装（完成配置文件挂载）
+6. 重新安装（完成配置文件挂载）
 docker run -d --name nacos \
 -p 8848:8848 \
 -p 9848:9848 \
@@ -228,5 +228,59 @@ docker run -d --name nacos \
 nacos/nacos-server:v2.3.1
 > 注意如果使用数据库方式需要先执行脚本，然后在启动容器不然会报错
 
+<<<<<<< HEAD
+#### Apollo 多环境分布式部署（dev,pro）
+1. 新建数据库（多个环境需要建立多个config库）执行sql 文件 文件参考：  
+  config库： https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloconfigdb.sql
+  portal库： https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloportaldb.sql
+建立完成后应该有两个config库 和一个 protal库 例如：apollo_config_dev，apollo_config_pro，apollo_portal_db
+
+2. 建立本地映射目录 例如D盘下新建Apollo文件夹，随便起一个apollo-configservice容器和apollo-adminservice容器
+将这两个服务的配置文件拷贝一份到对应的目录中  
+> docker cp apollo-configservice:/apollo-configservice/config D:\docker_mapping\apollo\config-service-dev  
+> docker cp apollo-adminservice容器:/apollo-adminservice/config D:\docker_mapping\apollo\admin-service-dev 
+3. 将配置也复制一份到对应的pro文件夹里  
+
+完成后的目录结构：
+~~~
+├─admin-service-dev
+│  └─config
+├─admin-service-pro
+│  └─config
+├─config-service-dev
+│  └─config
+├─config-service-pro
+│  └─config
+└─protal
+    └─config
+~~~
+
+3. 修改本地config-service-dev和config-service-pro下config目录下的配置文件application-github.properties  
+里面只需要配置数据库相关信息即可
+
+4. 启动apollo-configservice容器
+~~~
+docker run -d -p 8109:8080 --name apollo-configservice-dev -v D:\docker_mapping\apollo\config-service-dev\config:/apollo-configservice/config apolloconfig/apollo-configservice:2.2.0  
+docker run -d -p 8110:8080 --name apollo-configservice-pro -v D:\docker_mapping\apollo\config-service-pro\config:/apollo-configservice/config apolloconfig/apollo-configservice:2.2.0  
+~~~
+> 注意configservice 服务自带注册中心
+
+5. 注意在 apollo_config 对应的库中找到表ServerConfig，修改eureka.service.url地址，地址为上面的config-service注册中心地址例如：http://本机IP:8109/eureka/  
+dev和 pro config库都需要配置好，否则apollo-adminservice服务注册不上来
+
+6. 启动apollo-adminservice容器
+~~~
+docker run -d -p 8111:8090 --name apollo-adminservice-dev -v D:\docker_mapping\apollo\admin-service-dev\config:/apollo-adminservice/config apolloconfig/apollo-adminservice:2.2.0  
+docker run -d -p 8112:8090 --name apollo-adminservice-pro -v D:\docker_mapping\apollo\admin-service-pro\config:/apollo-adminservice/config apolloconfig/apollo-adminservice:2.2.0  
+~~~
+7. 启动apollo-portal容器  
+
+  * 在apollo_portal_db 中 找到表ServerConfig  
+    * 修改apollo.portal.envs 配置多环境例如：DEV,PRO 
+    * 修改apollo.portal.meta.servers地址，地址为上面的config-service地址例如：{"DEV":"http://10.92.33.112:8109","PRO":"http://10.92.33.112:8110"}  
+  * 执行命令  
+docker run -p 8120:8070 -d --name apollo-portal -v D:\docker_mapping\apollo\protal\config:/apollo-portal/config apolloconfig/apollo-portal:2.2.0  
+
 #### naxus3
 docker run --privileged=true --name nexus -p 43633:43633 -p 9081:8081 -v D:\docker_mapping\nexus:/nexus-data -d sonatype/nexus3
+
