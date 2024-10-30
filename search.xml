@@ -1,6 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>FineReport报表技巧</title>
+    <url>/2024/10/30/FineReport%E6%8A%A5%E8%A1%A8%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<h4 id="数据集拼装动态sql条件"><a href="#数据集拼装动态sql条件" class="headerlink" title="数据集拼装动态sql条件"></a>数据集拼装动态sql条件</h4><p>${if(len(控件名称) == 0,””,”and a.bill_code like ‘%”+控件名称+”%’”)}</p>
+<h4 id="常见公式"><a href="#常见公式" class="headerlink" title="常见公式"></a>常见公式</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>功能描述</th>
+<th>功能实现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>将日期框组件设置默认值为当前日期</td>
+<td>TODATE()</td>
+</tr>
+<tr>
+<td>将日期框组件设置默认值为当前月份最后一天</td>
+<td>DATEINMONTH(TODAY(),-1)</td>
+</tr>
+<tr>
+<td>将列汇总</td>
+<td>sum(A2)</td>
+</tr>
+<tr>
+<td>四舍五入，保留2位</td>
+<td>round(A2, 2)</td>
+</tr>
+<tr>
+<td>字符串截取</td>
+<td>left(字符串,位数)，right(字符串,位数)</td>
+</tr>
+<tr>
+<td>…..</td>
+<td>…..</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="行交替色设置"><a href="#行交替色设置" class="headerlink" title="行交替色设置"></a>行交替色设置</h4><p><img src="https://www.helloimg.com/i/2024/10/30/67219ed7c537f.png" alt=""></p>
+<h4 id="按钮清空所有"><a href="#按钮清空所有" class="headerlink" title="按钮清空所有"></a>按钮清空所有</h4><p>在按钮的控件设置中，找到事件，添加一事件，选择JavaScript脚本，脚本内容如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">$.each(this.options.form.name_widgets, function(i, item) &#123;
+    if(item.options.type !&#x3D;&#x3D; &#39;label&#39;) &#123;
+        item.setValue(&quot;&quot;);
+        item.setText(&quot;&quot;);
+        item.reset();
+    &#125;
+&#125;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="表格字段过长详情展示方式"><a href="#表格字段过长详情展示方式" class="headerlink" title="表格字段过长详情展示方式"></a>表格字段过长详情展示方式</h4><ol>
+<li><h5 id="公共模态框方式"><a href="#公共模态框方式" class="headerlink" title="公共模态框方式"></a>公共模态框方式</h5><p>新建一个公共模态框报表 ibp_show_field_modal.cpt,接着如下图设置表格字段链接到公共模态框报表中</p>
+</li>
+</ol>
+<p><img src="https://www.helloimg.com/i/2024/10/30/6721a239a5c17.png" alt=""></p>
+<ol>
+<li><h5 id="鼠标浮动展示"><a href="#鼠标浮动展示" class="headerlink" title="鼠标浮动展示"></a>鼠标浮动展示</h5><ol>
+<li>双击需要展示的A2格子自定义显示中输入：  if(len($$$)&gt;长度,left($$$,长度)+’…’,$$$)</li>
+<li>在单元格其他属性，内容提示设置为：=$$$ 即可实现效果</li>
+</ol>
+</li>
+<li><h5 id="js实现"><a href="#js实现" class="headerlink" title="js实现"></a>js实现</h5><p>点击「模板&gt;模板web&gt;分页预览设置」，添加「加载结束事件」 JS 代码如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">$(&quot;td[title^&#x3D;cut]&quot;).each(function()&#123;
+&#x2F;&#x2F;获取属性的值
+var str &#x3D; $(this).attr(&#39;title&#39;);
+&#x2F;&#x2F;定义分隔符号
+var length &#x3D; parseInt(str.split(&quot;:&quot;)[1]);
+&#x2F;&#x2F;判断长度
+if($(this).text().length &gt; length)&#123;
+      $(this).attr(&#39;title&#39;,$(this).text());
+      $(this).text($(this).text().substring(0,length)+&#39;...&#39;);
+      &#125;else&#123;
+      $(this).removeAttr(&#39;title&#39;);
+      &#125;
+&#125;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在 A2 单元格其他属性，内容提示输入：cut_+A2+:+5 即可实现效果</p>
+</li>
+<li><h5 id="html-实现"><a href="#html-实现" class="headerlink" title="html 实现"></a>html 实现</h5><p>在单元格「形态」处给单元格设置公式形态，公式为：</p>
+<pre class="line-numbers language-none"><code class="language-none">&quot;&lt;span style&#x3D;&#39;white-space: nowrap;text-overflow:ellipsis; overflow:hidden; display: inline-block;width:100%;&#39;&gt;&quot;+$$$+&quot;&lt;&#x2F;span&gt;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ol>
+<p>   当单元格内容超过当前单元格宽度后，显示内容超过的部分会变成省略号(…)，当单元格内容不超过当前单元格宽度时，显示全部内容。</p>
+<p>​        在「单元格属性&gt;其他」中，显示内容设置为 「用 HTML 显现内容」，内容提示设置为：=$$$，如下图所示：</p>
+<ol>
+<li><h5 id="控制行高实现"><a href="#控制行高实现" class="headerlink" title="控制行高实现"></a>控制行高实现</h5><p>方式1 ：方式一：点击「单元格&gt;单元格属性&gt;样式&gt;对齐」，设置文本控制为「单行显示」</p>
+<p>方式2：方式二：点击「单元格&gt;单元格属性&gt;其他」，设置为「不自动调整」</p>
+</li>
+</ol>
+<blockquote>
+<p>该方式可直接应用于 JS 或 HTML 控制省略显示时，优点是该列内容仍然会换行显示，导出文档时单元格也是内容换行的样式，并且保证了分页预览时可以根据其他单元格自适应行高。若确有需，在使用该方式的基础上也可以再使用方式一控制内容为单行显示。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>FineReport</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Jenkins+Docker 一键自动化部署 SpringBoot 项目(续)</title>
     <url>/2024/01/24/Jenkins+Docker%20%E4%B8%80%E9%94%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%20SpringBoot%20%E9%A1%B9%E7%9B%AE(%E7%BB%AD)/</url>
     <content><![CDATA[<h4 id="发布项目支持选择git-分支"><a href="#发布项目支持选择git-分支" class="headerlink" title="发布项目支持选择git 分支"></a>发布项目支持选择git 分支</h4><ul>
@@ -386,69 +484,6 @@ headers<span class="token punctuation">.</span><span class="token function">upse
       </tags>
   </entry>
   <entry>
-    <title>butterfly-notes</title>
-    <url>/2020/04/16/butterfly-notes/</url>
-    <content><![CDATA[<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% note warning [no-icon] modern %&#125;
-Any content (support inline tags too.io).
-&#123;% endnote %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<div class="note warning [no-icon] modern"><p>Any content (support inline tags too.io).</p>
-</div>
-<h4 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% tabs test1 %&#125;
-&lt;!-- tab button1 --&gt;
-This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right %&#125;
-&lt;!-- endtab --&gt;
-
-&lt;!-- tab button2 --&gt;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,blue larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,pink larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,red larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,purple larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,orange larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,green larger %&#125;
-&lt;!-- endtab --&gt;
-
-&lt;!-- tab button3  --&gt;
-**This is button 3.**
-&lt;!-- endtab --&gt;
-&#123;% endtabs %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">button1</button></li><li class="tab"><button type="button" data-href="#test1-2">button2</button></li><li class="tab"><button type="button" data-href="#test1-3">button3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><a class="btn-beautify larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify red larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify green larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is button 3.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
-<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p>
-<a class="btn-beautify larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify red larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify green larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<h4 id="label"><a href="#label" class="headerlink" title="label"></a>label</h4><pre class="line-numbers language-none"><code class="language-none">臣亮言：&#123;% label 先帝 %&#125;創業未半，而&#123;% label 中道崩殂 blue %&#125;。今天下三分，&#123;% label 益州疲敝 pink %&#125;，此誠&#123;% label 危急存亡之秋 red %&#125;也！然侍衞之臣，不懈於內；&#123;% label 忠志之士 purple %&#125;，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>臣亮言：<mark class="hl-label default">先帝</mark> 創業未半，而<mark class="hl-label blue">中道崩殂</mark> 。今天下三分，<mark class="hl-label pink">益州疲敝</mark> ，此誠<mark class="hl-label red">危急存亡之秋</mark> 也！然侍衞之臣，不懈於內；<mark class="hl-label purple">忠志之士</mark> ，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>others</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker常用镜像运行</title>
     <url>/2024/02/28/docker-runs/</url>
     <content><![CDATA[<h4 id="ELK-简单搭建"><a href="#ELK-简单搭建" class="headerlink" title="ELK 简单搭建"></a>ELK 简单搭建</h4><p>docker pull docker.elastic.co/elasticsearch/elasticsearch:7.15.1 </p>
@@ -651,6 +686,69 @@ docker run -d -p 8112:8090 --name apollo-adminservice-pro -v D:\docker_mapping\a
       </tags>
   </entry>
   <entry>
+    <title>butterfly-notes</title>
+    <url>/2020/04/16/butterfly-notes/</url>
+    <content><![CDATA[<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% note warning [no-icon] modern %&#125;
+Any content (support inline tags too.io).
+&#123;% endnote %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<div class="note warning [no-icon] modern"><p>Any content (support inline tags too.io).</p>
+</div>
+<h4 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% tabs test1 %&#125;
+&lt;!-- tab button1 --&gt;
+This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right %&#125;
+&lt;!-- endtab --&gt;
+
+&lt;!-- tab button2 --&gt;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,blue larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,pink larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,red larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,purple larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,orange larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,green larger %&#125;
+&lt;!-- endtab --&gt;
+
+&lt;!-- tab button3  --&gt;
+**This is button 3.**
+&lt;!-- endtab --&gt;
+&#123;% endtabs %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">button1</button></li><li class="tab"><button type="button" data-href="#test1-2">button2</button></li><li class="tab"><button type="button" data-href="#test1-3">button3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><a class="btn-beautify larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify red larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify green larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is button 3.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p>
+<a class="btn-beautify larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify red larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify green larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<h4 id="label"><a href="#label" class="headerlink" title="label"></a>label</h4><pre class="line-numbers language-none"><code class="language-none">臣亮言：&#123;% label 先帝 %&#125;創業未半，而&#123;% label 中道崩殂 blue %&#125;。今天下三分，&#123;% label 益州疲敝 pink %&#125;，此誠&#123;% label 危急存亡之秋 red %&#125;也！然侍衞之臣，不懈於內；&#123;% label 忠志之士 purple %&#125;，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>臣亮言：<mark class="hl-label default">先帝</mark> 創業未半，而<mark class="hl-label blue">中道崩殂</mark> 。今天下三分，<mark class="hl-label pink">益州疲敝</mark> ，此誠<mark class="hl-label red">危急存亡之秋</mark> 也！然侍衞之臣，不懈於內；<mark class="hl-label purple">忠志之士</mark> ，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>idea 开启远程访问docker(window)</title>
     <url>/2024/10/12/idea%20%E5%BC%80%E5%90%AF%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEdocker(window)/</url>
     <content><![CDATA[<h4 id="docker-for-window"><a href="#docker-for-window" class="headerlink" title="docker for window"></a>docker for window</h4><ol>
@@ -680,6 +778,85 @@ docker run -d -p 8112:8090 --name apollo-adminservice-pro -v D:\docker_mapping\a
       </categories>
       <tags>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>maven-archetype-plugin使用</title>
+    <url>/2024/07/28/maven-archetype-plugin%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>导语： 做项目架构时发现公司项目结构不一致导致建项问题多，为了统一使用模版建项，故此使用此maven功能插件</p>
+</blockquote>
+<h4 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h4><ol>
+<li>在项目 pom.xml 中 添加一下内容  <pre class="line-numbers language-none"><code class="language-none">&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;maven-archetype-plugin&lt;&#x2F;artifactId&gt;
+    &lt;version&gt;3.2.0&lt;&#x2F;version&gt;
+    &lt;configuration&gt;
+        &lt;propertyFile&gt;archetype.properties&lt;&#x2F;propertyFile&gt;
+    &lt;&#x2F;configuration&gt;
+&lt;&#x2F;plugin&gt;
+       <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>在项目根目录下新建 archetype.properties 内容如下<pre class="line-numbers language-none"><code class="language-none"># 定义模板groupId
+archetype.groupId&#x3D;org.voice
+# 定义模板artifactId（一般以 ‘-archetype’结尾区分）
+archetype.artifactId&#x3D;webTemplateApplication-archetype
+archetype.version&#x3D;1.0
+# 排除的文件
+excludePatterns&#x3D;**&#x2F;.idea&#x2F;**,**&#x2F;*.iml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>创建archetype骨架<br>在项目根目录下运行以下代码：<pre class="line-numbers language-none"><code class="language-none">mvn clean archetype:create-from-project<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>安装archetype到本地<br>进入target/generated-sources/archetype目录下，执行指令：</p>
+<pre class="line-numbers language-none"><code class="language-none">mvn clean install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>生成archetype-catalog.xml文件  </p>
+<pre class="line-numbers language-none"><code class="language-none">mvn archetype:crawl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ol>
+<h4 id="如果需要安装archetype到远程naxus私服"><a href="#如果需要安装archetype到远程naxus私服" class="headerlink" title="如果需要安装archetype到远程naxus私服"></a>如果需要安装archetype到远程naxus私服</h4><p>进入target/generated-sources/archetype目录下，打开此目录下的pom.xml 文件 添加distributionManagement配置后执行 mvn deploy 命令   </p>
+<blockquote>
+<p>注：需在maven settings.xml 中增加私服账号密码配置<br><pre class="line-numbers language-none"><code class="language-none">&lt;distributionManagement&gt;
+   &lt;repository&gt;
+     &lt;id&gt;maven-releases&lt;&#x2F;id&gt;
+     &lt;name&gt;Nexus Releases&lt;&#x2F;name&gt;
+     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-releases&lt;&#x2F;url&gt;
+   &lt;&#x2F;repository&gt;
+   &lt;snapshotRepository&gt;
+     &lt;id&gt;maven-snapshots&lt;&#x2F;id&gt;&lt;!-- id 需要对应 settings 中的配置 id --&gt;
+     &lt;name&gt;Nexus Snapshot&lt;&#x2F;name&gt;
+     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-snapshots&#x2F;&lt;&#x2F;url&gt;
+   &lt;&#x2F;snapshotRepository&gt;
+ &lt;&#x2F;distributionManagement&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+</blockquote>
+<h4 id="使用模版创建项目"><a href="#使用模版创建项目" class="headerlink" title="使用模版创建项目"></a>使用模版创建项目</h4><ol>
+<li><p>工具生成 以idea为例<br>依次选择菜单 file—&gt; new —&gt; project<br>在打开的弹框中 catalog  选择 Default_Local (这个从本地maven仓库中找到模版，之前步骤中已将模版坐标生成到本地的archetype-catalog.xml中)<br>archetype 点击 add 在弹框输入 在（archetype.properties）文件中对应的信息即可</p>
+</li>
+<li><p>使用脚本bat或shell生成项目</p>
+</li>
+</ol>
+<p>shell</p>
+<pre class="line-numbers language-none"><code class="language-none">mvn --version
+mvn archetype:generate -B 
+-DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
+-DarchetypeGroupId&#x3D;xx 
+-DarchetypeArtifactId&#x3D;xx
+-DarchetypeVersion&#x3D;xx
+-DgroupId&#x3D;xx
+-DartifactId&#x3D;xx
+-Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>bat<br><pre class="line-numbers language-none"><code class="language-none">mvn --version
+mvn archetype:generate -B ^
+-DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
+-DarchetypeGroupId&#x3D;xx
+-DarchetypeArtifactId&#x3D;xx
+-DarchetypeVersion&#x3D;1.0.0 
+-DgroupId&#x3D;xx.xx
+-DartifactId&#x3D;xx
+-Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -903,85 +1080,6 @@ binlog_expire_logs_seconds&#x3D;604800
       <tags>
         <tag>docker</tag>
         <tag>mysql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>maven-archetype-plugin使用</title>
-    <url>/2024/07/28/maven-archetype-plugin%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<blockquote>
-<p>导语： 做项目架构时发现公司项目结构不一致导致建项问题多，为了统一使用模版建项，故此使用此maven功能插件</p>
-</blockquote>
-<h4 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h4><ol>
-<li>在项目 pom.xml 中 添加一下内容  <pre class="line-numbers language-none"><code class="language-none">&lt;plugin&gt;
-    &lt;groupId&gt;org.apache.maven.plugins&lt;&#x2F;groupId&gt;
-    &lt;artifactId&gt;maven-archetype-plugin&lt;&#x2F;artifactId&gt;
-    &lt;version&gt;3.2.0&lt;&#x2F;version&gt;
-    &lt;configuration&gt;
-        &lt;propertyFile&gt;archetype.properties&lt;&#x2F;propertyFile&gt;
-    &lt;&#x2F;configuration&gt;
-&lt;&#x2F;plugin&gt;
-       <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li>在项目根目录下新建 archetype.properties 内容如下<pre class="line-numbers language-none"><code class="language-none"># 定义模板groupId
-archetype.groupId&#x3D;org.voice
-# 定义模板artifactId（一般以 ‘-archetype’结尾区分）
-archetype.artifactId&#x3D;webTemplateApplication-archetype
-archetype.version&#x3D;1.0
-# 排除的文件
-excludePatterns&#x3D;**&#x2F;.idea&#x2F;**,**&#x2F;*.iml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li>创建archetype骨架<br>在项目根目录下运行以下代码：<pre class="line-numbers language-none"><code class="language-none">mvn clean archetype:create-from-project<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-<li><p>安装archetype到本地<br>进入target/generated-sources/archetype目录下，执行指令：</p>
-<pre class="line-numbers language-none"><code class="language-none">mvn clean install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>生成archetype-catalog.xml文件  </p>
-<pre class="line-numbers language-none"><code class="language-none">mvn archetype:crawl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-</ol>
-<h4 id="如果需要安装archetype到远程naxus私服"><a href="#如果需要安装archetype到远程naxus私服" class="headerlink" title="如果需要安装archetype到远程naxus私服"></a>如果需要安装archetype到远程naxus私服</h4><p>进入target/generated-sources/archetype目录下，打开此目录下的pom.xml 文件 添加distributionManagement配置后执行 mvn deploy 命令   </p>
-<blockquote>
-<p>注：需在maven settings.xml 中增加私服账号密码配置<br><pre class="line-numbers language-none"><code class="language-none">&lt;distributionManagement&gt;
-   &lt;repository&gt;
-     &lt;id&gt;maven-releases&lt;&#x2F;id&gt;
-     &lt;name&gt;Nexus Releases&lt;&#x2F;name&gt;
-     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-releases&lt;&#x2F;url&gt;
-   &lt;&#x2F;repository&gt;
-   &lt;snapshotRepository&gt;
-     &lt;id&gt;maven-snapshots&lt;&#x2F;id&gt;&lt;!-- id 需要对应 settings 中的配置 id --&gt;
-     &lt;name&gt;Nexus Snapshot&lt;&#x2F;name&gt;
-     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-snapshots&#x2F;&lt;&#x2F;url&gt;
-   &lt;&#x2F;snapshotRepository&gt;
- &lt;&#x2F;distributionManagement&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-</blockquote>
-<h4 id="使用模版创建项目"><a href="#使用模版创建项目" class="headerlink" title="使用模版创建项目"></a>使用模版创建项目</h4><ol>
-<li><p>工具生成 以idea为例<br>依次选择菜单 file—&gt; new —&gt; project<br>在打开的弹框中 catalog  选择 Default_Local (这个从本地maven仓库中找到模版，之前步骤中已将模版坐标生成到本地的archetype-catalog.xml中)<br>archetype 点击 add 在弹框输入 在（archetype.properties）文件中对应的信息即可</p>
-</li>
-<li><p>使用脚本bat或shell生成项目</p>
-</li>
-</ol>
-<p>shell</p>
-<pre class="line-numbers language-none"><code class="language-none">mvn --version
-mvn archetype:generate -B 
--DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
--DarchetypeGroupId&#x3D;xx 
--DarchetypeArtifactId&#x3D;xx
--DarchetypeVersion&#x3D;xx
--DgroupId&#x3D;xx
--DartifactId&#x3D;xx
--Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>bat<br><pre class="line-numbers language-none"><code class="language-none">mvn --version
-mvn archetype:generate -B ^
--DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
--DarchetypeGroupId&#x3D;xx
--DarchetypeArtifactId&#x3D;xx
--DarchetypeVersion&#x3D;1.0.0 
--DgroupId&#x3D;xx.xx
--DartifactId&#x3D;xx
--Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -1290,6 +1388,36 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
+    <title>装修清单</title>
+    <url>/2023/10/17/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E6%B8%85%E5%8D%95/</url>
+    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
+<blockquote>
+<blockquote>
+<p>装修整理清单1.4版</p>
+<p>&lt;iframe<br>style=”width: 100%;<br>    height: 100%”<br>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h1 id="src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt"><a href="#src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt" class="headerlink" title="src=”https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;"></a>src=”<a href="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;</a></h1><p>src=”<a href="https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;</a></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>bfdb8c93ac8cbe4806e6db96d99f37f2ec2b7dd9<br>&lt;/iframe&gt;<br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/吉吉丽丽的装修消费清单(V1.4">点击下载—&gt;</a>.xlsx)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+]]></content>
+      <categories>
+        <category>装修清单</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>全屋公牛插座采购</title>
     <url>/2023/06/17/%E5%85%A8%E5%B1%8B%E5%85%AC%E7%89%9B%E6%8F%92%E5%BA%A7%E9%87%87%E8%B4%AD/</url>
     <content><![CDATA[<p>公牛插座 G51</p>
@@ -1401,36 +1529,6 @@ src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlm
 </div>]]></content>
       <categories>
         <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>装修清单</title>
-    <url>/2023/10/17/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E6%B8%85%E5%8D%95/</url>
-    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
-<blockquote>
-<blockquote>
-<p>装修整理清单1.4版</p>
-<p>&lt;iframe<br>style=”width: 100%;<br>    height: 100%”<br>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<h1 id="src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt"><a href="#src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt" class="headerlink" title="src=”https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;"></a>src=”<a href="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;</a></h1><p>src=”<a href="https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;</a></p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>bfdb8c93ac8cbe4806e6db96d99f37f2ec2b7dd9<br>&lt;/iframe&gt;<br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/吉吉丽丽的装修消费清单(V1.4">点击下载—&gt;</a>.xlsx)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-]]></content>
-      <categories>
-        <category>装修清单</category>
       </categories>
       <tags>
         <tag>装修</tag>
@@ -1985,6 +2083,50 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
+    <title>生活录【2023-02】</title>
+    <url>/2023/02/04/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-02%E3%80%91/</url>
+    <content><![CDATA[<ul>
+<li>[2023-02-04]<blockquote>
+<p>今日立春,出发去姐那请大家一起看电影（流浪地球2），看完了电影有感国产科幻片完全不虚国外，场面和剧情很宏观且站立的角度都很高</p>
+</blockquote>
+</li>
+<li>[2023-02-05]<blockquote>
+<p>元宵佳节，年的最后一天在姐家开吃元宵 吃完接着看流浪地球1，晚上打车回上海发现昆山司机都不去上海。。。最终还是有个‘糊涂’司机愿意先去了安亭哈哈，安亭再打个车回了小区</p>
+</blockquote>
+</li>
+<li>[2023-02-10]<blockquote>
+<p>山姆会员店新购子母箱一对，蛋糕，还有小青柠，和冰冻三莓（草莓，蓝莓，长得桑葚一样的黑莓）</p>
+</blockquote>
+</li>
+<li>[2023-02-13]<blockquote>
+<p>冰冻三莓吃了三天没吃完，今晚干掉它，吃啊~</p>
+</blockquote>
+</li>
+<li>[2023-02-16]<blockquote>
+<p>车子的解押来了，准备回武汉顺便预约办理下（3月6号）</p>
+</blockquote>
+</li>
+<li>[2023-02-18]<blockquote>
+<p>买了三月份回家的车票，回家看娃咯</p>
+</blockquote>
+</li>
+<li>[2023-02-21]<blockquote>
+<div>今日龙抬头之前预约了普外科牛教授的专家号，今天来看病，开了PECT全身检查单，交了7000大洋 &#x1F613;</div></blockquote>
+</li>
+<li>[2023-02-22]<blockquote>
+<p>一大早5点多出发赶到医院做了检查,出了结果还是右颈部有病灶没有清理,还是得做手术清除以绝后患</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>日常</category>
+      </categories>
+      <tags>
+        <tag>小记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>生活录【2023-01】</title>
     <url>/2023/01/01/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-01%E3%80%91/</url>
     <content><![CDATA[<ul>
@@ -2026,50 +2168,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
 </li>
 <li>[2023-01-28]<blockquote>
 <p>从早上凌晨4点半出发到第二天凌晨接近三点到，历经22小时的返程，开车从日出看到日落。 一大早6点又从昆山赶回上海这边上班拿到一波开工利是~</p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>日常</category>
-      </categories>
-      <tags>
-        <tag>小记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>生活录【2023-02】</title>
-    <url>/2023/02/04/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-02%E3%80%91/</url>
-    <content><![CDATA[<ul>
-<li>[2023-02-04]<blockquote>
-<p>今日立春,出发去姐那请大家一起看电影（流浪地球2），看完了电影有感国产科幻片完全不虚国外，场面和剧情很宏观且站立的角度都很高</p>
-</blockquote>
-</li>
-<li>[2023-02-05]<blockquote>
-<p>元宵佳节，年的最后一天在姐家开吃元宵 吃完接着看流浪地球1，晚上打车回上海发现昆山司机都不去上海。。。最终还是有个‘糊涂’司机愿意先去了安亭哈哈，安亭再打个车回了小区</p>
-</blockquote>
-</li>
-<li>[2023-02-10]<blockquote>
-<p>山姆会员店新购子母箱一对，蛋糕，还有小青柠，和冰冻三莓（草莓，蓝莓，长得桑葚一样的黑莓）</p>
-</blockquote>
-</li>
-<li>[2023-02-13]<blockquote>
-<p>冰冻三莓吃了三天没吃完，今晚干掉它，吃啊~</p>
-</blockquote>
-</li>
-<li>[2023-02-16]<blockquote>
-<p>车子的解押来了，准备回武汉顺便预约办理下（3月6号）</p>
-</blockquote>
-</li>
-<li>[2023-02-18]<blockquote>
-<p>买了三月份回家的车票，回家看娃咯</p>
-</blockquote>
-</li>
-<li>[2023-02-21]<blockquote>
-<div>今日龙抬头之前预约了普外科牛教授的专家号，今天来看病，开了PECT全身检查单，交了7000大洋 &#x1F613;</div></blockquote>
-</li>
-<li>[2023-02-22]<blockquote>
-<p>一大早5点多出发赶到医院做了检查,出了结果还是右颈部有病灶没有清理,还是得做手术清除以绝后患</p>
 </blockquote>
 </li>
 </ul>
