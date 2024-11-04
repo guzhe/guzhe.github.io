@@ -2,6 +2,7 @@
 title: ohmygirl
 date: 2023-09-16 16:41:18
 type: "Gallery-ohmygirl"
+top_img: https://i.loli.net/2019/12/25/hOqbQ3BIwa6KWpo.jpg
 ---
 
 {% gallery %}

@@ -2,6 +2,7 @@
 title: LOL
 date: 2023-09-16 16:41:18
 type: "Gallery-lol"
+top_img: https://s11.ax1x.com/2024/01/13/pFP1259.jpg
 ---
 
 {% gallery %}

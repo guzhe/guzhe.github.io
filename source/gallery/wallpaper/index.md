@@ -2,6 +2,7 @@
 title: 壁纸
 date: 2023-09-16 16:41:18
 type: "Gallery-wallpaper"
+top_img: https://s2.loli.net/2024/11/04/PHpEzZnOV4r8cgo.png
 ---
 
 {% gallery %}

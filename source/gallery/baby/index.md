@@ -2,6 +2,7 @@
 title: baby
 date: 2023-09-16 16:41:18
 type: "Gallery-baby"
+top_img: https://i.loli.net/2019/11/10/T7Mu8Aod3egmC4Q.png
 ---
 
 {% gallery %}
