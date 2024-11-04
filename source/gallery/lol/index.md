@@ -5,10 +5,20 @@ type: "Gallery-lol"
 ---
 
 {% gallery %}
-![](https://files.guzlife.top/hexo/LOL/劫.jpg)
-![](https://files.guzlife.top/hexo/LOL/九尾狐.jpg)
-![](https://files.guzlife.top/hexo/LOL/女枪.jpg)
-![](https://files.guzlife.top/hexo/LOL/墨菲特.jpg)
-![](https://files.guzlife.top/hexo/LOL/小炮.jpg)
-![](https://files.guzlife.top/hexo/LOL/赵信.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFP1259.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFP1gUJ.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFP1cE4.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFP1ybF.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFP1sDU.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFP1ruT.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFP1BvV.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFP10g0.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFPuDG6.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFPuBPx.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFPuwI1.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFPudaR.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFPuaZ9.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFPuNqJ.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFPutr4.jpg)
+![](https://s11.ax1x.com/2024/01/13/pFPuYMF.jpg)
 {% endgallery %}
