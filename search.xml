@@ -484,6 +484,90 @@ headers<span class="token punctuation">.</span><span class="token function">upse
       </tags>
   </entry>
   <entry>
+    <title>butterfly-notes</title>
+    <url>/2020/04/16/butterfly-notes/</url>
+    <content><![CDATA[<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% note warning [no-icon] modern %&#125;
+Any content (support inline tags too.io).
+&#123;% endnote %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<div class="note warning [no-icon] modern"><p>Any content (support inline tags too.io).</p>
+</div>
+<h4 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% tabs test1 %&#125;
+&lt;!-- tab button1 --&gt;
+This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right %&#125;
+&lt;!-- endtab --&gt;
+
+&lt;!-- tab button2 --&gt;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,blue larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,pink larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,red larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,purple larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,orange larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,green larger %&#125;
+&lt;!-- endtab --&gt;
+
+&lt;!-- tab button3  --&gt;
+**This is button 3.**
+&lt;!-- endtab --&gt;
+&#123;% endtabs %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">button1</button></li><li class="tab"><button type="button" data-href="#test1-2">button2</button></li><li class="tab"><button type="button" data-href="#test1-3">button3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><a class="btn-beautify larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify red larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify green larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is button 3.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p>
+<a class="btn-beautify larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify red larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify green larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<h4 id="label"><a href="#label" class="headerlink" title="label"></a>label</h4><pre class="line-numbers language-none"><code class="language-none">臣亮言：&#123;% label 先帝 %&#125;創業未半，而&#123;% label 中道崩殂 blue %&#125;。今天下三分，&#123;% label 益州疲敝 pink %&#125;，此誠&#123;% label 危急存亡之秋 red %&#125;也！然侍衞之臣，不懈於內；&#123;% label 忠志之士 purple %&#125;，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>臣亮言：<mark class="hl-label default">先帝</mark> 創業未半，而<mark class="hl-label blue">中道崩殂</mark> 。今天下三分，<mark class="hl-label pink">益州疲敝</mark> ，此誠<mark class="hl-label red">危急存亡之秋</mark> 也！然侍衞之臣，不懈於內；<mark class="hl-label purple">忠志之士</mark> ，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/04/16/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker常用镜像运行</title>
     <url>/2024/02/28/docker-runs/</url>
     <content><![CDATA[<h4 id="ELK-简单搭建"><a href="#ELK-简单搭建" class="headerlink" title="ELK 简单搭建"></a>ELK 简单搭建</h4><p>docker pull docker.elastic.co/elasticsearch/elasticsearch:7.15.1 </p>
@@ -655,90 +739,6 @@ docker run -d -p 8112:8090 --name apollo-adminservice-pro -v D:\docker_mapping\a
 </li>
 </ol>
 <h4 id="naxus3"><a href="#naxus3" class="headerlink" title="naxus3"></a>naxus3</h4><p>docker run —privileged=true —name nexus -p 43633:43633 -p 9081:8081 -v D:\docker_mapping\nexus:/nexus-data -d sonatype/nexus3</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>others</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/04/16/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>others</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>butterfly-notes</title>
-    <url>/2020/04/16/butterfly-notes/</url>
-    <content><![CDATA[<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% note warning [no-icon] modern %&#125;
-Any content (support inline tags too.io).
-&#123;% endnote %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<div class="note warning [no-icon] modern"><p>Any content (support inline tags too.io).</p>
-</div>
-<h4 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% tabs test1 %&#125;
-&lt;!-- tab button1 --&gt;
-This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right %&#125;
-&lt;!-- endtab --&gt;
-
-&lt;!-- tab button2 --&gt;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,blue larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,pink larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,red larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,purple larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,orange larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,green larger %&#125;
-&lt;!-- endtab --&gt;
-
-&lt;!-- tab button3  --&gt;
-**This is button 3.**
-&lt;!-- endtab --&gt;
-&#123;% endtabs %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">button1</button></li><li class="tab"><button type="button" data-href="#test1-2">button2</button></li><li class="tab"><button type="button" data-href="#test1-3">button3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><a class="btn-beautify larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify red larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify green larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is button 3.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
-<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p>
-<a class="btn-beautify larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify red larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify green larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<h4 id="label"><a href="#label" class="headerlink" title="label"></a>label</h4><pre class="line-numbers language-none"><code class="language-none">臣亮言：&#123;% label 先帝 %&#125;創業未半，而&#123;% label 中道崩殂 blue %&#125;。今天下三分，&#123;% label 益州疲敝 pink %&#125;，此誠&#123;% label 危急存亡之秋 red %&#125;也！然侍衞之臣，不懈於內；&#123;% label 忠志之士 purple %&#125;，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>臣亮言：<mark class="hl-label default">先帝</mark> 創業未半，而<mark class="hl-label blue">中道崩殂</mark> 。今天下三分，<mark class="hl-label pink">益州疲敝</mark> ，此誠<mark class="hl-label red">危急存亡之秋</mark> 也！然侍衞之臣，不懈於內；<mark class="hl-label purple">忠志之士</mark> ，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。</p>
 ]]></content>
       <categories>
         <category>hexo</category>
@@ -1388,36 +1388,6 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
-    <title>装修清单</title>
-    <url>/2023/10/17/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E6%B8%85%E5%8D%95/</url>
-    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
-<blockquote>
-<blockquote>
-<p>装修整理清单1.4版</p>
-<p>&lt;iframe<br>style=”width: 100%;<br>    height: 100%”<br>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<h1 id="src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt"><a href="#src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt" class="headerlink" title="src=”https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;"></a>src=”<a href="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;</a></h1><p>src=”<a href="https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;</a></p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>bfdb8c93ac8cbe4806e6db96d99f37f2ec2b7dd9<br>&lt;/iframe&gt;<br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/吉吉丽丽的装修消费清单(V1.4">点击下载—&gt;</a>.xlsx)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-]]></content>
-      <categories>
-        <category>装修清单</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>全屋公牛插座采购</title>
     <url>/2023/06/17/%E5%85%A8%E5%B1%8B%E5%85%AC%E7%89%9B%E6%8F%92%E5%BA%A7%E9%87%87%E8%B4%AD/</url>
     <content><![CDATA[<p>公牛插座 G51</p>
@@ -1503,6 +1473,36 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
+    <title>装修清单</title>
+    <url>/2023/10/17/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E6%B8%85%E5%8D%95/</url>
+    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
+<blockquote>
+<blockquote>
+<p>装修整理清单1.4版</p>
+<p>&lt;iframe<br>style=”width: 100%;<br>    height: 100%”<br>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h1 id="src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt"><a href="#src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt" class="headerlink" title="src=”https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;"></a>src=”<a href="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;</a></h1><p>src=”<a href="https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;</a></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>bfdb8c93ac8cbe4806e6db96d99f37f2ec2b7dd9<br>&lt;/iframe&gt;<br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/吉吉丽丽的装修消费清单(V1.4">点击下载—&gt;</a>.xlsx)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+]]></content>
+      <categories>
+        <category>装修清单</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>吉丽装修记【1】</title>
     <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
     <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
@@ -1527,30 +1527,6 @@ src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlm
     src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
 </iframe>
 </div>]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>吉丽装修记【2】</title>
-    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
-    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
-<blockquote>
-<blockquote>
-<p>装修整理文档1.1版</p>
-<p><iframe 
-style="width: 100%;
-    height: 90%" 
-src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
-</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
-<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
-<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
-</blockquote>
-</blockquote>
-]]></content>
       <categories>
         <category>吉丽装修记</category>
       </categories>
@@ -1588,6 +1564,30 @@ src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZ
 <h5 id="PDF设计图纸下载"><a href="#PDF设计图纸下载" class="headerlink" title="PDF设计图纸下载"></a>PDF设计图纸下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/白沙洲阅江府.pdf">点击下载—&gt;</a></p>
 <h5 id="10栋总平面图下载"><a href="#10栋总平面图下载" class="headerlink" title="10栋总平面图下载"></a>10栋总平面图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋总平面图.pdf">点击下载—&gt;</a></p>
 <h5 id="10栋2单元dwg户型图下载"><a href="#10栋2单元dwg户型图下载" class="headerlink" title="10栋2单元dwg户型图下载"></a>10栋2单元dwg户型图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋01户户型平面图_t3.dwg">点击下载—&gt;</a></p>
+]]></content>
+      <categories>
+        <category>吉丽装修记</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>吉丽装修记【2】</title>
+    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
+    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
+<blockquote>
+<blockquote>
+<p>装修整理文档1.1版</p>
+<p><iframe 
+style="width: 100%;
+    height: 90%" 
+src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
+</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
+<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
+<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
+</blockquote>
+</blockquote>
 ]]></content>
       <categories>
         <category>吉丽装修记</category>
