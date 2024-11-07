@@ -362,7 +362,8 @@ exit
 ~~~
 
 #### RocketMQ5.0 (Local模式)部署
-> 详细官方文档参考： https://rocketmq.apache.org/zh/docs/quickStart/02quickstartWithDocker
+> 详细官方文档参考： https://rocketmq.apache.org/zh/docs/quickStart/02quickstartWithDocker （也有中文）
+> 详细中文文档参考： https://rocketmq.io/
 * 拉取RocketMQ镜像  
 docker pull apache/rocketmq:5.3.1
 
