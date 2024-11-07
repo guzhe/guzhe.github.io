@@ -284,3 +284,152 @@ docker run -p 8120:8070 -d --name apollo-portal -v D:\docker_mapping\apollo\prot
 #### naxus3
 docker run --privileged=true --name nexus -p 43633:43633 -p 9081:8081 -v D:\docker_mapping\nexus:/nexus-data -d sonatype/nexus3
 
+#### rabbitMQ
+1. 单节点部署
+~~~
+* 运行镜像 - 方式一：默认guest 用户，密码也是 guest
+docker run -d --hostname my-rabbit --name rabbit -p 15672:15672 -p 5672:5672 rabbitmq:management
+
+* 运行镜像 - 方式二：设置用户名和密码
+docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=password -p 15672:15672 -p 5672:5672 rabbitmq:management
+~~~
+2. 集群部署
+命令：
+~~~
+docker run -d --hostname myRabbit1 --name rabbit1 -p 15672:15672 -p 5672:5672 -e RABBITMQ_ERLANG_COOKIE='rabbitcookie' rabbitmq:management
+docker run -d --hostname myRabbit2 --name rabbit2 -p 15672:15672 -p 5672:5672 --link rabbit1:myRabbit1 -e RABBITMQ_ERLANG_COOKIE='rabbitcookie' rabbitmq:management
+docker run -d --hostname myRabbit3 --name rabbit3 -p 15672:15672 -p 5672:5672 --link rabbit1:myRabbit1 --link rabbit2:myRabbit2 -e RABBITMQ_ERLANG_COOKIE='rabbitcookie' rabbitmq:management
+~~~
+注意：
+* -e RABBITMQ_ERLANG_COOKIE='rabbitcookie' 必须设置为相同，因为 Erlang节点间是通过认证Erlang cookie的方式来允许互相通信的。
+* --link rabbit1:myRabbit1 --link rabbit2:myRabbit2 不要漏掉，否则会 一直处在 Cluster status of node rabbit@myRabbit3 ... 没有反应
+加入集群：
+内存节点和磁盘节点的选择：
+
+每个RabbitMQ节点，要么是内存节点，要么是磁盘节点。内存节点将所有的队列、交换器、绑定、用户等元数据定义都存储在内存中；而磁盘节点将元数据存储在磁盘中。单节点系统只允许磁盘类型的节点，否则当节点重启以后，所有的配置信息都会丢失。如果采用集群的方式，可以选择至少配置一个节点为磁盘节点，其余部分配置为内存节点，，这样可以获得更快的响应。所以本集群中配置节点1位磁盘节点，节点2和节点3位内存节点。
+
+集群中的第一个节点将初始元数据代入集群中，并且无须被告知加入。而第2个和之后加入的节点将加入它并获取它的元数据。要加入节点，需要进入Docker容器，重启RabbitMQ。
+设置节点1：
+~~~
+[root@localhost ~]# docker exec -it rabbit1 bash
+root@myRabbit1:/# rabbitmqctl stop_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Stopping rabbit application on node rabbit@myRabbit1 ...
+root@myRabbit1:/# rabbitmqctl reset
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Resetting node rabbit@myRabbit1 ...
+root@myRabbit1:/# rabbitmqctl start_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Starting node rabbit@myRabbit1 ...
+root@myRabbit1:/# exit
+exit
+~~~
+设置节点2：
+~~~
+[root@localhost ~]# docker exec -it rabbit2 bash
+root@myRabbit2:/# rabbitmqctl stop_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Stopping rabbit application on node rabbit@myRabbit2 ...
+root@myRabbit2:/# rabbitmqctl reset
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Resetting node rabbit@myRabbit2 ...
+root@myRabbit2:/# rabbitmqctl join_cluster --ram rabbit@myRabbit1 
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Clustering node rabbit@myRabbit2 with rabbit@myRabbit1
+root@myRabbit2:/# rabbitmqctl start_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Starting node rabbit@myRabbit2 ...
+root@myRabbit2:/# exit
+exit
+~~~
+设置节点3：
+~~~
+[root@localhost ~]# docker exec -it rabbit3 bash
+root@myRabbit3:/# rabbitmqctl stop_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Stopping rabbit application on node rabbit@myRabbit3 ...
+root@myRabbit3:/# rabbitmqctl reset
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Resetting node rabbit@myRabbit3 ...
+root@myRabbit3:/# rabbitmqctl join_cluster --ram rabbit@myRabbit1 
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Clustering node rabbit@myRabbit3 with rabbit@myRabbit1
+root@myRabbit3:/# rabbitmqctl start_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME/.erlang.cookie file or the --erlang-cookie switch instead.
+Starting node rabbit@myRabbit3 ...
+root@myRabbit3:/# exit
+exit
+~~~
+
+#### RocketMQ5.0 (Local模式)部署
+> 详细官方文档参考： https://rocketmq.apache.org/zh/docs/quickStart/02quickstartWithDocker
+* 拉取RocketMQ镜像  
+docker pull apache/rocketmq:5.3.1
+
+* 创建容器共享网络  
+docker network create rocketmq
+
+* 启动 NameServer  
+docker run -d --name rmqnamesrv -p 9876:9876 --network rocketmq apache/rocketmq:5.3.1 sh mqnamesrv
+
+* 验证 NameServer 是否启动成功  
+docker logs -f rmqnamesrv
+
+* 启动 Broker+Proxy  
+{% tabs Broker_Proxy %}
+
+<!-- tab Linux -->
+* 配置 Broker 的 IP 地址
+{% note warning simple %}
+注意这里官方文档： echo "brokerIP1=127.0.0.1" > broker.conf 这种方式配置后，代码连不上proxy 8081端口
+{% endnote %}  
+所以改成：本地新建 broker.conf ，写入内容：  
+brokerIP1=127.0.0.1
+namesrvAddr=xxxx.xxxx.xxx.xxxx:9876 （换成自己服务IP）
+autoCreateTopicEnable = true
+brokerClusterName = DefaultCluster
+~~~
+* 启动 Broker 和 Proxy
+docker run -d ^
+--name rmqbroker ^
+--net rocketmq ^
+-p 10912:10912 -p 10911:10911 -p 10909:10909 ^
+-p 8080:8080 -p 8081:8081 \
+-e "NAMESRV_ADDR=rmqnamesrv:9876" ^
+-v %cd%\broker.conf:/home/rocketmq/rocketmq-5.3.1/conf/broker.conf ^
+apache/rocketmq:5.3.1 sh mqbroker --enable-proxy \
+-c /home/rocketmq/rocketmq-5.3.1/conf/broker.conf
+
+* 验证 Broker 是否启动成功
+docker exec -it rmqbroker bash -c "tail -n 10 /home/rocketmq/logs/rocketmqlogs/proxy.log"
+~~~
+<!-- endtab -->
+
+<!-- tab Windows -->
+
+* 配置 Broker 的 IP 地址  
+跟上面方式一样
+~~~
+* 启动 Broker 和 Proxy
+docker run -d ^
+--name rmqbroker ^
+--net rocketmq ^
+-p 10912:10912 -p 10911:10911 -p 10909:10909 ^
+-p 8080:8080 -p 8081:8081 \
+-e "NAMESRV_ADDR=rmqnamesrv:9876" ^
+-v %cd%\broker.conf:/home/rocketmq/rocketmq-5.3.1/conf/broker.conf ^
+apache/rocketmq:5.3.1 sh mqbroker --enable-proxy \
+-c /home/rocketmq/rocketmq-5.3.1/conf/broker.conf
+
+* 验证 Broker 是否启动成功
+docker exec -it rmqbroker bash -c "tail -n 10 /home/rocketmq/logs/rocketmqlogs/proxy.log"
+~~~
+<!-- endtab -->
+
+{% endtabs %}
+
+{% note simple %}
+至此，一个单节点副本的 RocketMQ 集群已经部署起来了，我们可以利用脚本进行简单的消息收发。
+{% endnote %}
+
+* SDK测试消息收发验证省略（参照官方文档）
