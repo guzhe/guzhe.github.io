@@ -59,7 +59,7 @@ index_img: https://s11.ax1x.com/2024/01/11/pFCZWJU.jpg
 default_top_img:
 
 # The banner image of archive page
-archive_img:
+archive_img: https://pic.netbian.com/uploads/allimg/240811/194847-17233769273ebe.jpg
 
 # If the banner of tag page not setting, it will show the top_img
 # note: tag page, not tags page (子標籤頁面的 top_img)
