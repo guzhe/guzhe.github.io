@@ -484,69 +484,6 @@ headers<span class="token punctuation">.</span><span class="token function">upse
       </tags>
   </entry>
   <entry>
-    <title>butterfly-notes</title>
-    <url>/2020/04/16/butterfly-notes/</url>
-    <content><![CDATA[<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% note warning [no-icon] modern %&#125;
-Any content (support inline tags too.io).
-&#123;% endnote %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<div class="note warning [no-icon] modern"><p>Any content (support inline tags too.io).</p>
-</div>
-<h4 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% tabs test1 %&#125;
-&lt;!-- tab button1 --&gt;
-This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right %&#125;
-&lt;!-- endtab --&gt;
-
-&lt;!-- tab button2 --&gt;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,blue larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,pink larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,red larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,purple larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,orange larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,green larger %&#125;
-&lt;!-- endtab --&gt;
-
-&lt;!-- tab button3  --&gt;
-**This is button 3.**
-&lt;!-- endtab --&gt;
-&#123;% endtabs %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">button1</button></li><li class="tab"><button type="button" data-href="#test1-2">button2</button></li><li class="tab"><button type="button" data-href="#test1-3">button3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><a class="btn-beautify larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify red larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify green larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is button 3.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
-<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p>
-<a class="btn-beautify larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify red larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify green larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<h4 id="label"><a href="#label" class="headerlink" title="label"></a>label</h4><pre class="line-numbers language-none"><code class="language-none">臣亮言：&#123;% label 先帝 %&#125;創業未半，而&#123;% label 中道崩殂 blue %&#125;。今天下三分，&#123;% label 益州疲敝 pink %&#125;，此誠&#123;% label 危急存亡之秋 red %&#125;也！然侍衞之臣，不懈於內；&#123;% label 忠志之士 purple %&#125;，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>臣亮言：<mark class="hl-label default">先帝</mark> 創業未半，而<mark class="hl-label blue">中道崩殂</mark> 。今天下三分，<mark class="hl-label pink">益州疲敝</mark> ，此誠<mark class="hl-label red">危急存亡之秋</mark> 也！然侍衞之臣，不懈於內；<mark class="hl-label purple">忠志之士</mark> ，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>others</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>docker常用镜像运行</title>
     <url>/2024/02/28/docker-runs/</url>
     <content><![CDATA[<h4 id="ELK-简单搭建"><a href="#ELK-简单搭建" class="headerlink" title="ELK 简单搭建"></a>ELK 简单搭建</h4><p>docker pull docker.elastic.co/elasticsearch/elasticsearch:7.15.1 </p>
@@ -839,6 +776,69 @@ docker exec -it rmqbroker bash -c &quot;tail -n 10 &#x2F;home&#x2F;rocketmq&#x2F
       </tags>
   </entry>
   <entry>
+    <title>butterfly-notes</title>
+    <url>/2020/04/16/butterfly-notes/</url>
+    <content><![CDATA[<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% note warning [no-icon] modern %&#125;
+Any content (support inline tags too.io).
+&#123;% endnote %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<div class="note warning [no-icon] modern"><p>Any content (support inline tags too.io).</p>
+</div>
+<h4 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% tabs test1 %&#125;
+&lt;!-- tab button1 --&gt;
+This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right %&#125;
+&lt;!-- endtab --&gt;
+
+&lt;!-- tab button2 --&gt;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,blue larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,pink larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,red larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,purple larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,orange larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,green larger %&#125;
+&lt;!-- endtab --&gt;
+
+&lt;!-- tab button3  --&gt;
+**This is button 3.**
+&lt;!-- endtab --&gt;
+&#123;% endtabs %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">button1</button></li><li class="tab"><button type="button" data-href="#test1-2">button2</button></li><li class="tab"><button type="button" data-href="#test1-3">button3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><a class="btn-beautify larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify red larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify green larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is button 3.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p>
+<a class="btn-beautify larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify red larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify green larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<h4 id="label"><a href="#label" class="headerlink" title="label"></a>label</h4><pre class="line-numbers language-none"><code class="language-none">臣亮言：&#123;% label 先帝 %&#125;創業未半，而&#123;% label 中道崩殂 blue %&#125;。今天下三分，&#123;% label 益州疲敝 pink %&#125;，此誠&#123;% label 危急存亡之秋 red %&#125;也！然侍衞之臣，不懈於內；&#123;% label 忠志之士 purple %&#125;，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>臣亮言：<mark class="hl-label default">先帝</mark> 創業未半，而<mark class="hl-label blue">中道崩殂</mark> 。今天下三分，<mark class="hl-label pink">益州疲敝</mark> ，此誠<mark class="hl-label red">危急存亡之秋</mark> 也！然侍衞之臣，不懈於內；<mark class="hl-label purple">忠志之士</mark> ，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/04/16/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -968,162 +968,6 @@ mvn archetype:generate -B ^
       </categories>
       <tags>
         <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>poi结合模板引擎导出word</title>
-    <url>/2024/03/05/poi%E7%BB%93%E5%90%88%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E%E5%AF%BC%E5%87%BAword/</url>
-    <content><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>最近一期需求开发遇到导出一个复杂的word用代码实现巨难受，特意找了个便捷方法实现  </p>
-<h4 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h4><pre class="line-numbers language-maven" data-language="maven"><code class="language-maven">&lt;dependency&gt;
-         &lt;groupId&gt;cn.hutool&lt;&#x2F;groupId&gt;
-         &lt;artifactId&gt;hutool-all&lt;&#x2F;artifactId&gt;
-         &lt;version&gt;5.7.10&lt;&#x2F;version&gt;
-     &lt;&#x2F;dependency&gt;
-     &lt;dependency&gt;
-         &lt;groupId&gt;cn.afterturn&lt;&#x2F;groupId&gt;
-         &lt;artifactId&gt;easypoi-base&lt;&#x2F;artifactId&gt;
-         &lt;version&gt;4.4.0&lt;&#x2F;version&gt;
-     &lt;&#x2F;dependency&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
-      <span class="token class-name">StringWriter</span> writer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringWriter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token class-name">JSONObject</span> json <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JSONObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      json<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token string">"张三"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token comment">// 创建模板引擎</span>
-      <span class="token class-name">TemplateEngine</span> templateEngine <span class="token operator">=</span> <span class="token class-name">TemplateUtil</span><span class="token punctuation">.</span><span class="token function">createEngine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token class-name">Template</span> template <span class="token operator">=</span> templateEngine<span class="token punctuation">.</span><span class="token function">getTemplate</span><span class="token punctuation">(</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token comment">// 合并模板和数据</span>
-      template<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>json<span class="token punctuation">,</span> writer<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token class-name">String</span> templateContent <span class="token operator">=</span> writer<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token function">htmlToWord</span><span class="token punctuation">(</span>templateContent<span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span>
-
-  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">htmlToWord</span><span class="token punctuation">(</span><span class="token class-name">String</span> htmlString<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
-
-
-      <span class="token class-name">FileOutputStream</span> out <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileOutputStream</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"D:/wordWrite.doc"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token class-name">InputStream</span> is <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ByteArrayInputStream</span><span class="token punctuation">(</span>htmlString<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token string">"UTF-8"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token class-name">POIFSFileSystem</span> fs <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">POIFSFileSystem</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      <span class="token comment">//对应于org.apache.poi.hdf.extractor.WordDocument</span>
-      fs<span class="token punctuation">.</span><span class="token function">createDocument</span><span class="token punctuation">(</span>is<span class="token punctuation">,</span> <span class="token string">"WordDocument"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      fs<span class="token punctuation">.</span><span class="token function">writeFilesystem</span><span class="token punctuation">(</span>out<span class="token punctuation">)</span><span class="token punctuation">;</span>
-      is<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      out<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span>
-
-  <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-      <span class="token class-name">String</span> s <span class="token operator">=</span> <span class="token string">"&lt;!DOCTYPE html>\n"</span> <span class="token operator">+</span>
-              <span class="token string">"&lt;html lang=\"en\">\n"</span> <span class="token operator">+</span>
-              <span class="token string">"&lt;head>\n"</span> <span class="token operator">+</span>
-              <span class="token string">"    &lt;meta charset=\"UTF-8\">\n"</span> <span class="token operator">+</span>
-              <span class="token string">"    &lt;title>Title&lt;/title>\n"</span> <span class="token operator">+</span>
-              <span class="token string">"&lt;/head>\n"</span> <span class="token operator">+</span>
-              <span class="token string">"&lt;body>\n"</span> <span class="token operator">+</span>
-              <span class="token string">"    &lt;P>$&#123;name&#125; 这是名字&lt;/P>\n"</span> <span class="token operator">+</span>
-              <span class="token string">"&lt;/body>\n"</span> <span class="token operator">+</span>
-              <span class="token string">"&lt;/html>"</span><span class="token punctuation">;</span>
-      <span class="token keyword">return</span> s<span class="token punctuation">;</span>
-  <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="一些表单html简单示例"><a href="#一些表单html简单示例" class="headerlink" title="一些表单html简单示例"></a>一些表单html简单示例</h4><ul>
-<li>收据<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>收据<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
-        <span class="token selector">*</span> <span class="token punctuation">&#123;</span>
-            <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
-            <span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token selector">.container</span> <span class="token punctuation">&#123;</span>
-            <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-            <span class="token property">margin</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token selector">.title</span> <span class="token punctuation">&#123;</span>
-            <span class="token property">font-size</span><span class="token punctuation">:</span> 24px<span class="token punctuation">;</span>
-            <span class="token property">font-weight</span><span class="token punctuation">:</span> bold<span class="token punctuation">;</span>
-            <span class="token property">margin-bottom</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span>
-            <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token selector">.table,
-        .table-title</span> <span class="token punctuation">&#123;</span>
-            <span class="token property">margin-top</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token selector">.on</span> <span class="token punctuation">&#123;</span>
-            <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token selector">.off</span> <span class="token punctuation">&#123;</span>
-            <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token selector">table</span> <span class="token punctuation">&#123;</span>
-            <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-            <span class="token property">border-collapse</span><span class="token punctuation">:</span> collapse<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>收据<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>收据日期：$&#123;receiptDate&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">text-align</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$&#123;display&#125;<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>收款对象：$&#123;customerName&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>table-title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>费用明细：<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>thead</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>项目<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>单价<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>数量<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>金额<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>thead</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tbody</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#list</span> <span class="token attr-name">costList</span> <span class="token attr-name">as</span> <span class="token attr-name">cost</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;cost.name&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;cost.price&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;cost.amount&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;cost.money&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#list</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">margin-top</span><span class="token punctuation">:</span>20px</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>收款单位：$&#123;companyName&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">text-align</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>交款人：$&#123;payer&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>以上就是代码示例内容，只要掌握html和css就可以基本解决word的复杂样式内容</p>
-<p><strong><em>但请注意以下几点问题</em></strong></p>
-<ol>
-<li>html 格式导出的word格式为doc,只有doc格式支持，docx不支持html,如需要转换docx可引入其他工具类进行转换<blockquote>
-<p>ps:<em>（word软件自身就可以转换没必要去实现这个，产品非得要实现纯属于故意为之~）</em>  </p>
-</blockquote>
-</li>
-<li><p>html 中尽量使用table,p,span等元素标签 </p>
-</li>
-<li><p>html 中的引用使用ftl模版引擎</p>
-</li>
-<li><p>css样式有些并不支持，比如flex,div中设置width=百分比等等</p>
-</li>
-</ol>
-<p>终于不用为调样式而烦恼了🥰~  </p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>poi</tag>
-        <tag>word</tag>
       </tags>
   </entry>
   <entry>
@@ -1347,6 +1191,162 @@ binlog_expire_logs_seconds&#x3D;604800
       <tags>
         <tag>docker</tag>
         <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>poi结合模板引擎导出word</title>
+    <url>/2024/03/05/poi%E7%BB%93%E5%90%88%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E%E5%AF%BC%E5%87%BAword/</url>
+    <content><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>最近一期需求开发遇到导出一个复杂的word用代码实现巨难受，特意找了个便捷方法实现  </p>
+<h4 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h4><pre class="line-numbers language-maven" data-language="maven"><code class="language-maven">&lt;dependency&gt;
+         &lt;groupId&gt;cn.hutool&lt;&#x2F;groupId&gt;
+         &lt;artifactId&gt;hutool-all&lt;&#x2F;artifactId&gt;
+         &lt;version&gt;5.7.10&lt;&#x2F;version&gt;
+     &lt;&#x2F;dependency&gt;
+     &lt;dependency&gt;
+         &lt;groupId&gt;cn.afterturn&lt;&#x2F;groupId&gt;
+         &lt;artifactId&gt;easypoi-base&lt;&#x2F;artifactId&gt;
+         &lt;version&gt;4.4.0&lt;&#x2F;version&gt;
+     &lt;&#x2F;dependency&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
+      <span class="token class-name">StringWriter</span> writer <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringWriter</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token class-name">JSONObject</span> json <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">JSONObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      json<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span> <span class="token string">"张三"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// 创建模板引擎</span>
+      <span class="token class-name">TemplateEngine</span> templateEngine <span class="token operator">=</span> <span class="token class-name">TemplateUtil</span><span class="token punctuation">.</span><span class="token function">createEngine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token class-name">Template</span> template <span class="token operator">=</span> templateEngine<span class="token punctuation">.</span><span class="token function">getTemplate</span><span class="token punctuation">(</span><span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// 合并模板和数据</span>
+      template<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>json<span class="token punctuation">,</span> writer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token class-name">String</span> templateContent <span class="token operator">=</span> writer<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token function">htmlToWord</span><span class="token punctuation">(</span>templateContent<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">htmlToWord</span><span class="token punctuation">(</span><span class="token class-name">String</span> htmlString<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>
+
+
+      <span class="token class-name">FileOutputStream</span> out <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FileOutputStream</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span><span class="token string">"D:/wordWrite.doc"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token class-name">InputStream</span> is <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ByteArrayInputStream</span><span class="token punctuation">(</span>htmlString<span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token string">"UTF-8"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token class-name">POIFSFileSystem</span> fs <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">POIFSFileSystem</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">//对应于org.apache.poi.hdf.extractor.WordDocument</span>
+      fs<span class="token punctuation">.</span><span class="token function">createDocument</span><span class="token punctuation">(</span>is<span class="token punctuation">,</span> <span class="token string">"WordDocument"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      fs<span class="token punctuation">.</span><span class="token function">writeFilesystem</span><span class="token punctuation">(</span>out<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      is<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      out<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span>
+
+  <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">getContent</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token class-name">String</span> s <span class="token operator">=</span> <span class="token string">"&lt;!DOCTYPE html>\n"</span> <span class="token operator">+</span>
+              <span class="token string">"&lt;html lang=\"en\">\n"</span> <span class="token operator">+</span>
+              <span class="token string">"&lt;head>\n"</span> <span class="token operator">+</span>
+              <span class="token string">"    &lt;meta charset=\"UTF-8\">\n"</span> <span class="token operator">+</span>
+              <span class="token string">"    &lt;title>Title&lt;/title>\n"</span> <span class="token operator">+</span>
+              <span class="token string">"&lt;/head>\n"</span> <span class="token operator">+</span>
+              <span class="token string">"&lt;body>\n"</span> <span class="token operator">+</span>
+              <span class="token string">"    &lt;P>$&#123;name&#125; 这是名字&lt;/P>\n"</span> <span class="token operator">+</span>
+              <span class="token string">"&lt;/body>\n"</span> <span class="token operator">+</span>
+              <span class="token string">"&lt;/html>"</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span> s<span class="token punctuation">;</span>
+  <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="一些表单html简单示例"><a href="#一些表单html简单示例" class="headerlink" title="一些表单html简单示例"></a>一些表单html简单示例</h4><ul>
+<li>收据<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token doctype"><span class="token punctuation">&lt;!</span><span class="token doctype-tag">DOCTYPE</span> <span class="token name">html</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>收据<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
+        <span class="token selector">*</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+            <span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.container</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.title</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 24px<span class="token punctuation">;</span>
+            <span class="token property">font-weight</span><span class="token punctuation">:</span> bold<span class="token punctuation">;</span>
+            <span class="token property">margin-bottom</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.table,
+        .table-title</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">margin-top</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.on</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">.off</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token selector">table</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+            <span class="token property">border-collapse</span><span class="token punctuation">:</span> collapse<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>收据<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>收据日期：$&#123;receiptDate&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">text-align</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$&#123;display&#125;<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>收款对象：$&#123;customerName&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>table-title<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>费用明细：<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>thead</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>项目<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>单价<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>数量<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+                        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>金额<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>thead</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tbody</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#list</span> <span class="token attr-name">costList</span> <span class="token attr-name">as</span> <span class="token attr-name">cost</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;cost.name&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;cost.price&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;cost.amount&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;cost.money&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#list</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">margin-top</span><span class="token punctuation">:</span>20px</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>收款单位：$&#123;companyName&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">text-align</span><span class="token punctuation">:</span> right<span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>交款人：$&#123;payer&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>以上就是代码示例内容，只要掌握html和css就可以基本解决word的复杂样式内容</p>
+<p><strong><em>但请注意以下几点问题</em></strong></p>
+<ol>
+<li>html 格式导出的word格式为doc,只有doc格式支持，docx不支持html,如需要转换docx可引入其他工具类进行转换<blockquote>
+<p>ps:<em>（word软件自身就可以转换没必要去实现这个，产品非得要实现纯属于故意为之~）</em>  </p>
+</blockquote>
+</li>
+<li><p>html 中尽量使用table,p,span等元素标签 </p>
+</li>
+<li><p>html 中的引用使用ftl模版引擎</p>
+</li>
+<li><p>css样式有些并不支持，比如flex,div中设置width=百分比等等</p>
+</li>
+</ol>
+<p>终于不用为调样式而烦恼了🥰~  </p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>poi</tag>
+        <tag>word</tag>
       </tags>
   </entry>
   <entry>
@@ -1614,30 +1614,6 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
-    <title>吉丽装修记【2】</title>
-    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
-    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
-<blockquote>
-<blockquote>
-<p>装修整理文档1.1版</p>
-<p><iframe 
-style="width: 100%;
-    height: 90%" 
-src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
-</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
-<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
-<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
-</blockquote>
-</blockquote>
-]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>吉丽装修记【1】</title>
     <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
     <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
@@ -1662,6 +1638,30 @@ src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlm
     src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
 </iframe>
 </div>]]></content>
+      <categories>
+        <category>吉丽装修记</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>吉丽装修记【2】</title>
+    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
+    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
+<blockquote>
+<blockquote>
+<p>装修整理文档1.1版</p>
+<p><iframe 
+style="width: 100%;
+    height: 90%" 
+src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
+</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
+<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
+<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
+</blockquote>
+</blockquote>
+]]></content>
       <categories>
         <category>吉丽装修记</category>
       </categories>
@@ -2100,6 +2100,59 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
+    <title>生活录【2023-01】</title>
+    <url>/2023/01/01/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-01%E3%80%91/</url>
+    <content><![CDATA[<ul>
+<li>[2023-01-01]<blockquote>
+<p>2023元旦，新年快乐，愿新一年里诸事顺利~</p>
+</blockquote>
+</li>
+<li>[2023-01-03]<blockquote>
+<p>开始了一年一度最激动最刺激的抢票环节，冲啊冲啊冲啊，尼玛秒没，携程外加抢票软件都没抢到，哭</p>
+</blockquote>
+</li>
+<li>[2023-01-04]<blockquote>
+<p>改回家行程，请五天假，14号一早6点虹桥高铁去武汉</p>
+</blockquote>
+</li>
+<li>[2023-01-05]<blockquote>
+<p>哇塞，公司发的新年礼物收到了，小兔子带带一个，里面还有很多小礼品</p>
+</blockquote>
+</li>
+<li>[2023-01-06]<blockquote>
+<p>万科也发的新年礼物了，还发了一箱车厘子，车厘子短暂自由了，笑哭</p>
+</blockquote>
+</li>
+<li>[2023-01-09]<blockquote>
+<p>经过周末两天的思考，觉得装修还是亲戚比较靠谱</p>
+</blockquote>
+</li>
+<li>[2023-01-14]<blockquote>
+<p>回家过春节咯，把育儿假提前请了回去陪儿子玩嘻嘻</p>
+</blockquote>
+</li>
+<li>[2023-01-21]<blockquote>
+<p>得知今年家里终于可以放烟花了，除夕夜早早吃完年夜饭开车去梅家塘大桥看了各种烟花。空中不间断传来烟花爆破声像是诉说着大家疫情三年来的不易终于要结束</p>
+</blockquote>
+</li>
+<li>[2023-01-26]<blockquote>
+<p>今日初六。凌晨4点半就出发，没想到路上还是堵成屎 都赶最后一天的高速</p>
+</blockquote>
+</li>
+<li>[2023-01-28]<blockquote>
+<p>从早上凌晨4点半出发到第二天凌晨接近三点到，历经22小时的返程，开车从日出看到日落。 一大早6点又从昆山赶回上海这边上班拿到一波开工利是~</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>日常</category>
+      </categories>
+      <tags>
+        <tag>小记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>生活录【2022-12】</title>
     <url>/2022/12/01/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902022-12%E3%80%91/</url>
     <content><![CDATA[<ul>
@@ -2182,59 +2235,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
 </li>
 <li>[2022-12-29]<blockquote>
 <p>一早起来还以为到周五，结果还是周四，丧</p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>日常</category>
-      </categories>
-      <tags>
-        <tag>小记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>生活录【2023-01】</title>
-    <url>/2023/01/01/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-01%E3%80%91/</url>
-    <content><![CDATA[<ul>
-<li>[2023-01-01]<blockquote>
-<p>2023元旦，新年快乐，愿新一年里诸事顺利~</p>
-</blockquote>
-</li>
-<li>[2023-01-03]<blockquote>
-<p>开始了一年一度最激动最刺激的抢票环节，冲啊冲啊冲啊，尼玛秒没，携程外加抢票软件都没抢到，哭</p>
-</blockquote>
-</li>
-<li>[2023-01-04]<blockquote>
-<p>改回家行程，请五天假，14号一早6点虹桥高铁去武汉</p>
-</blockquote>
-</li>
-<li>[2023-01-05]<blockquote>
-<p>哇塞，公司发的新年礼物收到了，小兔子带带一个，里面还有很多小礼品</p>
-</blockquote>
-</li>
-<li>[2023-01-06]<blockquote>
-<p>万科也发的新年礼物了，还发了一箱车厘子，车厘子短暂自由了，笑哭</p>
-</blockquote>
-</li>
-<li>[2023-01-09]<blockquote>
-<p>经过周末两天的思考，觉得装修还是亲戚比较靠谱</p>
-</blockquote>
-</li>
-<li>[2023-01-14]<blockquote>
-<p>回家过春节咯，把育儿假提前请了回去陪儿子玩嘻嘻</p>
-</blockquote>
-</li>
-<li>[2023-01-21]<blockquote>
-<p>得知今年家里终于可以放烟花了，除夕夜早早吃完年夜饭开车去梅家塘大桥看了各种烟花。空中不间断传来烟花爆破声像是诉说着大家疫情三年来的不易终于要结束</p>
-</blockquote>
-</li>
-<li>[2023-01-26]<blockquote>
-<p>今日初六。凌晨4点半就出发，没想到路上还是堵成屎 都赶最后一天的高速</p>
-</blockquote>
-</li>
-<li>[2023-01-28]<blockquote>
-<p>从早上凌晨4点半出发到第二天凌晨接近三点到，历经22小时的返程，开车从日出看到日落。 一大早6点又从昆山赶回上海这边上班拿到一波开工利是~</p>
 </blockquote>
 </li>
 </ul>
