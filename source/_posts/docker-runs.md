@@ -434,3 +434,7 @@ docker exec -it rmqbroker bash -c "tail -n 10 /home/rocketmq/logs/rocketmqlogs/p
 {% endnote %}
 
 * SDK测试消息收发验证省略（参照官方文档）
+{% warning simple %}
+注意部署的是rocketmq5.0以上的版时，协议为gprc,而老版本用的是remoting协议，故以前的sdk可能连不上新部署的mq,具体参照官方文档
+{% endnote %}
+
