@@ -1,104 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>FineReport报表技巧</title>
-    <url>/2024/10/30/FineReport%E6%8A%A5%E8%A1%A8%E6%8A%80%E5%B7%A7/</url>
-    <content><![CDATA[<h4 id="数据集拼装动态sql条件"><a href="#数据集拼装动态sql条件" class="headerlink" title="数据集拼装动态sql条件"></a>数据集拼装动态sql条件</h4><p>${if(len(控件名称) == 0,””,”and a.bill_code like ‘%”+控件名称+”%’”)}</p>
-<h4 id="常见公式"><a href="#常见公式" class="headerlink" title="常见公式"></a>常见公式</h4><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>功能描述</th>
-<th>功能实现</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>将日期框组件设置默认值为当前日期</td>
-<td>TODATE()</td>
-</tr>
-<tr>
-<td>将日期框组件设置默认值为当前月份最后一天</td>
-<td>DATEINMONTH(TODAY(),-1)</td>
-</tr>
-<tr>
-<td>将列汇总</td>
-<td>sum(A2)</td>
-</tr>
-<tr>
-<td>四舍五入，保留2位</td>
-<td>round(A2, 2)</td>
-</tr>
-<tr>
-<td>字符串截取</td>
-<td>left(字符串,位数)，right(字符串,位数)</td>
-</tr>
-<tr>
-<td>…..</td>
-<td>…..</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="行交替色设置"><a href="#行交替色设置" class="headerlink" title="行交替色设置"></a>行交替色设置</h4><p><img src="https://www.helloimg.com/i/2024/10/30/67219ed7c537f.png" alt=""></p>
-<h4 id="按钮清空所有"><a href="#按钮清空所有" class="headerlink" title="按钮清空所有"></a>按钮清空所有</h4><p>在按钮的控件设置中，找到事件，添加一事件，选择JavaScript脚本，脚本内容如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">$.each(this.options.form.name_widgets, function(i, item) &#123;
-    if(item.options.type !&#x3D;&#x3D; &#39;label&#39;) &#123;
-        item.setValue(&quot;&quot;);
-        item.setText(&quot;&quot;);
-        item.reset();
-    &#125;
-&#125;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="表格字段过长详情展示方式"><a href="#表格字段过长详情展示方式" class="headerlink" title="表格字段过长详情展示方式"></a>表格字段过长详情展示方式</h4><ol>
-<li><h5 id="公共模态框方式"><a href="#公共模态框方式" class="headerlink" title="公共模态框方式"></a>公共模态框方式</h5><p>新建一个公共模态框报表 ibp_show_field_modal.cpt,接着如下图设置表格字段链接到公共模态框报表中</p>
-</li>
-</ol>
-<p><img src="https://www.helloimg.com/i/2024/10/30/6721a239a5c17.png" alt=""></p>
-<ol>
-<li><h5 id="鼠标浮动展示"><a href="#鼠标浮动展示" class="headerlink" title="鼠标浮动展示"></a>鼠标浮动展示</h5><ol>
-<li>双击需要展示的A2格子自定义显示中输入：  if(len($$$)&gt;长度,left($$$,长度)+’…’,$$$)</li>
-<li>在单元格其他属性，内容提示设置为：=$$$ 即可实现效果</li>
-</ol>
-</li>
-<li><h5 id="js实现"><a href="#js实现" class="headerlink" title="js实现"></a>js实现</h5><p>点击「模板&gt;模板web&gt;分页预览设置」，添加「加载结束事件」 JS 代码如下：</p>
-<pre class="line-numbers language-none"><code class="language-none">$(&quot;td[title^&#x3D;cut]&quot;).each(function()&#123;
-&#x2F;&#x2F;获取属性的值
-var str &#x3D; $(this).attr(&#39;title&#39;);
-&#x2F;&#x2F;定义分隔符号
-var length &#x3D; parseInt(str.split(&quot;:&quot;)[1]);
-&#x2F;&#x2F;判断长度
-if($(this).text().length &gt; length)&#123;
-      $(this).attr(&#39;title&#39;,$(this).text());
-      $(this).text($(this).text().substring(0,length)+&#39;...&#39;);
-      &#125;else&#123;
-      $(this).removeAttr(&#39;title&#39;);
-      &#125;
-&#125;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>在 A2 单元格其他属性，内容提示输入：cut_+A2+:+5 即可实现效果</p>
-</li>
-<li><h5 id="html-实现"><a href="#html-实现" class="headerlink" title="html 实现"></a>html 实现</h5><p>在单元格「形态」处给单元格设置公式形态，公式为：</p>
-<pre class="line-numbers language-none"><code class="language-none">&quot;&lt;span style&#x3D;&#39;white-space: nowrap;text-overflow:ellipsis; overflow:hidden; display: inline-block;width:100%;&#39;&gt;&quot;+$$$+&quot;&lt;&#x2F;span&gt;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-</ol>
-<p>   当单元格内容超过当前单元格宽度后，显示内容超过的部分会变成省略号(…)，当单元格内容不超过当前单元格宽度时，显示全部内容。</p>
-<p>​        在「单元格属性&gt;其他」中，显示内容设置为 「用 HTML 显现内容」，内容提示设置为：=$$$，如下图所示：</p>
-<ol>
-<li><h5 id="控制行高实现"><a href="#控制行高实现" class="headerlink" title="控制行高实现"></a>控制行高实现</h5><p>方式1 ：方式一：点击「单元格&gt;单元格属性&gt;样式&gt;对齐」，设置文本控制为「单行显示」</p>
-<p>方式2：方式二：点击「单元格&gt;单元格属性&gt;其他」，设置为「不自动调整」</p>
-</li>
-</ol>
-<blockquote>
-<p>该方式可直接应用于 JS 或 HTML 控制省略显示时，优点是该列内容仍然会换行显示，导出文档时单元格也是内容换行的样式，并且保证了分页预览时可以根据其他单元格自适应行高。若确有需，在使用该方式的基础上也可以再使用方式一控制内容为单行显示。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>FineReport</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Jenkins+Docker 一键自动化部署 SpringBoot 项目(续)</title>
     <url>/2024/01/24/Jenkins+Docker%20%E4%B8%80%E9%94%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%20SpringBoot%20%E9%A1%B9%E7%9B%AE(%E7%BB%AD)/</url>
     <content><![CDATA[<h4 id="发布项目支持选择git-分支"><a href="#发布项目支持选择git-分支" class="headerlink" title="发布项目支持选择git 分支"></a>发布项目支持选择git 分支</h4><ul>
@@ -310,6 +212,104 @@ docker run -d -p 8888:8888 --name zx-order zx-order:latest<span aria-hidden="tru
       <tags>
         <tag>jenkins</tag>
         <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FineReport报表技巧</title>
+    <url>/2024/10/30/FineReport%E6%8A%A5%E8%A1%A8%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<h4 id="数据集拼装动态sql条件"><a href="#数据集拼装动态sql条件" class="headerlink" title="数据集拼装动态sql条件"></a>数据集拼装动态sql条件</h4><p>${if(len(控件名称) == 0,””,”and a.bill_code like ‘%”+控件名称+”%’”)}</p>
+<h4 id="常见公式"><a href="#常见公式" class="headerlink" title="常见公式"></a>常见公式</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>功能描述</th>
+<th>功能实现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>将日期框组件设置默认值为当前日期</td>
+<td>TODATE()</td>
+</tr>
+<tr>
+<td>将日期框组件设置默认值为当前月份最后一天</td>
+<td>DATEINMONTH(TODAY(),-1)</td>
+</tr>
+<tr>
+<td>将列汇总</td>
+<td>sum(A2)</td>
+</tr>
+<tr>
+<td>四舍五入，保留2位</td>
+<td>round(A2, 2)</td>
+</tr>
+<tr>
+<td>字符串截取</td>
+<td>left(字符串,位数)，right(字符串,位数)</td>
+</tr>
+<tr>
+<td>…..</td>
+<td>…..</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="行交替色设置"><a href="#行交替色设置" class="headerlink" title="行交替色设置"></a>行交替色设置</h4><p><img src="https://www.helloimg.com/i/2024/10/30/67219ed7c537f.png" alt=""></p>
+<h4 id="按钮清空所有"><a href="#按钮清空所有" class="headerlink" title="按钮清空所有"></a>按钮清空所有</h4><p>在按钮的控件设置中，找到事件，添加一事件，选择JavaScript脚本，脚本内容如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">$.each(this.options.form.name_widgets, function(i, item) &#123;
+    if(item.options.type !&#x3D;&#x3D; &#39;label&#39;) &#123;
+        item.setValue(&quot;&quot;);
+        item.setText(&quot;&quot;);
+        item.reset();
+    &#125;
+&#125;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="表格字段过长详情展示方式"><a href="#表格字段过长详情展示方式" class="headerlink" title="表格字段过长详情展示方式"></a>表格字段过长详情展示方式</h4><ol>
+<li><h5 id="公共模态框方式"><a href="#公共模态框方式" class="headerlink" title="公共模态框方式"></a>公共模态框方式</h5><p>新建一个公共模态框报表 ibp_show_field_modal.cpt,接着如下图设置表格字段链接到公共模态框报表中</p>
+</li>
+</ol>
+<p><img src="https://www.helloimg.com/i/2024/10/30/6721a239a5c17.png" alt=""></p>
+<ol>
+<li><h5 id="鼠标浮动展示"><a href="#鼠标浮动展示" class="headerlink" title="鼠标浮动展示"></a>鼠标浮动展示</h5><ol>
+<li>双击需要展示的A2格子自定义显示中输入：  if(len($$$)&gt;长度,left($$$,长度)+’…’,$$$)</li>
+<li>在单元格其他属性，内容提示设置为：=$$$ 即可实现效果</li>
+</ol>
+</li>
+<li><h5 id="js实现"><a href="#js实现" class="headerlink" title="js实现"></a>js实现</h5><p>点击「模板&gt;模板web&gt;分页预览设置」，添加「加载结束事件」 JS 代码如下：</p>
+<pre class="line-numbers language-none"><code class="language-none">$(&quot;td[title^&#x3D;cut]&quot;).each(function()&#123;
+&#x2F;&#x2F;获取属性的值
+var str &#x3D; $(this).attr(&#39;title&#39;);
+&#x2F;&#x2F;定义分隔符号
+var length &#x3D; parseInt(str.split(&quot;:&quot;)[1]);
+&#x2F;&#x2F;判断长度
+if($(this).text().length &gt; length)&#123;
+      $(this).attr(&#39;title&#39;,$(this).text());
+      $(this).text($(this).text().substring(0,length)+&#39;...&#39;);
+      &#125;else&#123;
+      $(this).removeAttr(&#39;title&#39;);
+      &#125;
+&#125;)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在 A2 单元格其他属性，内容提示输入：cut_+A2+:+5 即可实现效果</p>
+</li>
+<li><h5 id="html-实现"><a href="#html-实现" class="headerlink" title="html 实现"></a>html 实现</h5><p>在单元格「形态」处给单元格设置公式形态，公式为：</p>
+<pre class="line-numbers language-none"><code class="language-none">&quot;&lt;span style&#x3D;&#39;white-space: nowrap;text-overflow:ellipsis; overflow:hidden; display: inline-block;width:100%;&#39;&gt;&quot;+$$$+&quot;&lt;&#x2F;span&gt;&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ol>
+<p>   当单元格内容超过当前单元格宽度后，显示内容超过的部分会变成省略号(…)，当单元格内容不超过当前单元格宽度时，显示全部内容。</p>
+<p>​        在「单元格属性&gt;其他」中，显示内容设置为 「用 HTML 显现内容」，内容提示设置为：=$$$，如下图所示：</p>
+<ol>
+<li><h5 id="控制行高实现"><a href="#控制行高实现" class="headerlink" title="控制行高实现"></a>控制行高实现</h5><p>方式1 ：方式一：点击「单元格&gt;单元格属性&gt;样式&gt;对齐」，设置文本控制为「单行显示」</p>
+<p>方式2：方式二：点击「单元格&gt;单元格属性&gt;其他」，设置为「不自动调整」</p>
+</li>
+</ol>
+<blockquote>
+<p>该方式可直接应用于 JS 或 HTML 控制省略显示时，优点是该列内容仍然会换行显示，导出文档时单元格也是内容换行的样式，并且保证了分页预览时可以根据其他单元格自适应行高。若确有需，在使用该方式的基础上也可以再使用方式一控制内容为单行显示。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>FineReport</tag>
       </tags>
   </entry>
   <entry>
@@ -1027,6 +1027,38 @@ docker exec -it rmqbroker bash -c &quot;tail -n 10 &#x2F;home&#x2F;rocketmq&#x2F
       </tags>
   </entry>
   <entry>
+    <title>idea 开启远程访问docker(window)</title>
+    <url>/2024/10/12/idea%20%E5%BC%80%E5%90%AF%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEdocker(window)/</url>
+    <content><![CDATA[<h4 id="docker-for-window"><a href="#docker-for-window" class="headerlink" title="docker for window"></a>docker for window</h4><ol>
+<li>在设置里找到 General 将 “Expose daemon on tcp://localhost:2375 without TLS” 一项勾选中  </li>
+<li>设置里找到 docker engine 将配置新增节点： “hosts”:[“tcp://0.0.0.0:2375”] 参考配置如下：  <pre class="line-numbers language-none"><code class="language-none">&#123;
+  &quot;builder&quot;: &#123;
+    &quot;gc&quot;: &#123;
+      &quot;defaultKeepStorage&quot;: &quot;20GB&quot;,
+      &quot;enabled&quot;: true
+    &#125;
+  &#125;,
+  &quot;experimental&quot;: false,
+  &quot;hosts&quot;: [
+    &quot;tcp:&#x2F;&#x2F;0.0.0.0:2375&quot;
+  ]
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<h4 id="用管理员身份运行CMD命令"><a href="#用管理员身份运行CMD命令" class="headerlink" title="用管理员身份运行CMD命令"></a>用管理员身份运行CMD命令</h4><p>netsh interface portproxy reset<br>netsh interface portproxy add v4tov4 listenport=2375 connectaddress=localhost connectport=2375<br>net start iphlpsvc</p>
+<blockquote>
+<p>查看命令： netsh interface portproxy all</p>
+</blockquote>
+<h4 id="idea-配置"><a href="#idea-配置" class="headerlink" title="idea 配置"></a>idea 配置</h4><p>在services窗口中添加docker connection<br>如果docker for Window 运行在本电脑中，则直接勾选“docker for Window ”选项即可<br>如果是远程访问，则需要选择TCP socket 填写 Engine API URL 例如： tcp://远程计算机IP地址:2375  </p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>maven-archetype-plugin使用</title>
     <url>/2024/07/28/maven-archetype-plugin%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<blockquote>
@@ -1329,6 +1361,29 @@ binlog_expire_logs_seconds&#x3D;604800
       </tags>
   </entry>
   <entry>
+    <title>rabbitMQ延时消息问题</title>
+    <url>/2025/02/13/rabbitMQ%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h4 id="rabbitMQ延时消息问题描述"><a href="#rabbitMQ延时消息问题描述" class="headerlink" title="rabbitMQ延时消息问题描述"></a>rabbitMQ延时消息问题描述</h4><p>rabbit延时消息 可以设置为队列延时和消息延时，队列延时时队列里的每条消息都会延时一样的时间，而消息设置TTL时可以为每一条消息设置延时<br>此时，消息延时有个严重问题，如果前面的消息延时时间大于后面的消息，就会发生堵塞。<br>例如：消息A 设置延时 10S ,后一条消息B设置延时 3S，这个时候按需求来讲，3秒过后消息B应该会被消费者消费，但实际上消息B被堵塞了，直到消息A的TTL过期后A,B消息同时放出</p>
+<h4 id="rabbitMQ延时消息解决方案"><a href="#rabbitMQ延时消息解决方案" class="headerlink" title="rabbitMQ延时消息解决方案"></a>rabbitMQ延时消息解决方案</h4><ol>
+<li>可以使用rabbitMQ 的一个延时队列插件，使用下载安装参考： <a href="https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases">https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases</a>    </li>
+<li>使用定时任务框架或平台动态创建临时任务控制下发消息  </li>
+<li>建立多个不同延时时间的队列，基于业务向相应队列添加消息  </li>
+</ol>
+<h4 id="rabbitMQ延时消息的思考与优化"><a href="#rabbitMQ延时消息的思考与优化" class="headerlink" title="rabbitMQ延时消息的思考与优化"></a>rabbitMQ延时消息的思考与优化</h4><p>延时消息对rabbitMQ压力很大，一般来讲TTL设置的时间不应过长，比如一个订单业务等待客户付款，等待30分钟后发送消息检测订单支付状态并完成取消超时订单<br>设置30分钟检查订单状态存在两个问题：</p>
+<ol>
+<li>如果并发较高，30分钟可能堆积消息过多，对MQ压力过大</li>
+<li>大多数订单再下单后很短时间内就会支付，但是却需要在MQ内等待30分钟，浪费资源。</li>
+</ol>
+<p>解决措施：设置不同的等待时间：10s、10s、10s、15s、15s….，这些时间相加得到30分钟，不同延迟时间过滤掉大部分的消息，给MQ减压<br>每次延时消息消费时首先先查询支付状态，判断是否支付，如果状态显示未支付，则获取下次延迟时间，判断是否有延迟时间，有则重发延迟消息，没有延迟消息则取消订单。如果订单显示已支付，则标记未已支付。<br>这种方式也叫做多级延时消息处理方案</p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>MQ</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>mysql定期归档历史数据</title>
     <url>/2025/03/05/mysql%E5%AE%9A%E6%9C%9F%E5%BD%92%E6%A1%A3%E5%8E%86%E5%8F%B2%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<h4 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h4><p>mysql中fin_invoice_log表一年稳定增加上千万条数据，导致联合查询性能降低，先需将每前两年的数据归档到历史表中。<br>例如表中存在2019,2020,2021,2022,2023,2024,2025，当前归档年份 2025年，则将包括2023年在内之前的数据归档到fin_invoice_log_2023中</p>
@@ -1359,7 +1414,7 @@ ON SCHEDULE EVERY 1 YEAR
 STARTS CURRENT_TIMESTAMP
 DO
 CALL fin_invoice_log_record_archive();
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br><b>这个存储过程的逻辑有个弊端，因为它只是将历史数据筛选出来后放到新建的表中，原来表将历史数据删除，这将导致原表的索引随着时间增长还在会继续扩大，从而影响性能；逻辑应该调整为：<br>将原表重命名为历史表，然后将时间节点之后的数据迁入新表中，这样业务使用新表就不会有问题</b></p>
 <h5 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h5><p>利用后端代码+定时调度框架去实现，比较容易实现具体不多做展示</p>
 <h5 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h5><p>利用后端分库分表去实现按照年度去入库分表，也比较容易不多做展示</p>
 ]]></content>
@@ -1370,38 +1425,6 @@ CALL fin_invoice_log_record_archive();
         <tag>mysql</tag>
         <tag>sql</tag>
         <tag>小工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>idea 开启远程访问docker(window)</title>
-    <url>/2024/10/12/idea%20%E5%BC%80%E5%90%AF%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEdocker(window)/</url>
-    <content><![CDATA[<h4 id="docker-for-window"><a href="#docker-for-window" class="headerlink" title="docker for window"></a>docker for window</h4><ol>
-<li>在设置里找到 General 将 “Expose daemon on tcp://localhost:2375 without TLS” 一项勾选中  </li>
-<li>设置里找到 docker engine 将配置新增节点： “hosts”:[“tcp://0.0.0.0:2375”] 参考配置如下：  <pre class="line-numbers language-none"><code class="language-none">&#123;
-  &quot;builder&quot;: &#123;
-    &quot;gc&quot;: &#123;
-      &quot;defaultKeepStorage&quot;: &quot;20GB&quot;,
-      &quot;enabled&quot;: true
-    &#125;
-  &#125;,
-  &quot;experimental&quot;: false,
-  &quot;hosts&quot;: [
-    &quot;tcp:&#x2F;&#x2F;0.0.0.0:2375&quot;
-  ]
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<h4 id="用管理员身份运行CMD命令"><a href="#用管理员身份运行CMD命令" class="headerlink" title="用管理员身份运行CMD命令"></a>用管理员身份运行CMD命令</h4><p>netsh interface portproxy reset<br>netsh interface portproxy add v4tov4 listenport=2375 connectaddress=localhost connectport=2375<br>net start iphlpsvc</p>
-<blockquote>
-<p>查看命令： netsh interface portproxy all</p>
-</blockquote>
-<h4 id="idea-配置"><a href="#idea-配置" class="headerlink" title="idea 配置"></a>idea 配置</h4><p>在services窗口中添加docker connection<br>如果docker for Window 运行在本电脑中，则直接勾选“docker for Window ”选项即可<br>如果是远程访问，则需要选择TCP socket 填写 Engine API URL 例如： tcp://远程计算机IP地址:2375  </p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -1561,29 +1584,6 @@ CALL fin_invoice_log_record_archive();
       </tags>
   </entry>
   <entry>
-    <title>rabbitMQ延时消息问题</title>
-    <url>/2025/02/13/rabbitMQ%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h4 id="rabbitMQ延时消息问题描述"><a href="#rabbitMQ延时消息问题描述" class="headerlink" title="rabbitMQ延时消息问题描述"></a>rabbitMQ延时消息问题描述</h4><p>rabbit延时消息 可以设置为队列延时和消息延时，队列延时时队列里的每条消息都会延时一样的时间，而消息设置TTL时可以为每一条消息设置延时<br>此时，消息延时有个严重问题，如果前面的消息延时时间大于后面的消息，就会发生堵塞。<br>例如：消息A 设置延时 10S ,后一条消息B设置延时 3S，这个时候按需求来讲，3秒过后消息B应该会被消费者消费，但实际上消息B被堵塞了，直到消息A的TTL过期后A,B消息同时放出</p>
-<h4 id="rabbitMQ延时消息解决方案"><a href="#rabbitMQ延时消息解决方案" class="headerlink" title="rabbitMQ延时消息解决方案"></a>rabbitMQ延时消息解决方案</h4><ol>
-<li>可以使用rabbitMQ 的一个延时队列插件，使用下载安装参考： <a href="https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases">https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases</a>    </li>
-<li>使用定时任务框架或平台动态创建临时任务控制下发消息  </li>
-<li>建立多个不同延时时间的队列，基于业务向相应队列添加消息  </li>
-</ol>
-<h4 id="rabbitMQ延时消息的思考与优化"><a href="#rabbitMQ延时消息的思考与优化" class="headerlink" title="rabbitMQ延时消息的思考与优化"></a>rabbitMQ延时消息的思考与优化</h4><p>延时消息对rabbitMQ压力很大，一般来讲TTL设置的时间不应过长，比如一个订单业务等待客户付款，等待30分钟后发送消息检测订单支付状态并完成取消超时订单<br>设置30分钟检查订单状态存在两个问题：</p>
-<ol>
-<li>如果并发较高，30分钟可能堆积消息过多，对MQ压力过大</li>
-<li>大多数订单再下单后很短时间内就会支付，但是却需要在MQ内等待30分钟，浪费资源。</li>
-</ol>
-<p>解决措施：设置不同的等待时间：10s、10s、10s、15s、15s….，这些时间相加得到30分钟，不同延迟时间过滤掉大部分的消息，给MQ减压<br>每次延时消息消费时首先先查询支付状态，判断是否支付，如果状态显示未支付，则获取下次延迟时间，判断是否有延迟时间，有则重发延迟消息，没有延迟消息则取消订单。如果订单显示已支付，则标记未已支付。<br>这种方式也叫做多级延时消息处理方案</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>MQ</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>spring cloud alibaba相关笔记</title>
     <url>/2023/10/23/spring%20cloud%20alibaba%20%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[]]></content>
@@ -1653,6 +1653,83 @@ CALL fin_invoice_log_record_archive();
       </categories>
       <tags>
         <tag>食物</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>wmware centos7 虚拟机通过宿主机的Clash访问外网</title>
+    <url>/2024/07/13/wmware%20centos7%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%80%9A%E8%BF%87%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9A%84Clash%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/</url>
+    <content><![CDATA[<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>在使用虚拟机的时候，经常拉取不到镜像包，这个时候需要开启代理</p>
+<h4 id="开启服务"><a href="#开启服务" class="headerlink" title="开启服务"></a>开启服务</h4><ol>
+<li>允许局域网访问使用7890端口来提供网络代理服务。  </li>
+<li>获取宿主机服务IP  </li>
+</ol>
+<h4 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h4><ol>
+<li><p>直接配置系统代理  </p>
+<pre class="line-numbers language-none"><code class="language-none">cat &gt;&gt; ~&#x2F;.bashrc &lt;&lt; EOF
+export https_proxy&#x3D;http:&#x2F;&#x2F;192.168.0.103:7897
+export http_proxy&#x3D;http:&#x2F;&#x2F;192.168.0.103:7897
+export all_proxy&#x3D;socks5:&#x2F;&#x2F;192.168.0.103:7897
+EOF
+source ~&#x2F;.bashrc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>使用脚本来实现代理<br>创建脚本 setproxy.sh</p>
+<pre class="line-numbers language-source" data-language="source"><code class="language-source">#!&#x2F;bin&#x2F;bash
+# encoding: utf-8
+
+Proxy_IP&#x3D;192.168.0.103
+Proxy_Port&#x3D;7897
+
+# Set System Proxy
+function xyon()&#123;
+    export https_proxy&#x3D;http:&#x2F;&#x2F;$Proxy_IP:$Proxy_Port
+    export http_proxy&#x3D;http:&#x2F;&#x2F;$Proxy_IP:$Proxy_Port
+    export all_proxy&#x3D;socks5:&#x2F;&#x2F;$Proxy_IP:$Proxy_Port
+    echo -e &quot;System Proxy is $Proxy_IP:$Proxy_Port&quot;
+&#125;
+
+# unSet System Proxy
+function xyoff()&#123;
+    unset all_proxy
+    unset https_proxy
+    unset http_proxy
+    echo -e &quot;System Proxy is Disabled&quot;
+&#125;
+
+# Default Function is Set Proxy
+if [ $# !&#x3D; 0 ]
+then
+	if [ $1 &#x3D;&#x3D; &#39;off&#39; ]
+	then
+		xyoff
+	elif [ $1 &#x3D;&#x3D; &#39;on&#39; ]
+	then
+		xyon
+	else
+		echo &quot;Please Input on or off!&quot;
+	fi
+else
+	echo &quot;Please input command.&quot;
+fi<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<p>调用脚本</p>
+<pre class="line-numbers language-text" data-language="text"><code class="language-text">chmod +x setproxy.sh
+# 因为父子shell的问题，使用source来使得脚本设置来修改当前父Shell环境变量
+# 开启代理
+source setproxy.sh on
+# 关闭代理
+source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="Windows-Firewall-打开-tcp-7890-端口"><a href="#Windows-Firewall-打开-tcp-7890-端口" class="headerlink" title="Windows Firewall 打开 tcp 7890 端口"></a>Windows Firewall 打开 tcp 7890 端口</h4><ul>
+<li>按下 Windows + R 打开运行窗口</li>
+<li>输入 wf.msc 然后回车即可</li>
+</ul>
+<p>放行 tcp 7890 端口就足够。</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre class="line-numbers language-text" data-language="text"><code class="language-text">curl -I https://www.google.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>运维</category>
+      </categories>
+      <tags>
+        <tag>虚拟机</tag>
       </tags>
   </entry>
   <entry>
@@ -1741,83 +1818,6 @@ CALL fin_invoice_log_record_archive();
       </tags>
   </entry>
   <entry>
-    <title>wmware centos7 虚拟机通过宿主机的Clash访问外网</title>
-    <url>/2024/07/13/wmware%20centos7%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%80%9A%E8%BF%87%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9A%84Clash%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/</url>
-    <content><![CDATA[<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>在使用虚拟机的时候，经常拉取不到镜像包，这个时候需要开启代理</p>
-<h4 id="开启服务"><a href="#开启服务" class="headerlink" title="开启服务"></a>开启服务</h4><ol>
-<li>允许局域网访问使用7890端口来提供网络代理服务。  </li>
-<li>获取宿主机服务IP  </li>
-</ol>
-<h4 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h4><ol>
-<li><p>直接配置系统代理  </p>
-<pre class="line-numbers language-none"><code class="language-none">cat &gt;&gt; ~&#x2F;.bashrc &lt;&lt; EOF
-export https_proxy&#x3D;http:&#x2F;&#x2F;192.168.0.103:7897
-export http_proxy&#x3D;http:&#x2F;&#x2F;192.168.0.103:7897
-export all_proxy&#x3D;socks5:&#x2F;&#x2F;192.168.0.103:7897
-EOF
-source ~&#x2F;.bashrc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-<li><p>使用脚本来实现代理<br>创建脚本 setproxy.sh</p>
-<pre class="line-numbers language-source" data-language="source"><code class="language-source">#!&#x2F;bin&#x2F;bash
-# encoding: utf-8
-
-Proxy_IP&#x3D;192.168.0.103
-Proxy_Port&#x3D;7897
-
-# Set System Proxy
-function xyon()&#123;
-    export https_proxy&#x3D;http:&#x2F;&#x2F;$Proxy_IP:$Proxy_Port
-    export http_proxy&#x3D;http:&#x2F;&#x2F;$Proxy_IP:$Proxy_Port
-    export all_proxy&#x3D;socks5:&#x2F;&#x2F;$Proxy_IP:$Proxy_Port
-    echo -e &quot;System Proxy is $Proxy_IP:$Proxy_Port&quot;
-&#125;
-
-# unSet System Proxy
-function xyoff()&#123;
-    unset all_proxy
-    unset https_proxy
-    unset http_proxy
-    echo -e &quot;System Proxy is Disabled&quot;
-&#125;
-
-# Default Function is Set Proxy
-if [ $# !&#x3D; 0 ]
-then
-	if [ $1 &#x3D;&#x3D; &#39;off&#39; ]
-	then
-		xyoff
-	elif [ $1 &#x3D;&#x3D; &#39;on&#39; ]
-	then
-		xyon
-	else
-		echo &quot;Please Input on or off!&quot;
-	fi
-else
-	echo &quot;Please input command.&quot;
-fi<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<p>调用脚本</p>
-<pre class="line-numbers language-text" data-language="text"><code class="language-text">chmod +x setproxy.sh
-# 因为父子shell的问题，使用source来使得脚本设置来修改当前父Shell环境变量
-# 开启代理
-source setproxy.sh on
-# 关闭代理
-source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="Windows-Firewall-打开-tcp-7890-端口"><a href="#Windows-Firewall-打开-tcp-7890-端口" class="headerlink" title="Windows Firewall 打开 tcp 7890 端口"></a>Windows Firewall 打开 tcp 7890 端口</h4><ul>
-<li>按下 Windows + R 打开运行窗口</li>
-<li>输入 wf.msc 然后回车即可</li>
-</ul>
-<p>放行 tcp 7890 端口就足够。</p>
-<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre class="line-numbers language-text" data-language="text"><code class="language-text">curl -I https://www.google.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>]]></content>
-      <categories>
-        <category>运维</category>
-      </categories>
-      <tags>
-        <tag>虚拟机</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>装修清单</title>
     <url>/2023/10/17/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E6%B8%85%E5%8D%95/</url>
     <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
@@ -1848,38 +1848,6 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
-    <title>吉丽装修记【1】</title>
-    <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
-    <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
->> 装修整理清单1.4版
-<iframe 
-style="width: 100%;
-    height: 100%" 
-src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D">
-</iframe>
-</div>
-
-<div style="position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;">
-<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;"
-    src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
-</iframe>
-</div>]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>吉丽装修记【2】</title>
     <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
     <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
@@ -1895,44 +1863,6 @@ src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlL
 <p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
 </blockquote>
 </blockquote>
-]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>吉丽装修记【终】</title>
-    <url>/2023/08/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%90%E7%BB%88%E3%80%91/</url>
-    <content><![CDATA[<h5 id="装修交付视频1-0"><a href="#装修交付视频1-0" class="headerlink" title="装修交付视频1.0"></a>装修交付视频1.0</h5><div style="position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    width: 100%;
-    height: 50%;
-    overflow: hidden;">
-<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;"
-    src="https://files.guzlife.site/video/%E8%A3%85%E4%BF%AE%E4%BA%A4%E4%BB%981.0.mp4">
-</iframe>
-</div>
-
-<h5 id="PDF设计图纸预览"><a href="#PDF设计图纸预览" class="headerlink" title="PDF设计图纸预览"></a>PDF设计图纸预览</h5><div style = "border:1px; width:100%; height:1200px;">
-<iframe 
-style="width: 100%;
-    height: 100%" 
-src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FpmIXmsZ%2FlupwuZG9jeA%3D%3D">
-</iframe>
-</div>
-
-
-<h5 id="PDF设计图纸下载"><a href="#PDF设计图纸下载" class="headerlink" title="PDF设计图纸下载"></a>PDF设计图纸下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/白沙洲阅江府.pdf">点击下载—&gt;</a></p>
-<h5 id="10栋总平面图下载"><a href="#10栋总平面图下载" class="headerlink" title="10栋总平面图下载"></a>10栋总平面图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋总平面图.pdf">点击下载—&gt;</a></p>
-<h5 id="10栋2单元dwg户型图下载"><a href="#10栋2单元dwg户型图下载" class="headerlink" title="10栋2单元dwg户型图下载"></a>10栋2单元dwg户型图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋01户户型平面图_t3.dwg">点击下载—&gt;</a></p>
 ]]></content>
       <categories>
         <category>吉丽装修记</category>
@@ -2011,6 +1941,76 @@ public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUni
       </categories>
       <tags>
         <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>吉丽装修记【1】</title>
+    <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
+    <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
+>> 装修整理清单1.4版
+<iframe 
+style="width: 100%;
+    height: 100%" 
+src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D">
+</iframe>
+</div>
+
+<div style="position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;">
+<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;"
+    src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
+</iframe>
+</div>]]></content>
+      <categories>
+        <category>吉丽装修记</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>吉丽装修记【终】</title>
+    <url>/2023/08/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%90%E7%BB%88%E3%80%91/</url>
+    <content><![CDATA[<h5 id="装修交付视频1-0"><a href="#装修交付视频1-0" class="headerlink" title="装修交付视频1.0"></a>装修交付视频1.0</h5><div style="position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;">
+<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;"
+    src="https://files.guzlife.site/video/%E8%A3%85%E4%BF%AE%E4%BA%A4%E4%BB%981.0.mp4">
+</iframe>
+</div>
+
+<h5 id="PDF设计图纸预览"><a href="#PDF设计图纸预览" class="headerlink" title="PDF设计图纸预览"></a>PDF设计图纸预览</h5><div style = "border:1px; width:100%; height:1200px;">
+<iframe 
+style="width: 100%;
+    height: 100%" 
+src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FpmIXmsZ%2FlupwuZG9jeA%3D%3D">
+</iframe>
+</div>
+
+
+<h5 id="PDF设计图纸下载"><a href="#PDF设计图纸下载" class="headerlink" title="PDF设计图纸下载"></a>PDF设计图纸下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/白沙洲阅江府.pdf">点击下载—&gt;</a></p>
+<h5 id="10栋总平面图下载"><a href="#10栋总平面图下载" class="headerlink" title="10栋总平面图下载"></a>10栋总平面图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋总平面图.pdf">点击下载—&gt;</a></p>
+<h5 id="10栋2单元dwg户型图下载"><a href="#10栋2单元dwg户型图下载" class="headerlink" title="10栋2单元dwg户型图下载"></a>10栋2单元dwg户型图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋01户户型平面图_t3.dwg">点击下载—&gt;</a></p>
+]]></content>
+      <categories>
+        <category>吉丽装修记</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
       </tags>
   </entry>
   <entry>
@@ -2544,55 +2544,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
-    <title>装修知识分享</title>
-    <url>/2023/07/08/%E8%A3%85%E4%BF%AE%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/</url>
-    <content><![CDATA[<h2 id="gt-厨房要用4平方线，不然容易跳闸"><a href="#gt-厨房要用4平方线，不然容易跳闸" class="headerlink" title="&gt; 厨房要用4平方线，不然容易跳闸"></a>&gt; 厨房要用4平方线，不然容易跳闸</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>品类</th>
-<th>范围</th>
-<th>价格</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1.5MM平方电线</td>
-<td>交通牌铜芯线(单线标准) 注:正常用做照明线路</td>
-<td>1.20/M</td>
-</tr>
-<tr>
-<td>2.5MM平方电线</td>
-<td>长江牌铜芯线(单线标准) 注:正常用做插座线路包括挂壁空调(空调线路为专用线路单线单用),也可用做照明线路需和客户确认</td>
-<td>1.40/M</td>
-</tr>
-<tr>
-<td>4MM平方电线</td>
-<td>交通牌铜芯线(单线标准) 注:正常用做柜式空调专用线路</td>
-<td>1.60/M</td>
-</tr>
-</tbody>
-</table>
-</div>
-<blockquote>
-<p>空调，厨房，壁挂炉等留 16A插座;电视墙可以嵌入50管，但墙体是承重墙不可嵌入，水管需要包管</p>
-<p>以下来自抖音博主分享<br><div class="gallery">
-    <div class="fj-gallery  data" data-rowHeight="220" data-limit="10">
-    <span class="gallery-data">[{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_4.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_8.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_10.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_13.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_16.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_19.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_22.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_25.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_28.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_32.jpg","alt":""}]</span>
-    </div>
-    <button class="gallery-load-more"><span>加载更多</span><i class="fa-solid fa-arrow-down"></i></button>
-    </div></p>
-</blockquote>
-<p>​<br>​<br>​    </p>
-]]></content>
-      <categories>
-        <category>装修知识分享</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>生活录【2023-02】</title>
     <url>/2023/02/04/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-02%E3%80%91/</url>
     <content><![CDATA[<ul>
@@ -2660,6 +2611,55 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </categories>
       <tags>
         <tag>小记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>装修知识分享</title>
+    <url>/2023/07/08/%E8%A3%85%E4%BF%AE%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/</url>
+    <content><![CDATA[<h2 id="gt-厨房要用4平方线，不然容易跳闸"><a href="#gt-厨房要用4平方线，不然容易跳闸" class="headerlink" title="&gt; 厨房要用4平方线，不然容易跳闸"></a>&gt; 厨房要用4平方线，不然容易跳闸</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>品类</th>
+<th>范围</th>
+<th>价格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.5MM平方电线</td>
+<td>交通牌铜芯线(单线标准) 注:正常用做照明线路</td>
+<td>1.20/M</td>
+</tr>
+<tr>
+<td>2.5MM平方电线</td>
+<td>长江牌铜芯线(单线标准) 注:正常用做插座线路包括挂壁空调(空调线路为专用线路单线单用),也可用做照明线路需和客户确认</td>
+<td>1.40/M</td>
+</tr>
+<tr>
+<td>4MM平方电线</td>
+<td>交通牌铜芯线(单线标准) 注:正常用做柜式空调专用线路</td>
+<td>1.60/M</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>空调，厨房，壁挂炉等留 16A插座;电视墙可以嵌入50管，但墙体是承重墙不可嵌入，水管需要包管</p>
+<p>以下来自抖音博主分享<br><div class="gallery">
+    <div class="fj-gallery  data" data-rowHeight="220" data-limit="10">
+    <span class="gallery-data">[{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_4.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_8.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_10.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_13.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_16.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_19.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_22.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_25.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_28.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_32.jpg","alt":""}]</span>
+    </div>
+    <button class="gallery-load-more"><span>加载更多</span><i class="fa-solid fa-arrow-down"></i></button>
+    </div></p>
+</blockquote>
+<p>​<br>​<br>​    </p>
+]]></content>
+      <categories>
+        <category>装修知识分享</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
       </tags>
   </entry>
   <entry>
