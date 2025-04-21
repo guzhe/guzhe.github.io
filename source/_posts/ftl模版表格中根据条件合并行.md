@@ -161,19 +161,19 @@ public class AreaTop10VacancyModel implements RowSpanInterface {
 ```java
 public class RowSpanHandler {
 
-    public static void handle(List<? super RowSpanInterface> list) {
+    public static void handle(List<? extends RowSpanInterface> list) {
         // 使用通配符类型进行流操作，避免强制类型转换
         Map<String, Long> countMap = list.stream()
                 .map(item -> (RowSpanInterface) item)
                 .collect(Collectors.groupingBy(RowSpanInterface::rowSpanKey, Collectors.counting()));
-        List<String> cacheKeys = new ArrayList<>();
-        for (Object o : list) {
-            RowSpanInterface rowSpanInterface = (RowSpanInterface) o;
-            int rowSpan = countMap.get(rowSpanInterface.rowSpanKey()).intValue();
-            if (cacheKeys.contains(rowSpanInterface.rowSpanKey())) {
+        Set<String> cacheKeys = new HashSet<>();
+        for (RowSpanInterface rowSpanInterface : list) {
+            String rowSpanKey = rowSpanInterface.rowSpanKey();
+            int rowSpan = countMap.get(rowSpanKey).intValue();
+            if (cacheKeys.contains(rowSpanKey)) {
                 rowSpanInterface.cleanRowSpanKey();
             } else {
-                cacheKeys.add(rowSpanInterface.rowSpanKey());
+                cacheKeys.add(rowSpanKey);
                 rowSpanInterface.setRowSpan(rowSpan);
             }
         }
@@ -183,7 +183,6 @@ public class RowSpanHandler {
 #### 5. 调用
 ```java
 List<AreaTop10VacancyModel> areaTop10List = getTop10List();
-List<? super RowSpanInterface> rowSpanList = new ArrayList<>(areaTop10List);
-RowSpanHandler.handle(rowSpanList);
+RowSpanHandler.handle(areaTop10List);
 ```
-至此，相同的临期月排名数据已合并，这个方案后期可以维护升级成多个相同列进行二次合并，如果相同临期月中排名一样的需要再次合并的需求,这里不再赘述
+至此，相同的临期月排名数据已合并，这个方案后期可以维护升级成多个相同列进行多次合并，如果相同临期月中排名一样的需要再次合并的需求,这里不再赘述

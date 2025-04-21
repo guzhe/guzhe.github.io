@@ -1,8 +1,8 @@
 ---
 title: docker常用镜像运行
-categories: hexo
+categories: 后端技术
 tags:
-  - hexo
+  - docker
   - others
 cover: https://vip.helloimg.com/i/2024/01/13/65a270d4ec2d8.jpg
 date: 2024-02-28 22:40:00
