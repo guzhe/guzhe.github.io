@@ -439,3 +439,78 @@ docker exec -it rmqbroker bash -c "tail -n 10 /home/rocketmq/logs/rocketmqlogs/p
 注意部署的是rocketmq5.0以上的版时，协议为gprc,而老版本用的是remoting协议，故以前的sdk可能连不上新部署的mq,具体参照官方文档
 {% endnote %}
 
+
+#### seata部署
+本地新增配置文件，配置如下:
+~~~
+console:
+  user:
+    password: seata@fly
+    username: seata
+logging:
+  config: classpath:logback-spring.xml
+  # extend:
+  #   kafka-appender:
+  #     bootstrap-servers: 127.0.0.1:9092
+  #     topic: logback_to_logstash
+  #   logstash-appender:
+  #     destination: 127.0.0.1:4560
+  file:
+    path: ${log.home:${user.home}/logs/seata}
+seata:
+  config:
+    nacos:
+      enabled: true
+      name: fly-seata-server
+      file-extension: yaml
+      group: DEFAULT_GROUP
+      namespace: 34bbe265-cd1f-4a08-a4b9-a02e9ab8ed47
+      data-id: fly-seata-server
+      # password: nacos@fly
+      # username: nacos
+      server-addr: 10.92.21.77:8848
+    type: nacos
+  registry:
+    nacos:
+      application: fly-seata-server
+      group: DEFAULT_GROUP
+      namespace: 34bbe265-cd1f-4a08-a4b9-a02e9ab8ed47
+      # password: nacos@fly
+      # username: nacos
+      server-addr: 10.92.21.77:8848
+    type: nacos
+  security:
+    ignore:
+      urls: /,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.jpeg,/**/*.ico,/api/v1/auth/login,/metadata/v1/**
+    secretKey: SeataSecretKey0c382ef121d778043159209298fd40bf3850a017
+    tokenValidityInMilliseconds: 1800000
+  store:
+    db:
+      branch-table: branch_table
+      datasource: druid
+      db-type: mysql
+      distributed-lock-table: distributed_lock
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      global-table: global_table
+      lock-table: lock_table
+      max-conn: 100
+      max-wait: 5000
+      min-conn: 10
+      password: ${seata.db.password}
+      query-limit: 1000
+      url: ${seata.db.url}
+      user: ${seata.db.username}
+    mode: db
+server:
+  port: 7091
+spring:
+  application:
+    name: fly-seata-server
+~~~
+
+{% note warning simple %}
+注意配置带${xx}的需要再配置中心配上，以防止需要更改
+{% endnote %}
+
+docker run --volume=D:\docker_mapping\seata\conf\application.yml:/seata-server/resources/application.yml --volume=D:\docker_mapping\seata\logs:/root/logs/seata -p 7091:7091 -p 8091:8091 -d seataio/seata-server:2.0.0
+
