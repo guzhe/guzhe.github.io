@@ -512,5 +512,4 @@ spring:
 注意配置带${xx}的需要再配置中心配上，以防止需要更改
 {% endnote %}
 
-docker run --volume=D:\docker_mapping\seata\conf\application.yml:/seata-server/resources/application.yml --volume=D:\docker_mapping\seata\logs:/root/logs/seata -p 7091:7091 -p 8091:8091 -d seataio/seata-server:2.0.0
-
+docker run -d --name=seata-server -e SEATA_IP=10.92.21.77 -e HOSTIP=10.92.21.77  --volume=D:\docker_mapping\seata\conf\application.yml:/seata-server/resources/application.yml --volume=D:\docker_mapping\seata\logs:/root/logs/seata -p 7091:7091 -p 8091:8091 --privileged=true seataio/seata-server:2.0.0
