@@ -547,6 +547,59 @@ This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfl
       </tags>
   </entry>
   <entry>
+    <title>idea 开启远程访问docker(window)</title>
+    <url>/2024/10/12/idea%20%E5%BC%80%E5%90%AF%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEdocker(window)/</url>
+    <content><![CDATA[<h4 id="docker-for-window"><a href="#docker-for-window" class="headerlink" title="docker for window"></a>docker for window</h4><ol>
+<li>在设置里找到 General 将 “Expose daemon on tcp://localhost:2375 without TLS” 一项勾选中  </li>
+<li>设置里找到 docker engine 将配置新增节点： “hosts”:[“tcp://0.0.0.0:2375”] 参考配置如下：  <pre class="line-numbers language-none"><code class="language-none">&#123;
+  &quot;builder&quot;: &#123;
+    &quot;gc&quot;: &#123;
+      &quot;defaultKeepStorage&quot;: &quot;20GB&quot;,
+      &quot;enabled&quot;: true
+    &#125;
+  &#125;,
+  &quot;experimental&quot;: false,
+  &quot;hosts&quot;: [
+    &quot;tcp:&#x2F;&#x2F;0.0.0.0:2375&quot;
+  ]
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<h4 id="用管理员身份运行CMD命令"><a href="#用管理员身份运行CMD命令" class="headerlink" title="用管理员身份运行CMD命令"></a>用管理员身份运行CMD命令</h4><p>netsh interface portproxy reset<br>netsh interface portproxy add v4tov4 listenport=2375 connectaddress=localhost connectport=2375<br>net start iphlpsvc</p>
+<blockquote>
+<p>查看命令： netsh interface portproxy all</p>
+</blockquote>
+<h4 id="idea-配置"><a href="#idea-配置" class="headerlink" title="idea 配置"></a>idea 配置</h4><p>在services窗口中添加docker connection<br>如果docker for Window 运行在本电脑中，则直接勾选“docker for Window ”选项即可<br>如果是远程访问，则需要选择TCP socket 填写 Engine API URL 例如： tcp://远程计算机IP地址:2375  </p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2020/04/16/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>docker常用镜像运行</title>
     <url>/2024/02/28/docker-runs/</url>
     <content><![CDATA[<h4 id="ELK-简单搭建"><a href="#ELK-简单搭建" class="headerlink" title="ELK 简单搭建"></a>ELK 简单搭建</h4><p>docker pull docker.elastic.co/elasticsearch/elasticsearch:7.15.1 </p>
@@ -905,6 +958,85 @@ spring:
       </tags>
   </entry>
   <entry>
+    <title>maven-archetype-plugin使用</title>
+    <url>/2024/07/28/maven-archetype-plugin%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<blockquote>
+<p>导语： 做项目架构时发现公司项目结构不一致导致建项问题多，为了统一使用模版建项，故此使用此maven功能插件</p>
+</blockquote>
+<h4 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h4><ol>
+<li>在项目 pom.xml 中 添加一下内容  <pre class="line-numbers language-none"><code class="language-none">&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;maven-archetype-plugin&lt;&#x2F;artifactId&gt;
+    &lt;version&gt;3.2.0&lt;&#x2F;version&gt;
+    &lt;configuration&gt;
+        &lt;propertyFile&gt;archetype.properties&lt;&#x2F;propertyFile&gt;
+    &lt;&#x2F;configuration&gt;
+&lt;&#x2F;plugin&gt;
+       <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>在项目根目录下新建 archetype.properties 内容如下<pre class="line-numbers language-none"><code class="language-none"># 定义模板groupId
+archetype.groupId&#x3D;org.voice
+# 定义模板artifactId（一般以 ‘-archetype’结尾区分）
+archetype.artifactId&#x3D;webTemplateApplication-archetype
+archetype.version&#x3D;1.0
+# 排除的文件
+excludePatterns&#x3D;**&#x2F;.idea&#x2F;**,**&#x2F;*.iml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>创建archetype骨架<br>在项目根目录下运行以下代码：<pre class="line-numbers language-none"><code class="language-none">mvn clean archetype:create-from-project<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>安装archetype到本地<br>进入target/generated-sources/archetype目录下，执行指令：</p>
+<pre class="line-numbers language-none"><code class="language-none">mvn clean install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+<li><p>生成archetype-catalog.xml文件  </p>
+<pre class="line-numbers language-none"><code class="language-none">mvn archetype:crawl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ol>
+<h4 id="如果需要安装archetype到远程naxus私服"><a href="#如果需要安装archetype到远程naxus私服" class="headerlink" title="如果需要安装archetype到远程naxus私服"></a>如果需要安装archetype到远程naxus私服</h4><p>进入target/generated-sources/archetype目录下，打开此目录下的pom.xml 文件 添加distributionManagement配置后执行 mvn deploy 命令   </p>
+<blockquote>
+<p>注：需在maven settings.xml 中增加私服账号密码配置<br><pre class="line-numbers language-none"><code class="language-none">&lt;distributionManagement&gt;
+   &lt;repository&gt;
+     &lt;id&gt;maven-releases&lt;&#x2F;id&gt;
+     &lt;name&gt;Nexus Releases&lt;&#x2F;name&gt;
+     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-releases&lt;&#x2F;url&gt;
+   &lt;&#x2F;repository&gt;
+   &lt;snapshotRepository&gt;
+     &lt;id&gt;maven-snapshots&lt;&#x2F;id&gt;&lt;!-- id 需要对应 settings 中的配置 id --&gt;
+     &lt;name&gt;Nexus Snapshot&lt;&#x2F;name&gt;
+     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-snapshots&#x2F;&lt;&#x2F;url&gt;
+   &lt;&#x2F;snapshotRepository&gt;
+ &lt;&#x2F;distributionManagement&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+</blockquote>
+<h4 id="使用模版创建项目"><a href="#使用模版创建项目" class="headerlink" title="使用模版创建项目"></a>使用模版创建项目</h4><ol>
+<li><p>工具生成 以idea为例<br>依次选择菜单 file—&gt; new —&gt; project<br>在打开的弹框中 catalog  选择 Default_Local (这个从本地maven仓库中找到模版，之前步骤中已将模版坐标生成到本地的archetype-catalog.xml中)<br>archetype 点击 add 在弹框输入 在（archetype.properties）文件中对应的信息即可</p>
+</li>
+<li><p>使用脚本bat或shell生成项目</p>
+</li>
+</ol>
+<p>shell</p>
+<pre class="line-numbers language-none"><code class="language-none">mvn --version
+mvn archetype:generate -B 
+-DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
+-DarchetypeGroupId&#x3D;xx 
+-DarchetypeArtifactId&#x3D;xx
+-DarchetypeVersion&#x3D;xx
+-DgroupId&#x3D;xx
+-DartifactId&#x3D;xx
+-Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>bat<br><pre class="line-numbers language-none"><code class="language-none">mvn --version
+mvn archetype:generate -B ^
+-DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
+-DarchetypeGroupId&#x3D;xx
+-DarchetypeArtifactId&#x3D;xx
+-DarchetypeVersion&#x3D;1.0.0 
+-DgroupId&#x3D;xx.xx
+-DartifactId&#x3D;xx
+-Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>maven</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ftl模版表格中根据条件合并行</title>
     <url>/2025/03/31/ftl%E6%A8%A1%E7%89%88%E8%A1%A8%E6%A0%BC%E4%B8%AD%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E5%90%88%E5%B9%B6%E8%A1%8C/</url>
     <content><![CDATA[<h4 id="序章"><a href="#序章" class="headerlink" title="序章"></a>序章</h4><blockquote>
@@ -1068,138 +1200,6 @@ spring:
       <tags>
         <tag>工具</tag>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2020/04/16/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>others</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>idea 开启远程访问docker(window)</title>
-    <url>/2024/10/12/idea%20%E5%BC%80%E5%90%AF%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEdocker(window)/</url>
-    <content><![CDATA[<h4 id="docker-for-window"><a href="#docker-for-window" class="headerlink" title="docker for window"></a>docker for window</h4><ol>
-<li>在设置里找到 General 将 “Expose daemon on tcp://localhost:2375 without TLS” 一项勾选中  </li>
-<li>设置里找到 docker engine 将配置新增节点： “hosts”:[“tcp://0.0.0.0:2375”] 参考配置如下：  <pre class="line-numbers language-none"><code class="language-none">&#123;
-  &quot;builder&quot;: &#123;
-    &quot;gc&quot;: &#123;
-      &quot;defaultKeepStorage&quot;: &quot;20GB&quot;,
-      &quot;enabled&quot;: true
-    &#125;
-  &#125;,
-  &quot;experimental&quot;: false,
-  &quot;hosts&quot;: [
-    &quot;tcp:&#x2F;&#x2F;0.0.0.0:2375&quot;
-  ]
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<h4 id="用管理员身份运行CMD命令"><a href="#用管理员身份运行CMD命令" class="headerlink" title="用管理员身份运行CMD命令"></a>用管理员身份运行CMD命令</h4><p>netsh interface portproxy reset<br>netsh interface portproxy add v4tov4 listenport=2375 connectaddress=localhost connectport=2375<br>net start iphlpsvc</p>
-<blockquote>
-<p>查看命令： netsh interface portproxy all</p>
-</blockquote>
-<h4 id="idea-配置"><a href="#idea-配置" class="headerlink" title="idea 配置"></a>idea 配置</h4><p>在services窗口中添加docker connection<br>如果docker for Window 运行在本电脑中，则直接勾选“docker for Window ”选项即可<br>如果是远程访问，则需要选择TCP socket 填写 Engine API URL 例如： tcp://远程计算机IP地址:2375  </p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>maven-archetype-plugin使用</title>
-    <url>/2024/07/28/maven-archetype-plugin%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<blockquote>
-<p>导语： 做项目架构时发现公司项目结构不一致导致建项问题多，为了统一使用模版建项，故此使用此maven功能插件</p>
-</blockquote>
-<h4 id="使用总结"><a href="#使用总结" class="headerlink" title="使用总结"></a>使用总结</h4><ol>
-<li>在项目 pom.xml 中 添加一下内容  <pre class="line-numbers language-none"><code class="language-none">&lt;plugin&gt;
-    &lt;groupId&gt;org.apache.maven.plugins&lt;&#x2F;groupId&gt;
-    &lt;artifactId&gt;maven-archetype-plugin&lt;&#x2F;artifactId&gt;
-    &lt;version&gt;3.2.0&lt;&#x2F;version&gt;
-    &lt;configuration&gt;
-        &lt;propertyFile&gt;archetype.properties&lt;&#x2F;propertyFile&gt;
-    &lt;&#x2F;configuration&gt;
-&lt;&#x2F;plugin&gt;
-       <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li>在项目根目录下新建 archetype.properties 内容如下<pre class="line-numbers language-none"><code class="language-none"># 定义模板groupId
-archetype.groupId&#x3D;org.voice
-# 定义模板artifactId（一般以 ‘-archetype’结尾区分）
-archetype.artifactId&#x3D;webTemplateApplication-archetype
-archetype.version&#x3D;1.0
-# 排除的文件
-excludePatterns&#x3D;**&#x2F;.idea&#x2F;**,**&#x2F;*.iml<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li>创建archetype骨架<br>在项目根目录下运行以下代码：<pre class="line-numbers language-none"><code class="language-none">mvn clean archetype:create-from-project<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
-<li><p>安装archetype到本地<br>进入target/generated-sources/archetype目录下，执行指令：</p>
-<pre class="line-numbers language-none"><code class="language-none">mvn clean install<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-<li><p>生成archetype-catalog.xml文件  </p>
-<pre class="line-numbers language-none"><code class="language-none">mvn archetype:crawl<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-</ol>
-<h4 id="如果需要安装archetype到远程naxus私服"><a href="#如果需要安装archetype到远程naxus私服" class="headerlink" title="如果需要安装archetype到远程naxus私服"></a>如果需要安装archetype到远程naxus私服</h4><p>进入target/generated-sources/archetype目录下，打开此目录下的pom.xml 文件 添加distributionManagement配置后执行 mvn deploy 命令   </p>
-<blockquote>
-<p>注：需在maven settings.xml 中增加私服账号密码配置<br><pre class="line-numbers language-none"><code class="language-none">&lt;distributionManagement&gt;
-   &lt;repository&gt;
-     &lt;id&gt;maven-releases&lt;&#x2F;id&gt;
-     &lt;name&gt;Nexus Releases&lt;&#x2F;name&gt;
-     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-releases&lt;&#x2F;url&gt;
-   &lt;&#x2F;repository&gt;
-   &lt;snapshotRepository&gt;
-     &lt;id&gt;maven-snapshots&lt;&#x2F;id&gt;&lt;!-- id 需要对应 settings 中的配置 id --&gt;
-     &lt;name&gt;Nexus Snapshot&lt;&#x2F;name&gt;
-     &lt;url&gt;http:&#x2F;&#x2F;10.92.33.112:9081&#x2F;repository&#x2F;maven-snapshots&#x2F;&lt;&#x2F;url&gt;
-   &lt;&#x2F;snapshotRepository&gt;
- &lt;&#x2F;distributionManagement&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-</blockquote>
-<h4 id="使用模版创建项目"><a href="#使用模版创建项目" class="headerlink" title="使用模版创建项目"></a>使用模版创建项目</h4><ol>
-<li><p>工具生成 以idea为例<br>依次选择菜单 file—&gt; new —&gt; project<br>在打开的弹框中 catalog  选择 Default_Local (这个从本地maven仓库中找到模版，之前步骤中已将模版坐标生成到本地的archetype-catalog.xml中)<br>archetype 点击 add 在弹框输入 在（archetype.properties）文件中对应的信息即可</p>
-</li>
-<li><p>使用脚本bat或shell生成项目</p>
-</li>
-</ol>
-<p>shell</p>
-<pre class="line-numbers language-none"><code class="language-none">mvn --version
-mvn archetype:generate -B 
--DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
--DarchetypeGroupId&#x3D;xx 
--DarchetypeArtifactId&#x3D;xx
--DarchetypeVersion&#x3D;xx
--DgroupId&#x3D;xx
--DartifactId&#x3D;xx
--Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>bat<br><pre class="line-numbers language-none"><code class="language-none">mvn --version
-mvn archetype:generate -B ^
--DarchetypeCatalog&#x3D;http:&#x2F;&#x2F;127.0.0.1:8081&#x2F;nexus&#x2F;content&#x2F;repositories&#x2F;releases&#x2F;
--DarchetypeGroupId&#x3D;xx
--DarchetypeArtifactId&#x3D;xx
--DarchetypeVersion&#x3D;1.0.0 
--DgroupId&#x3D;xx.xx
--DartifactId&#x3D;xx
--Dversion&#x3D;xx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -1660,6 +1660,67 @@ CALL fin_invoice_log_record_archive();
       </tags>
   </entry>
   <entry>
+    <title>食物科普</title>
+    <url>/2023/10/25/%E5%81%A5%E5%BA%B7%E9%A3%9F%E7%89%A9%E7%A7%91%E6%99%AE/</url>
+    <content><![CDATA[<h4 id="低热量和低脂肪食物有哪些"><a href="#低热量和低脂肪食物有哪些" class="headerlink" title="低热量和低脂肪食物有哪些"></a>低热量和低脂肪食物有哪些</h4><p>低热量和低脂肪食物通常含有较少的能量和脂肪，适合需要控制体重或减少脂肪摄入的人群。以下是一些常见的低热量和低脂肪食物：</p>
+<ol>
+<li>蔬菜：蔬菜通常富含纤维、维生素和矿物质，而且热量较低。例如，西兰花、胡萝卜、黄瓜、芹菜等。</li>
+<li>水果：水果是低热量的健康食物，富含维生素、矿物质和纤维。常见的低热量水果包括苹果、柑橘类水果、草莓、蓝莓等。</li>
+<li>瘦肉：选择低脂肪的瘦肉，如鸡胸肉、鱼肉（比如鲈鱼、鳕鱼）、火鸡肉等。这些肉类含有较少的脂肪，但提供丰富的蛋白质。</li>
+<li>蛋白质来源：蛋白质是重要的营养素，但部分蛋白质来源可能含有较高的脂肪。选择低脂肪的蛋白质来源，如鸡蛋白、豆腐、低脂奶制品（如低脂牛奶、低脂奶酪）等。</li>
+<li>全谷类食物：全谷类食物富含纤维和复杂碳水化合物，而且相对较低热量。例如燕麦、全麦面包、糙米等。</li>
+<li>低脂奶制品：选择低脂或非脂肪的奶制品，如低脂牛奶、非脂肪酸奶等，这些食物提供丰富的蛋白质和钙，但脂肪含量较低。</li>
+<li>蔬果汁：新鲜榨取的蔬果汁是低热量且富含营养的选择，可以尽量选择无糖添加的纯果汁。</li>
+<li>豆类：豆类是良好的蛋白质和纤维来源，同时含有较低的脂肪，如豆腐、扁豆、黑豆等。</li>
+<li>高纤维谷物：除了全谷类食物，还有其他高纤维的谷物，如燕麦片、麦片、全麦面条等。</li>
+<li>蔬菜汤：以蔬菜为主的汤食，可以提供丰富的营养，同时热量较低。</li>
+<li>低脂冰淇淋和酸奶：选择低脂或无脂的冰淇淋和酸奶，可以满足甜食的欲望，同时控制脂肪摄入。</li>
+<li>烤、蒸或煮的食物：相比于油炸或炒制的食物，烤、蒸或煮的食物通常含有更低的脂肪，是更健康的选择。</li>
+</ol>
+<h4 id="高热量和高脂肪食物有哪些"><a href="#高热量和高脂肪食物有哪些" class="headerlink" title="高热量和高脂肪食物有哪些"></a>高热量和高脂肪食物有哪些</h4><p>高热量和高脂肪食物通常富含能量，但过多摄入可能导致体重增加和健康问题。以下是一些常见的高热量和高脂肪食物：</p>
+<ol>
+<li>油炸食品：如薯条、炸鸡、炸鱼等，这些食物通常在烹饪过程中吸收了大量的油脂。</li>
+<li>快餐：快餐通常含有较高的脂肪和热量，例如汉堡包、炸鸡块、薯条等。</li>
+<li>糕点和甜点：蛋糕、巧克力、饼干、冰淇淋等含有大量的糖和脂肪，很容易导致热量过剩。</li>
+<li>奶油和奶制品：奶油、黄油、乳酪等含有较高的脂肪，需要适量消费。</li>
+<li>高脂肪肉类：肥牛、猪肉肥瘦相间的部位、鸭肉等富含脂肪的肉类，尽量适量食用。</li>
+<li>坚果和种子：虽然坚果和种子富含健康的脂肪，但它们也具有较高的热量，适量食用为宜。</li>
+</ol>
+<p>请注意，脂肪在适量的情况下是身体所需的重要营养素之一，但过量摄入可能对健康产生不良影响。在饮食中要注意平衡，选择低脂肪、低热量的食物，搭配丰富的蔬菜、水果和全谷类食物，以维持健康的饮食平衡。</p>
+<h4 id="高碘食物"><a href="#高碘食物" class="headerlink" title="高碘食物"></a>高碘食物</h4><ol>
+<li>海带</li>
+<li>紫菜</li>
+<li>海鱼 如：鳕鱼、鲑鱼、鳗鱼等</li>
+<li>昆布</li>
+<li>海虾 如：黑河虾</li>
+</ol>
+<h4 id="低碘食物"><a href="#低碘食物" class="headerlink" title="低碘食物"></a>低碘食物</h4><ol>
+<li>花甲</li>
+<li>碘盐</li>
+<li>螃蟹</li>
+<li>绿豆</li>
+<li>胡萝卜</li>
+<li>菠菜</li>
+<li>白芝麻</li>
+</ol>
+<h4 id="无碘食物"><a href="#无碘食物" class="headerlink" title="无碘食物"></a>无碘食物</h4><h4 id="低脂食物"><a href="#低脂食物" class="headerlink" title="低脂食物"></a>低脂食物</h4><h4 id="维生素A丰富的食物"><a href="#维生素A丰富的食物" class="headerlink" title="维生素A丰富的食物"></a>维生素A丰富的食物</h4><p>动物肝脏：猪肝、鹅肝、鸡肝等动物肝脏 含有大量的维生素A，能够快速被人体吸收。(4971ug/100g)</p>
+<p>西兰花 :(1202ug/100g)</p>
+<p>胡萝卜：这主要是胡萝卜中的胡萝卜素是维生素A的主要来源，胡萝卜素可以在人体内能转化成维生素A，同时也含维生素C (688ug/100g)</p>
+<p>菠菜：有丰富的维生素A,同时富含也含铁</p>
+<p>青蟹：也叫膏蟹 （402ug/100g）</p>
+<p>紫苋菜：（248ug/100g）</p>
+<p>韭菜</p>
+<p>鸡蛋</p>
+<h4 id="维生素B丰富的食物"><a href="#维生素B丰富的食物" class="headerlink" title="维生素B丰富的食物"></a>维生素B丰富的食物</h4><p>绿豆：绿豆含有丰富的B族维生素、矿物质等营养成分，其中维生素B1是鸡肉的17.5倍，维生素B2是禾谷类的2～4倍且高于猪肉、牛奶、鸡肉、鱼，钙是禾谷类的4倍、鸡肉的7倍，铁是鸡肉的4倍，磷是禾谷类及猪肉、鸡肉、鱼、鸡蛋的2倍，还含有多种人体所需的磷脂。同时也是低脂食物</p>
+]]></content>
+      <categories>
+        <category>健康</category>
+      </categories>
+      <tags>
+        <tag>食物</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>wmware centos7 虚拟机通过宿主机的Clash访问外网</title>
     <url>/2024/07/13/wmware%20centos7%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%80%9A%E8%BF%87%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9A%84Clash%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/</url>
     <content><![CDATA[<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>在使用虚拟机的时候，经常拉取不到镜像包，这个时候需要开启代理</p>
@@ -1734,67 +1795,6 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </categories>
       <tags>
         <tag>虚拟机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>食物科普</title>
-    <url>/2023/10/25/%E5%81%A5%E5%BA%B7%E9%A3%9F%E7%89%A9%E7%A7%91%E6%99%AE/</url>
-    <content><![CDATA[<h4 id="低热量和低脂肪食物有哪些"><a href="#低热量和低脂肪食物有哪些" class="headerlink" title="低热量和低脂肪食物有哪些"></a>低热量和低脂肪食物有哪些</h4><p>低热量和低脂肪食物通常含有较少的能量和脂肪，适合需要控制体重或减少脂肪摄入的人群。以下是一些常见的低热量和低脂肪食物：</p>
-<ol>
-<li>蔬菜：蔬菜通常富含纤维、维生素和矿物质，而且热量较低。例如，西兰花、胡萝卜、黄瓜、芹菜等。</li>
-<li>水果：水果是低热量的健康食物，富含维生素、矿物质和纤维。常见的低热量水果包括苹果、柑橘类水果、草莓、蓝莓等。</li>
-<li>瘦肉：选择低脂肪的瘦肉，如鸡胸肉、鱼肉（比如鲈鱼、鳕鱼）、火鸡肉等。这些肉类含有较少的脂肪，但提供丰富的蛋白质。</li>
-<li>蛋白质来源：蛋白质是重要的营养素，但部分蛋白质来源可能含有较高的脂肪。选择低脂肪的蛋白质来源，如鸡蛋白、豆腐、低脂奶制品（如低脂牛奶、低脂奶酪）等。</li>
-<li>全谷类食物：全谷类食物富含纤维和复杂碳水化合物，而且相对较低热量。例如燕麦、全麦面包、糙米等。</li>
-<li>低脂奶制品：选择低脂或非脂肪的奶制品，如低脂牛奶、非脂肪酸奶等，这些食物提供丰富的蛋白质和钙，但脂肪含量较低。</li>
-<li>蔬果汁：新鲜榨取的蔬果汁是低热量且富含营养的选择，可以尽量选择无糖添加的纯果汁。</li>
-<li>豆类：豆类是良好的蛋白质和纤维来源，同时含有较低的脂肪，如豆腐、扁豆、黑豆等。</li>
-<li>高纤维谷物：除了全谷类食物，还有其他高纤维的谷物，如燕麦片、麦片、全麦面条等。</li>
-<li>蔬菜汤：以蔬菜为主的汤食，可以提供丰富的营养，同时热量较低。</li>
-<li>低脂冰淇淋和酸奶：选择低脂或无脂的冰淇淋和酸奶，可以满足甜食的欲望，同时控制脂肪摄入。</li>
-<li>烤、蒸或煮的食物：相比于油炸或炒制的食物，烤、蒸或煮的食物通常含有更低的脂肪，是更健康的选择。</li>
-</ol>
-<h4 id="高热量和高脂肪食物有哪些"><a href="#高热量和高脂肪食物有哪些" class="headerlink" title="高热量和高脂肪食物有哪些"></a>高热量和高脂肪食物有哪些</h4><p>高热量和高脂肪食物通常富含能量，但过多摄入可能导致体重增加和健康问题。以下是一些常见的高热量和高脂肪食物：</p>
-<ol>
-<li>油炸食品：如薯条、炸鸡、炸鱼等，这些食物通常在烹饪过程中吸收了大量的油脂。</li>
-<li>快餐：快餐通常含有较高的脂肪和热量，例如汉堡包、炸鸡块、薯条等。</li>
-<li>糕点和甜点：蛋糕、巧克力、饼干、冰淇淋等含有大量的糖和脂肪，很容易导致热量过剩。</li>
-<li>奶油和奶制品：奶油、黄油、乳酪等含有较高的脂肪，需要适量消费。</li>
-<li>高脂肪肉类：肥牛、猪肉肥瘦相间的部位、鸭肉等富含脂肪的肉类，尽量适量食用。</li>
-<li>坚果和种子：虽然坚果和种子富含健康的脂肪，但它们也具有较高的热量，适量食用为宜。</li>
-</ol>
-<p>请注意，脂肪在适量的情况下是身体所需的重要营养素之一，但过量摄入可能对健康产生不良影响。在饮食中要注意平衡，选择低脂肪、低热量的食物，搭配丰富的蔬菜、水果和全谷类食物，以维持健康的饮食平衡。</p>
-<h4 id="高碘食物"><a href="#高碘食物" class="headerlink" title="高碘食物"></a>高碘食物</h4><ol>
-<li>海带</li>
-<li>紫菜</li>
-<li>海鱼 如：鳕鱼、鲑鱼、鳗鱼等</li>
-<li>昆布</li>
-<li>海虾 如：黑河虾</li>
-</ol>
-<h4 id="低碘食物"><a href="#低碘食物" class="headerlink" title="低碘食物"></a>低碘食物</h4><ol>
-<li>花甲</li>
-<li>碘盐</li>
-<li>螃蟹</li>
-<li>绿豆</li>
-<li>胡萝卜</li>
-<li>菠菜</li>
-<li>白芝麻</li>
-</ol>
-<h4 id="无碘食物"><a href="#无碘食物" class="headerlink" title="无碘食物"></a>无碘食物</h4><h4 id="低脂食物"><a href="#低脂食物" class="headerlink" title="低脂食物"></a>低脂食物</h4><h4 id="维生素A丰富的食物"><a href="#维生素A丰富的食物" class="headerlink" title="维生素A丰富的食物"></a>维生素A丰富的食物</h4><p>动物肝脏：猪肝、鹅肝、鸡肝等动物肝脏 含有大量的维生素A，能够快速被人体吸收。(4971ug/100g)</p>
-<p>西兰花 :(1202ug/100g)</p>
-<p>胡萝卜：这主要是胡萝卜中的胡萝卜素是维生素A的主要来源，胡萝卜素可以在人体内能转化成维生素A，同时也含维生素C (688ug/100g)</p>
-<p>菠菜：有丰富的维生素A,同时富含也含铁</p>
-<p>青蟹：也叫膏蟹 （402ug/100g）</p>
-<p>紫苋菜：（248ug/100g）</p>
-<p>韭菜</p>
-<p>鸡蛋</p>
-<h4 id="维生素B丰富的食物"><a href="#维生素B丰富的食物" class="headerlink" title="维生素B丰富的食物"></a>维生素B丰富的食物</h4><p>绿豆：绿豆含有丰富的B族维生素、矿物质等营养成分，其中维生素B1是鸡肉的17.5倍，维生素B2是禾谷类的2～4倍且高于猪肉、牛奶、鸡肉、鱼，钙是禾谷类的4倍、鸡肉的7倍，铁是鸡肉的4倍，磷是禾谷类及猪肉、鸡肉、鱼、鸡蛋的2倍，还含有多种人体所需的磷脂。同时也是低脂食物</p>
-]]></content>
-      <categories>
-        <category>健康</category>
-      </categories>
-      <tags>
-        <tag>食物</tag>
       </tags>
   </entry>
   <entry>
@@ -1913,6 +1913,30 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
+    <title>吉丽装修记【2】</title>
+    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
+    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
+<blockquote>
+<blockquote>
+<p>装修整理文档1.1版</p>
+<p><iframe 
+style="width: 100%;
+    height: 90%" 
+src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
+</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
+<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
+<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
+</blockquote>
+</blockquote>
+]]></content>
+      <categories>
+        <category>吉丽装修记</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>吉丽装修记【1】</title>
     <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
     <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
@@ -1945,21 +1969,35 @@ src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlm
       </tags>
   </entry>
   <entry>
-    <title>吉丽装修记【2】</title>
-    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
-    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
-<blockquote>
-<blockquote>
-<p>装修整理文档1.1版</p>
-<p><iframe 
+    <title>吉丽装修记【终】</title>
+    <url>/2023/08/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%90%E7%BB%88%E3%80%91/</url>
+    <content><![CDATA[<h5 id="装修交付视频1-0"><a href="#装修交付视频1-0" class="headerlink" title="装修交付视频1.0"></a>装修交付视频1.0</h5><div style="position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;">
+<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;"
+    src="https://files.guzlife.site/video/%E8%A3%85%E4%BF%AE%E4%BA%A4%E4%BB%981.0.mp4">
+</iframe>
+</div>
+
+<h5 id="PDF设计图纸预览"><a href="#PDF设计图纸预览" class="headerlink" title="PDF设计图纸预览"></a>PDF设计图纸预览</h5><div style = "border:1px; width:100%; height:1200px;">
+<iframe 
 style="width: 100%;
-    height: 90%" 
-src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
-</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
-<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
-<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
-</blockquote>
-</blockquote>
+    height: 100%" 
+src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FpmIXmsZ%2FlupwuZG9jeA%3D%3D">
+</iframe>
+</div>
+
+
+<h5 id="PDF设计图纸下载"><a href="#PDF设计图纸下载" class="headerlink" title="PDF设计图纸下载"></a>PDF设计图纸下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/白沙洲阅江府.pdf">点击下载—&gt;</a></p>
+<h5 id="10栋总平面图下载"><a href="#10栋总平面图下载" class="headerlink" title="10栋总平面图下载"></a>10栋总平面图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋总平面图.pdf">点击下载—&gt;</a></p>
+<h5 id="10栋2单元dwg户型图下载"><a href="#10栋2单元dwg户型图下载" class="headerlink" title="10栋2单元dwg户型图下载"></a>10栋2单元dwg户型图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋01户户型平面图_t3.dwg">点击下载—&gt;</a></p>
 ]]></content>
       <categories>
         <category>吉丽装修记</category>
@@ -2038,86 +2076,6 @@ public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUni
       </categories>
       <tags>
         <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>吉丽装修记【终】</title>
-    <url>/2023/08/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%90%E7%BB%88%E3%80%91/</url>
-    <content><![CDATA[<h5 id="装修交付视频1-0"><a href="#装修交付视频1-0" class="headerlink" title="装修交付视频1.0"></a>装修交付视频1.0</h5><div style="position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    width: 100%;
-    height: 50%;
-    overflow: hidden;">
-<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;"
-    src="https://files.guzlife.site/video/%E8%A3%85%E4%BF%AE%E4%BA%A4%E4%BB%981.0.mp4">
-</iframe>
-</div>
-
-<h5 id="PDF设计图纸预览"><a href="#PDF设计图纸预览" class="headerlink" title="PDF设计图纸预览"></a>PDF设计图纸预览</h5><div style = "border:1px; width:100%; height:1200px;">
-<iframe 
-style="width: 100%;
-    height: 100%" 
-src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FpmIXmsZ%2FlupwuZG9jeA%3D%3D">
-</iframe>
-</div>
-
-
-<h5 id="PDF设计图纸下载"><a href="#PDF设计图纸下载" class="headerlink" title="PDF设计图纸下载"></a>PDF设计图纸下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/白沙洲阅江府.pdf">点击下载—&gt;</a></p>
-<h5 id="10栋总平面图下载"><a href="#10栋总平面图下载" class="headerlink" title="10栋总平面图下载"></a>10栋总平面图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋总平面图.pdf">点击下载—&gt;</a></p>
-<h5 id="10栋2单元dwg户型图下载"><a href="#10栋2单元dwg户型图下载" class="headerlink" title="10栋2单元dwg户型图下载"></a>10栋2单元dwg户型图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋01户户型平面图_t3.dwg">点击下载—&gt;</a></p>
-]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>结合apollo动态刷新日志级别</title>
-    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><blockquote>
-<p>/**</p>
-<ul>
-<li>结合apollo动态刷新日志级别</li>
-<li>@author: zhumh17</li>
-<li><p>@date: 11点50分<br>*/<br> @Configuration<br> public class LogListenerConfig {</p>
-<p> private static final Logger logger = LoggerFactory.getLogger&gt; (LoggerConfiguration.class);<br> /**</p>
-<ul>
-<li><p>监听关键字，当配置中心的依次开头的配置发生变化时，日志级别刷新<br>*/<br>private static final String LOGGER_TAG = “logging.level”;</p>
-<p>private LoggingSystem loggingSystem;<br>public LogListenerConfig(LoggingSystem loggingSystem) {<br> Assert.notNull(loggingSystem, “LoggingSystem must not be null”);<br> this.loggingSystem = loggingSystem;<br>}</p>
-</li>
-</ul>
-</li>
-</ul>
-<pre><code>@ApolloConfigChangeListener(value = &quot;application.yml&quot;)
-public void configChangeLister(ConfigChangeEvent changeEvent) &#123;
-    refreshLoggingLevels(changeEvent);
-&#125;
-
-private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
-    ConfigChange configChange = changeEvent.getChange(LOGGER_TAG);
-    String strLevel = configChange.getNewValue();
-    LogLevel level = LogLevel.valueOf(strLevel.toUpperCase());
-    loggingSystem.setLogLevel(&quot;com.vx&quot;, level);
-    logger.info(&quot;日志级别变化&#123;&#125;:&#123;&#125;&quot;,LOGGER_TAG,strLevel);
-&#125;
-</code></pre><p>}</p>
-</blockquote>
-<h2 id="这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别"><a href="#这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别" class="headerlink" title="这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别"></a>这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别</h2><h2 id="末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog"><a href="#末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog" class="headerlink" title="末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog"></a>末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog</h2><blockquote>
-<p>TLog提供了一种最简单的方式来解决日志追踪问题，它不收集日志，也不需要另外的存储空间，它只是自动的对你的日志进行打标签，自动生成TraceId贯穿你微服务的一整条链路。并且提供上下游节点信息。适合中小型企业以及想快速解决日志追踪问题的公司项目使用。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>日志</tag>
       </tags>
   </entry>
   <entry>
@@ -2231,6 +2189,48 @@ private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
       </tags>
   </entry>
   <entry>
+    <title>结合apollo动态刷新日志级别</title>
+    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><blockquote>
+<p>/**</p>
+<ul>
+<li>结合apollo动态刷新日志级别</li>
+<li>@author: zhumh17</li>
+<li><p>@date: 11点50分<br>*/<br> @Configuration<br> public class LogListenerConfig {</p>
+<p> private static final Logger logger = LoggerFactory.getLogger&gt; (LoggerConfiguration.class);<br> /**</p>
+<ul>
+<li><p>监听关键字，当配置中心的依次开头的配置发生变化时，日志级别刷新<br>*/<br>private static final String LOGGER_TAG = “logging.level”;</p>
+<p>private LoggingSystem loggingSystem;<br>public LogListenerConfig(LoggingSystem loggingSystem) {<br> Assert.notNull(loggingSystem, “LoggingSystem must not be null”);<br> this.loggingSystem = loggingSystem;<br>}</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>@ApolloConfigChangeListener(value = &quot;application.yml&quot;)
+public void configChangeLister(ConfigChangeEvent changeEvent) &#123;
+    refreshLoggingLevels(changeEvent);
+&#125;
+
+private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
+    ConfigChange configChange = changeEvent.getChange(LOGGER_TAG);
+    String strLevel = configChange.getNewValue();
+    LogLevel level = LogLevel.valueOf(strLevel.toUpperCase());
+    loggingSystem.setLogLevel(&quot;com.vx&quot;, level);
+    logger.info(&quot;日志级别变化&#123;&#125;:&#123;&#125;&quot;,LOGGER_TAG,strLevel);
+&#125;
+</code></pre><p>}</p>
+</blockquote>
+<h2 id="这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别"><a href="#这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别" class="headerlink" title="这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别"></a>这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别</h2><h2 id="末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog"><a href="#末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog" class="headerlink" title="末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog"></a>末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog</h2><blockquote>
+<p>TLog提供了一种最简单的方式来解决日志追踪问题，它不收集日志，也不需要另外的存储空间，它只是自动的对你的日志进行打标签，自动生成TraceId贯穿你微服务的一整条链路。并且提供上下游节点信息。适合中小型企业以及想快速解决日志追踪问题的公司项目使用。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>日志</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>父工程从springboot1.5.x 升级到2.5.15总结.md</title>
     <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot1.5.x%20%E5%8D%87%E7%BA%A7%E5%88%B02.5.15%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
@@ -2308,11 +2308,15 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
     <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot2.7.18%E5%8D%87%E7%BA%A7%E5%88%B03.4.2%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
 <li>组织变更导致 javax.xxx 需要改成 jakarta.xxx </li>
-<li>mybatisplus 版本需要升级，本次升级到3.5.9; baomidou的dynamic-datasource升级至4.2.0</li>
+<li>mybatisplus 问题<br> 2.1 mybatisplus版本需要升级，本次升级到3.5.9; baomidou的dynamic-datasource换包升级 （dynamic-datasource-spring-boot3-starter）4.3.0  <blockquote>
+<p>注意原来dynamic-datasource-spring-boot-starter 不支持springboot3.x的版本，使用dynamic-datasource-spring-boot3-starter<br> 2.2 升级后分页插件等class找不到需要单独引入 mybatis-plus-jsqlparser 最低版本3.5.9<br> 2.3 升级后 封装继承AbstractMethod时注意写法需要有构造器，传入methodName参数 </p>
+</blockquote>
+</li>
+<li>加载数据库驱动，springboot3.0开始mysql驱动改为com.mysql.cj.jdbc.Driver，而非com.mysql.jdbc.Driver    </li>
 <li>hutool 从5.7.10升级到5.8.34, guava 从30.0-jre升级到33.3.1-jre</li>
 <li>如果项目应用了apollo老版本也需要升级，本次升级到2.3.0</li>
-<li>jdk升级到17,项目以及maven编译等级也需要升到17</li>
-<li>如果使用了spring cloud 升级到2024.0.0之后</li>
+<li>jdk升级到17/21,项目以及maven编译等级也需要升到17/21</li>
+<li>如果使用了spring cloud 升级到2024.0.0之后<br>…</li>
 </ol>
 <h4 id="配置写法问题"><a href="#配置写法问题" class="headerlink" title="配置写法问题"></a>配置写法问题</h4><p>redis原来写法为：<br><pre class="line-numbers language-none"><code class="language-none">spring:
   redis:
@@ -2385,80 +2389,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </categories>
       <tags>
         <tag>小记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>瓦克玻璃胶采购</title>
-    <url>/2023/06/17/%E7%8E%BB%E7%92%83%E8%83%B6%E9%87%87%E8%B4%AD/</url>
-    <content><![CDATA[<p>瓦克一瓶按标准的缝隙大小打10米左右 </p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">型号/价格</th>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">产品特点</th>
-<th style="text-align:center">使用范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">DA(87元/瓶)</td>
-<td style="text-align:center">强效防霉醇型中性硅酮密封胶</td>
-<td style="text-align:center">12倍0级防霉标准  德国EC1环保认证 法国A+认证</td>
-<td style="text-align:center">厨卫淋浴房等场所防霉密封</td>
-</tr>
-<tr>
-<td style="text-align:center">KB(59元/瓶)</td>
-<td style="text-align:center">厨房卫浴专用长效防霉密封胶</td>
-<td style="text-align:center">德国EC环保认证 0级长效防霉</td>
-<td style="text-align:center">厨房卫浴防霉专用</td>
-</tr>
-<tr>
-<td style="text-align:center">GM(30元/瓶)</td>
-<td style="text-align:center">醇型中性硅酮密封胶</td>
-<td style="text-align:center">通过SGS检测甲醛释放符合环保标准</td>
-<td style="text-align:center">用于家装装潢、踢脚线、门套、窗户、吊顶等密封</td>
-</tr>
-<tr>
-<td style="text-align:center">SN(41元/瓶)</td>
-<td style="text-align:center">醇型厨卫防霉硅酮密封胶</td>
-<td style="text-align:center">0级长效防霉</td>
-<td style="text-align:center">台盆，马桶，灶台等一般厨房卫生间等洁具防霉</td>
-</tr>
-<tr>
-<td style="text-align:center">CA(72元/瓶)</td>
-<td style="text-align:center">防霉醇型中性硅酮密封胶</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">DA降级版</td>
-</tr>
-<tr>
-<td style="text-align:center">GF(68元/瓶)</td>
-<td style="text-align:center">晶彩美容胶</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">CS(36元/瓶)</td>
-<td style="text-align:center">建筑中性硅酮密封胶（耐候胶）</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">室外门窗装配耐候密封</td>
-</tr>
-<tr>
-<td style="text-align:center">HA(69元/瓶)</td>
-<td style="text-align:center">高强度胶粘剂</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">五金、木材、金属、玻璃等的粘接</td>
-</tr>
-</tbody>
-</table>
-</div>
-]]></content>
-      <categories>
-        <category>购物</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
       </tags>
   </entry>
   <entry>
@@ -2553,6 +2483,80 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </categories>
       <tags>
         <tag>小记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>瓦克玻璃胶采购</title>
+    <url>/2023/06/17/%E7%8E%BB%E7%92%83%E8%83%B6%E9%87%87%E8%B4%AD/</url>
+    <content><![CDATA[<p>瓦克一瓶按标准的缝隙大小打10米左右 </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">型号/价格</th>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">产品特点</th>
+<th style="text-align:center">使用范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DA(87元/瓶)</td>
+<td style="text-align:center">强效防霉醇型中性硅酮密封胶</td>
+<td style="text-align:center">12倍0级防霉标准  德国EC1环保认证 法国A+认证</td>
+<td style="text-align:center">厨卫淋浴房等场所防霉密封</td>
+</tr>
+<tr>
+<td style="text-align:center">KB(59元/瓶)</td>
+<td style="text-align:center">厨房卫浴专用长效防霉密封胶</td>
+<td style="text-align:center">德国EC环保认证 0级长效防霉</td>
+<td style="text-align:center">厨房卫浴防霉专用</td>
+</tr>
+<tr>
+<td style="text-align:center">GM(30元/瓶)</td>
+<td style="text-align:center">醇型中性硅酮密封胶</td>
+<td style="text-align:center">通过SGS检测甲醛释放符合环保标准</td>
+<td style="text-align:center">用于家装装潢、踢脚线、门套、窗户、吊顶等密封</td>
+</tr>
+<tr>
+<td style="text-align:center">SN(41元/瓶)</td>
+<td style="text-align:center">醇型厨卫防霉硅酮密封胶</td>
+<td style="text-align:center">0级长效防霉</td>
+<td style="text-align:center">台盆，马桶，灶台等一般厨房卫生间等洁具防霉</td>
+</tr>
+<tr>
+<td style="text-align:center">CA(72元/瓶)</td>
+<td style="text-align:center">防霉醇型中性硅酮密封胶</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">DA降级版</td>
+</tr>
+<tr>
+<td style="text-align:center">GF(68元/瓶)</td>
+<td style="text-align:center">晶彩美容胶</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">CS(36元/瓶)</td>
+<td style="text-align:center">建筑中性硅酮密封胶（耐候胶）</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">室外门窗装配耐候密封</td>
+</tr>
+<tr>
+<td style="text-align:center">HA(69元/瓶)</td>
+<td style="text-align:center">高强度胶粘剂</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">五金、木材、金属、玻璃等的粘接</td>
+</tr>
+</tbody>
+</table>
+</div>
+]]></content>
+      <categories>
+        <category>购物</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
       </tags>
   </entry>
   <entry>
