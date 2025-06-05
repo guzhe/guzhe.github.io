@@ -11,11 +11,17 @@ date: 2024-04-23 15:56:00
 
 #### 包冲突
 1. 组织变更导致 javax.xxx 需要改成 jakarta.xxx 
-2. mybatisplus 版本需要升级，本次升级到3.5.9; baomidou的dynamic-datasource升级至4.2.0
-3. hutool 从5.7.10升级到5.8.34, guava 从30.0-jre升级到33.3.1-jre
-4. 如果项目应用了apollo老版本也需要升级，本次升级到2.3.0
-5. jdk升级到17,项目以及maven编译等级也需要升到17
-6. 如果使用了spring cloud 升级到2024.0.0之后
+2. mybatisplus 问题  
+	2.1 mybatisplus版本需要升级，本次升级到3.5.9; baomidou的dynamic-datasource换包升级 （dynamic-datasource-spring-boot3-starter）4.3.0  
+> 注意原来dynamic-datasource-spring-boot-starter 不支持springboot3.x的版本，使用dynamic-datasource-spring-boot3-starter  
+	2.2 升级后分页插件等class找不到需要单独引入 mybatis-plus-jsqlparser 最低版本3.5.9   
+	2.3 升级后 封装继承AbstractMethod时注意写法需要有构造器，传入methodName参数 
+3. 加载数据库驱动，springboot3.0开始mysql驱动改为com.mysql.cj.jdbc.Driver，而非com.mysql.jdbc.Driver	
+4. hutool 从5.7.10升级到5.8.34, guava 从30.0-jre升级到33.3.1-jre
+5. 如果项目应用了apollo老版本也需要升级，本次升级到2.3.0
+6. jdk升级到17/21,项目以及maven编译等级也需要升到17/21
+7. 如果使用了spring cloud 升级到2024.0.0之后  
+...
 
 #### 配置写法问题
 
