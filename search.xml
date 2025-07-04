@@ -150,169 +150,6 @@ if($(this).text().length &gt; length)&#123;
       </tags>
   </entry>
   <entry>
-    <title>Jenkins+Docker 一键自动化部署 SpringBoot 项目</title>
-    <url>/2024/01/24/Jenkins+Docker%20%E4%B8%80%E9%94%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%20SpringBoot%20%E9%A1%B9%E7%9B%AE/</url>
-    <content><![CDATA[<p>本文章实现最简单全面的<code>Jenkins+docker+springboot</code> 一键自动部署项目，步骤齐全，少走坑路。</p>
-<blockquote>
-<p>环境：centos7+git(gitee)</p>
-</blockquote>
-<p>简述实现步骤：在docker安装jenkins，配置jenkins基本信息，利用Dockerfile和shell脚本实现项目自动拉取打包并运行。</p>
-<h3 id="一、centos安装docker"><a href="#一、centos安装docker" class="headerlink" title="一、centos安装docker"></a>一、centos安装docker</h3><p>docker安装社区版本CE</p>
-<p>1.确保 yum 包更新到最新。</p>
-<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">yum <span class="token keyword">update</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>2.卸载旧版本(如果安装过旧版本的话)</p>
-<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">yum <span class="token keyword">remove</span> docker  docker<span class="token operator">-</span>common docker<span class="token operator">-</span>selinux docker<span class="token operator">-</span>engine<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>3.安装需要的软件包</p>
-<pre class="line-numbers language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">yum</span> <span class="token hvariable">install</span> <span class="token operator">-</span><span class="token hvariable">y</span> <span class="token hvariable">yum</span><span class="token operator">-</span><span class="token hvariable">utils</span> <span class="token hvariable">device</span><span class="token operator">-</span><span class="token hvariable">mapper</span><span class="token operator">-</span><span class="token hvariable">persistent</span><span class="token operator">-</span><span class="token keyword">data</span> <span class="token hvariable">lvm2</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>4.设置yum源</p>
-<pre class="line-numbers language-none"><code class="language-none">yum-config-manager --add-repo https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>5.安装docker</p>
-<pre class="line-numbers language-none"><code class="language-none">yum install docker-ce  #由于repo中默认只开启stable仓库，故这里安装的是最新稳定版17.12.0
-yum install &lt;自己的版本&gt;  # 例如：sudo yum install docker-ce-17.12.0.ce<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>6.启动和开机启动</p>
-<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">systemctl <span class="token keyword">start</span> docker
-systemctl <span class="token keyword">enable</span> docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>7.验证安装是否成功</p>
-<pre class="line-numbers language-undefined" data-language="undefined"><code class="language-undefined">docker version<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h3 id="二、安装Jenkins"><a href="#二、安装Jenkins" class="headerlink" title="二、安装Jenkins"></a>二、安装Jenkins</h3><p>Jenkins中文官网：</p>
-<blockquote>
-<p><a href="https://www.jenkins.io/zh/">https://www.jenkins.io/zh/</a></p>
-</blockquote>
-<p>1.安装Jenkins</p>
-<p>docker 安装一切都是那么简单，注意检查8080是否已经占用！如果占用修改端口</p>
-<pre class="line-numbers language-none"><code class="language-none">docker run --name jenkins -u root --rm -d -p 8080:8080 -p 50000:50000 -v &#x2F;var&#x2F;jenkins_home:&#x2F;var&#x2F;jenkins_home -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock jenkinsci&#x2F;blueocean<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>如果没改端口号的话</p>
-<p>安装完成后访问地址-&gt; <a href="http://{部署Jenkins所在服务IP}:8080">http://{部署Jenkins所在服务IP}:8080</a></p>
-<p>此处会有几分钟的等待时间。</p>
-<p>2.初始化Jenkins</p>
-<p>2.1 解锁Jenkins</p>
-<ul>
-<li>进入Jenkins容器：<code>docker exec -it &#123;Jenkins容器名&#125; bash</code></li>
-<li><p>查看密码：cat /var/lib/jenkins/secrets/initialAdminPassword</p>
-</li>
-<li><p>复制密码到输入框里面</p>
-</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/131a6b7ac0b634ba08345ef67b1ee8b6.png" alt="img"></p>
-<p>2.2 安装插件</p>
-<p>选择第一个：安装推荐的插件</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/f13236d4512bd691d3a19a9a8158cdae.png" alt="img"></p>
-<p>2.3 创建管理员用户</p>
-<p>此账户一定要记住哦</p>
-<h3 id="三、系统配置"><a href="#三、系统配置" class="headerlink" title="三、系统配置"></a>三、系统配置</h3><ol>
-<li>安装需要插件</li>
-</ol>
-<p>进入【首页】–【系统管理】–【插件管理】–【可选插件】</p>
-<p>搜索以下需要安装的插件，点击安装即可。</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/04a01a5b784fd095a583d91b4efecac3.png" alt="img"></p>
-<ul>
-<li>安装<code>Maven Integration</code></li>
-<li>安装<code>Publish Over SSH</code>(如果不需要远程推送，不用安装)</li>
-<li>如果使用Gitee 码云，安装插件Gitee（Git自带不用安装）</li>
-</ul>
-<ol>
-<li>配置Maven</li>
-</ol>
-<p>进入【首页】–【系统管理】–【全局配置】，拉到最下面maven–maven安装</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/990f3cbd91ed1b7cfbc44aafaedb9dac.png" alt="img"></p>
-<h3 id="四、创建任务"><a href="#四、创建任务" class="headerlink" title="四、创建任务"></a>四、创建任务</h3><ol>
-<li>新建任务</li>
-</ol>
-<p>点击【新建任务】，输入任务名称，点击构建一个自由风格的软件项目</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/ef1c2923c6408ebd6e8a120674771636.png" alt="img"></p>
-<ol>
-<li>源码管理</li>
-</ol>
-<p>点击【源码管理】–【Git】，输入仓库地址，添加凭证，选择好凭证即可。</p>
-<p><img src="D:\share\设计原则与思想：面向对象 (11讲" alt="img">\e17b50fa089f614e3bf2d3370c7659a0.png)</p>
-<p><img src="D:\share\设计原则与思想：面向对象 (11讲" alt="img">\8c4305785893ebb604aae3bd5bc1f53c.png)</p>
-<p>3.构建触发器</p>
-<p>点击【构建触发器】–【构建】–【增加构建步骤】–【调用顶层Maven目标】–【填写配置】–【保存】</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/25ba4ae009b24e6b71f13d85257e0b13.png" alt="img"></p>
-<p>此处命令只是install，看是否能生成jar包</p>
-<pre class="line-numbers language-cobol" data-language="cobol"><code class="language-cobol">clean install -Dmaven<span class="token punctuation">.</span><span class="token keyword">test</span><span class="token punctuation">.</span>skip<span class="token operator">=</span><span class="token boolean">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/2970e5c6d5f74f0cbb78d3f88602c45c.png" alt="img"></p>
-<ol>
-<li>保存</li>
-</ol>
-<p>点击【保存】按钮即可</p>
-<h3 id="五、测试"><a href="#五、测试" class="headerlink" title="五、测试"></a>五、测试</h3><p>该功能测试是否能正常打包</p>
-<ol>
-<li>构建</li>
-</ol>
-<p>点击构建按钮</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/9cb95bdd59ec6d3ce8277aeb1371387f.png" alt="img"></p>
-<p>2.查看日志</p>
-<p>点击正在构建的任务，或者点击任务名称，进入详情页面，查看控制台输出，看是否能成功打成jar包。</p>
-<p>该处日志第一次可能下载依赖jar包失败，再次点击构建即可成功。</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/669aa958dad11071d157b8f285c2db7f.png" alt="img"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/9179000532bc381dd09b5cee9ba13d9c.png" alt="img"></p>
-<ol>
-<li>查看项目位置</li>
-</ol>
-<p>cd /var/jenkins_home/workspace</p>
-<p>ll 即可查看是否存在</p>
-<h3 id="六、运行项目"><a href="#六、运行项目" class="headerlink" title="六、运行项目"></a>六、运行项目</h3><p>因为我们项目和jenkins在同一台服务器，所以我们用shell脚本运行项目，原理既是通过dockerfile 打包镜像，然后docker运行即可。</p>
-<ol>
-<li>Dockerfile</li>
-</ol>
-<p>在springboot项目根目录新建一个名为Dockerfile的文件，注意没有后缀名，其内容如下:（大致就是使用jdk8，把jar包添加到docker然后运行prd配置文件。详细可以查看其他教程）</p>
-<pre class="line-numbers language-none"><code class="language-none">FROM jdk:8
-VOLUME &#x2F;tmp
-ADD target&#x2F;zx-order-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 8888
-ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd&#x3D;file:&#x2F;dev&#x2F;.&#x2F;urandom&quot;,&quot;-jar&quot;,&quot;&#x2F;app.jar&quot;,&quot;--spring.profiles.active&#x3D;prd&quot;]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<ol>
-<li>修改jenkins任务配置</li>
-</ol>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/103cc44db42fdd469a9dcba55ce6a35f.png" alt="img"></p>
-<p>配置如下：</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/06dd562a7ef8703d495d63a441fa180e.png" alt="img"></p>
-<ul>
-<li>-t：指定新镜像名</li>
-<li>.：表示Dockfile在当前路径</li>
-</ul>
-<pre class="line-numbers language-none"><code class="language-none">cd &#x2F;var&#x2F;jenkins_home&#x2F;workspace&#x2F;zx-order-api
-docker stop zx-order || true
-docker rm zx-order || true
-docker rmi zx-order || true
-docker build -t zx-order .
-docker run -d -p 8888:8888 --name zx-order zx-order:latest<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>备注：</p>
-<ol>
-<li><p>我上图用了docker logs -f 是为了方便看日志，真实不要用，因为会一直等待日志，构建任务会失败</p>
-</li>
-<li><p>加|| true 是如果命令执行失败也会继续实行，为了防止第一次没有该镜像报错</p>
-</li>
-<li><p>保存</p>
-</li>
-</ol>
-<p>点击保存即可</p>
-<ol>
-<li>构建</li>
-</ol>
-<p>查看jenkins控制台输出，输出如下，证明成功！</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/b92fafa20728b0c627622dd9b4c266f1.png" alt="img"></p>
-<ol>
-<li><p>验证</p>
-</li>
-<li><p>docker ps 查看是否有自己的容器</p>
-</li>
-<li><p>docker logs 自己的容器名 查看日志是否正确</p>
-</li>
-<li><p>浏览器访问项目试一试</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>运维</category>
-      </categories>
-      <tags>
-        <tag>jenkins</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>apifox接口测试工具使用分享</title>
     <url>/2023/10/21/apifox%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<h4 id="apifox介绍"><a href="#apifox介绍" class="headerlink" title="apifox介绍"></a>apifox介绍</h4><blockquote>
@@ -484,66 +321,166 @@ headers<span class="token punctuation">.</span><span class="token function">upse
       </tags>
   </entry>
   <entry>
-    <title>butterfly-notes</title>
-    <url>/2020/04/16/butterfly-notes/</url>
-    <content><![CDATA[<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% note warning [no-icon] modern %&#125;
-Any content (support inline tags too.io).
-&#123;% endnote %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-<div class="note warning [no-icon] modern"><p>Any content (support inline tags too.io).</p>
-</div>
-<h4 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% tabs test1 %&#125;
-&lt;!-- tab button1 --&gt;
-This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right %&#125;
-&lt;!-- endtab --&gt;
-
-&lt;!-- tab button2 --&gt;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,blue larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,pink larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,red larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,purple larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,orange larger %&#125;
-&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,green larger %&#125;
-&lt;!-- endtab --&gt;
-
-&lt;!-- tab button3  --&gt;
-**This is button 3.**
-&lt;!-- endtab --&gt;
-&#123;% endtabs %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">button1</button></li><li class="tab"><button type="button" data-href="#test1-2">button2</button></li><li class="tab"><button type="button" data-href="#test1-3">button3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><a class="btn-beautify larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify red larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify green larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is button 3.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
-<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p>
-<a class="btn-beautify larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify red larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<a class="btn-beautify green larger" href="https://butterfly.js.org/" 
-  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
-<h4 id="label"><a href="#label" class="headerlink" title="label"></a>label</h4><pre class="line-numbers language-none"><code class="language-none">臣亮言：&#123;% label 先帝 %&#125;創業未半，而&#123;% label 中道崩殂 blue %&#125;。今天下三分，&#123;% label 益州疲敝 pink %&#125;，此誠&#123;% label 危急存亡之秋 red %&#125;也！然侍衞之臣，不懈於內；&#123;% label 忠志之士 purple %&#125;，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<p>臣亮言：<mark class="hl-label default">先帝</mark> 創業未半，而<mark class="hl-label blue">中道崩殂</mark> 。今天下三分，<mark class="hl-label pink">益州疲敝</mark> ，此誠<mark class="hl-label red">危急存亡之秋</mark> 也！然侍衞之臣，不懈於內；<mark class="hl-label purple">忠志之士</mark> ，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。</p>
+    <title>Jenkins+Docker 一键自动化部署 SpringBoot 项目</title>
+    <url>/2024/01/24/Jenkins+Docker%20%E4%B8%80%E9%94%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%20SpringBoot%20%E9%A1%B9%E7%9B%AE/</url>
+    <content><![CDATA[<p>本文章实现最简单全面的<code>Jenkins+docker+springboot</code> 一键自动部署项目，步骤齐全，少走坑路。</p>
+<blockquote>
+<p>环境：centos7+git(gitee)</p>
+</blockquote>
+<p>简述实现步骤：在docker安装jenkins，配置jenkins基本信息，利用Dockerfile和shell脚本实现项目自动拉取打包并运行。</p>
+<h3 id="一、centos安装docker"><a href="#一、centos安装docker" class="headerlink" title="一、centos安装docker"></a>一、centos安装docker</h3><p>docker安装社区版本CE</p>
+<p>1.确保 yum 包更新到最新。</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">yum <span class="token keyword">update</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>2.卸载旧版本(如果安装过旧版本的话)</p>
+<pre class="line-numbers language-csharp" data-language="csharp"><code class="language-csharp">yum <span class="token keyword">remove</span> docker  docker<span class="token operator">-</span>common docker<span class="token operator">-</span>selinux docker<span class="token operator">-</span>engine<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>3.安装需要的软件包</p>
+<pre class="line-numbers language-haskell" data-language="haskell"><code class="language-haskell"><span class="token hvariable">yum</span> <span class="token hvariable">install</span> <span class="token operator">-</span><span class="token hvariable">y</span> <span class="token hvariable">yum</span><span class="token operator">-</span><span class="token hvariable">utils</span> <span class="token hvariable">device</span><span class="token operator">-</span><span class="token hvariable">mapper</span><span class="token operator">-</span><span class="token hvariable">persistent</span><span class="token operator">-</span><span class="token keyword">data</span> <span class="token hvariable">lvm2</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>4.设置yum源</p>
+<pre class="line-numbers language-none"><code class="language-none">yum-config-manager --add-repo https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>5.安装docker</p>
+<pre class="line-numbers language-none"><code class="language-none">yum install docker-ce  #由于repo中默认只开启stable仓库，故这里安装的是最新稳定版17.12.0
+yum install &lt;自己的版本&gt;  # 例如：sudo yum install docker-ce-17.12.0.ce<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>6.启动和开机启动</p>
+<pre class="line-numbers language-sql" data-language="sql"><code class="language-sql">systemctl <span class="token keyword">start</span> docker
+systemctl <span class="token keyword">enable</span> docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>7.验证安装是否成功</p>
+<pre class="line-numbers language-undefined" data-language="undefined"><code class="language-undefined">docker version<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h3 id="二、安装Jenkins"><a href="#二、安装Jenkins" class="headerlink" title="二、安装Jenkins"></a>二、安装Jenkins</h3><p>Jenkins中文官网：</p>
+<blockquote>
+<p><a href="https://www.jenkins.io/zh/">https://www.jenkins.io/zh/</a></p>
+</blockquote>
+<p>1.安装Jenkins</p>
+<p>docker 安装一切都是那么简单，注意检查8080是否已经占用！如果占用修改端口</p>
+<pre class="line-numbers language-none"><code class="language-none">docker run --name jenkins -u root --rm -d -p 8080:8080 -p 50000:50000 -v &#x2F;var&#x2F;jenkins_home:&#x2F;var&#x2F;jenkins_home -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock jenkinsci&#x2F;blueocean<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>如果没改端口号的话</p>
+<p>安装完成后访问地址-&gt; <a href="http://{部署Jenkins所在服务IP}:8080">http://{部署Jenkins所在服务IP}:8080</a></p>
+<p>此处会有几分钟的等待时间。</p>
+<p>2.初始化Jenkins</p>
+<p>2.1 解锁Jenkins</p>
+<ul>
+<li>进入Jenkins容器：<code>docker exec -it &#123;Jenkins容器名&#125; bash</code></li>
+<li><p>查看密码：cat /var/lib/jenkins/secrets/initialAdminPassword</p>
+</li>
+<li><p>复制密码到输入框里面</p>
+</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/131a6b7ac0b634ba08345ef67b1ee8b6.png" alt="img"></p>
+<p>2.2 安装插件</p>
+<p>选择第一个：安装推荐的插件</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/f13236d4512bd691d3a19a9a8158cdae.png" alt="img"></p>
+<p>2.3 创建管理员用户</p>
+<p>此账户一定要记住哦</p>
+<h3 id="三、系统配置"><a href="#三、系统配置" class="headerlink" title="三、系统配置"></a>三、系统配置</h3><ol>
+<li>安装需要插件</li>
+</ol>
+<p>进入【首页】–【系统管理】–【插件管理】–【可选插件】</p>
+<p>搜索以下需要安装的插件，点击安装即可。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/04a01a5b784fd095a583d91b4efecac3.png" alt="img"></p>
+<ul>
+<li>安装<code>Maven Integration</code></li>
+<li>安装<code>Publish Over SSH</code>(如果不需要远程推送，不用安装)</li>
+<li>如果使用Gitee 码云，安装插件Gitee（Git自带不用安装）</li>
+</ul>
+<ol>
+<li>配置Maven</li>
+</ol>
+<p>进入【首页】–【系统管理】–【全局配置】，拉到最下面maven–maven安装</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/990f3cbd91ed1b7cfbc44aafaedb9dac.png" alt="img"></p>
+<h3 id="四、创建任务"><a href="#四、创建任务" class="headerlink" title="四、创建任务"></a>四、创建任务</h3><ol>
+<li>新建任务</li>
+</ol>
+<p>点击【新建任务】，输入任务名称，点击构建一个自由风格的软件项目</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/ef1c2923c6408ebd6e8a120674771636.png" alt="img"></p>
+<ol>
+<li>源码管理</li>
+</ol>
+<p>点击【源码管理】–【Git】，输入仓库地址，添加凭证，选择好凭证即可。</p>
+<p><img src="D:\share\设计原则与思想：面向对象 (11讲" alt="img">\e17b50fa089f614e3bf2d3370c7659a0.png)</p>
+<p><img src="D:\share\设计原则与思想：面向对象 (11讲" alt="img">\8c4305785893ebb604aae3bd5bc1f53c.png)</p>
+<p>3.构建触发器</p>
+<p>点击【构建触发器】–【构建】–【增加构建步骤】–【调用顶层Maven目标】–【填写配置】–【保存】</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/25ba4ae009b24e6b71f13d85257e0b13.png" alt="img"></p>
+<p>此处命令只是install，看是否能生成jar包</p>
+<pre class="line-numbers language-cobol" data-language="cobol"><code class="language-cobol">clean install -Dmaven<span class="token punctuation">.</span><span class="token keyword">test</span><span class="token punctuation">.</span>skip<span class="token operator">=</span><span class="token boolean">true</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/2970e5c6d5f74f0cbb78d3f88602c45c.png" alt="img"></p>
+<ol>
+<li>保存</li>
+</ol>
+<p>点击【保存】按钮即可</p>
+<h3 id="五、测试"><a href="#五、测试" class="headerlink" title="五、测试"></a>五、测试</h3><p>该功能测试是否能正常打包</p>
+<ol>
+<li>构建</li>
+</ol>
+<p>点击构建按钮</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9cb95bdd59ec6d3ce8277aeb1371387f.png" alt="img"></p>
+<p>2.查看日志</p>
+<p>点击正在构建的任务，或者点击任务名称，进入详情页面，查看控制台输出，看是否能成功打成jar包。</p>
+<p>该处日志第一次可能下载依赖jar包失败，再次点击构建即可成功。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/669aa958dad11071d157b8f285c2db7f.png" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/9179000532bc381dd09b5cee9ba13d9c.png" alt="img"></p>
+<ol>
+<li>查看项目位置</li>
+</ol>
+<p>cd /var/jenkins_home/workspace</p>
+<p>ll 即可查看是否存在</p>
+<h3 id="六、运行项目"><a href="#六、运行项目" class="headerlink" title="六、运行项目"></a>六、运行项目</h3><p>因为我们项目和jenkins在同一台服务器，所以我们用shell脚本运行项目，原理既是通过dockerfile 打包镜像，然后docker运行即可。</p>
+<ol>
+<li>Dockerfile</li>
+</ol>
+<p>在springboot项目根目录新建一个名为Dockerfile的文件，注意没有后缀名，其内容如下:（大致就是使用jdk8，把jar包添加到docker然后运行prd配置文件。详细可以查看其他教程）</p>
+<pre class="line-numbers language-none"><code class="language-none">FROM jdk:8
+VOLUME &#x2F;tmp
+ADD target&#x2F;zx-order-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8888
+ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd&#x3D;file:&#x2F;dev&#x2F;.&#x2F;urandom&quot;,&quot;-jar&quot;,&quot;&#x2F;app.jar&quot;,&quot;--spring.profiles.active&#x3D;prd&quot;]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ol>
+<li>修改jenkins任务配置</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/103cc44db42fdd469a9dcba55ce6a35f.png" alt="img"></p>
+<p>配置如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/06dd562a7ef8703d495d63a441fa180e.png" alt="img"></p>
+<ul>
+<li>-t：指定新镜像名</li>
+<li>.：表示Dockfile在当前路径</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">cd &#x2F;var&#x2F;jenkins_home&#x2F;workspace&#x2F;zx-order-api
+docker stop zx-order || true
+docker rm zx-order || true
+docker rmi zx-order || true
+docker build -t zx-order .
+docker run -d -p 8888:8888 --name zx-order zx-order:latest<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>备注：</p>
+<ol>
+<li><p>我上图用了docker logs -f 是为了方便看日志，真实不要用，因为会一直等待日志，构建任务会失败</p>
+</li>
+<li><p>加|| true 是如果命令执行失败也会继续实行，为了防止第一次没有该镜像报错</p>
+</li>
+<li><p>保存</p>
+</li>
+</ol>
+<p>点击保存即可</p>
+<ol>
+<li>构建</li>
+</ol>
+<p>查看jenkins控制台输出，输出如下，证明成功！</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b92fafa20728b0c627622dd9b4c266f1.png" alt="img"></p>
+<ol>
+<li><p>验证</p>
+</li>
+<li><p>docker ps 查看是否有自己的容器</p>
+</li>
+<li><p>docker logs 自己的容器名 查看日志是否正确</p>
+</li>
+<li><p>浏览器访问项目试一试</p>
+</li>
+</ol>
 ]]></content>
       <categories>
-        <category>hexo</category>
+        <category>运维</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
-        <tag>others</tag>
+        <tag>jenkins</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -905,6 +842,95 @@ spring:
       </tags>
   </entry>
   <entry>
+    <title>butterfly-notes</title>
+    <url>/2020/04/16/butterfly-notes/</url>
+    <content><![CDATA[<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% note warning [no-icon] modern %&#125;
+Any content (support inline tags too.io).
+&#123;% endnote %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<div class="note warning [no-icon] modern"><p>Any content (support inline tags too.io).</p>
+</div>
+<h4 id="tab"><a href="#tab" class="headerlink" title="tab"></a>tab</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% tabs test1 %&#125;
+&lt;!-- tab button1 --&gt;
+This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right %&#125;
+&lt;!-- endtab --&gt;
+
+&lt;!-- tab button2 --&gt;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,blue larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,pink larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,red larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,purple larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,orange larger %&#125;
+&#123;% btn &#39;https:&#x2F;&#x2F;butterfly.js.org&#x2F;&#39;,Butterfly,far fa-hand-point-right,green larger %&#125;
+&lt;!-- endtab --&gt;
+
+&lt;!-- tab button3  --&gt;
+**This is button 3.**
+&lt;!-- endtab --&gt;
+&#123;% endtabs %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<div class="tabs" id="test1"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#test1-1">button1</button></li><li class="tab"><button type="button" data-href="#test1-2">button2</button></li><li class="tab"><button type="button" data-href="#test1-3">button3</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="test1-1"><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-2"><p><a class="btn-beautify larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify red larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a><br><a class="btn-beautify green larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="test1-3"><p><strong>This is button 3.</strong></p><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+<h4 id="button"><a href="#button" class="headerlink" title="button"></a>button</h4><p>This is my website, click the button <a class="btn-beautify " href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a></p>
+<a class="btn-beautify larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify blue larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify pink larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify red larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify purple larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify orange larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<a class="btn-beautify green larger" href="https://butterfly.js.org/" 
+  title="Butterfly"><i class="far fa-hand-point-right"></i><span>Butterfly</span></a>
+<h4 id="label"><a href="#label" class="headerlink" title="label"></a>label</h4><pre class="line-numbers language-none"><code class="language-none">臣亮言：&#123;% label 先帝 %&#125;創業未半，而&#123;% label 中道崩殂 blue %&#125;。今天下三分，&#123;% label 益州疲敝 pink %&#125;，此誠&#123;% label 危急存亡之秋 red %&#125;也！然侍衞之臣，不懈於內；&#123;% label 忠志之士 purple %&#125;，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>臣亮言：<mark class="hl-label default">先帝</mark> 創業未半，而<mark class="hl-label blue">中道崩殂</mark> 。今天下三分，<mark class="hl-label pink">益州疲敝</mark> ，此誠<mark class="hl-label red">危急存亡之秋</mark> 也！然侍衞之臣，不懈於內；<mark class="hl-label purple">忠志之士</mark> ，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>others</tag>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git快捷操作</title>
+    <url>/2023/07/04/git%20%E5%BF%AB%E6%8D%B7%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h4 id="git-删除本地分支"><a href="#git-删除本地分支" class="headerlink" title="git 删除本地分支"></a>git 删除本地分支</h4><p>git branch -d 本地分支名称  </p>
+<h4 id="git-删除远程分支"><a href="#git-删除远程分支" class="headerlink" title="git 删除远程分支"></a>git 删除远程分支</h4><p>方式一. git push origin —delete <branch_name><br>方式二. git push origin :<branch_name>  </p>
+<h4 id="创建-切换分支操作"><a href="#创建-切换分支操作" class="headerlink" title="创建/切换分支操作"></a>创建/切换分支操作</h4><p>git branch (查看本地分支)<br>git branch -r (查看远程分支)<br>git branch -a (查看本地和远程分支)<br>git checkout -b <branch_name> (创建分支)<br>git branch -m 旧分支  新分支（重命名分支）<br>git checkout <branch_name> （切换到指定分支）<br>git switch <branch_name> （切换分支）<br>git switch -c <branch_name> （创建新分支）<br>git checkout <branch_name> <commit_hash> （指定提交切换分支）</p>
+<h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h4><p>git merge <branch_name> （将指定分支合并到当前分支）<br>‌git cherry-pick‌ <commit_id> （只合并分支提交的改动内容，非整个分支合并） </p>
+<h4 id="git丢弃已暂存的修改"><a href="#git丢弃已暂存的修改" class="headerlink" title="git丢弃已暂存的修改"></a>git丢弃已暂存的修改</h4><p>git reset HEAD <file> (<file>不指定= 丢弃所有已暂存的文件)<br>git reset —hard HEAD （同时丢弃暂存区和工作区的修改）<br>此命令将工作区和暂存区重置到最后一次提交的状态，所有未提交的更改都会被丢弃，不可恢复。</p>
+<h4 id="取消最近的-commit"><a href="#取消最近的-commit" class="headerlink" title="取消最近的 commit"></a>取消最近的 commit</h4><p>git reset —soft HEAD~1 （保留文件变更） </p>
+<ul>
+<li>—soft：将 HEAD 指针回退到前一个提交（即 HEAD~1），但是保留工作区和暂存区的变更，变 更会被放回到暂存区。 </li>
+<li>HEAD~1：表示上一个提交。<br>git reset —hard HEAD~1 (不保留文件变更)<br>git reset —hard <commit_id>(回退到某个历史提交)  </li>
+</ul>
+<h4 id="git-设置‌基础配置"><a href="#git-设置‌基础配置" class="headerlink" title="git 设置‌基础配置"></a>git 设置‌基础配置</h4><ol>
+<li>设置用户信息<br>git config —global user.name “姓名”<br>git config —global user.email “邮箱”  </li>
+<li>查看配置‌<br>git config —list<br>git config —global xxx</li>
+</ol>
+<h4 id="git-文件操作与提交"><a href="#git-文件操作与提交" class="headerlink" title="git 文件操作与提交"></a>git 文件操作与提交</h4><p>‌暂存文件‌：<br>git add [file]（添加指定文件）。<br>git add .（添加所有修改）。‌‌<br>1‌‌<br>‌提交更改‌：git commit -m “提交信息”（含—amend修改最后一次提交）。‌‌<br>2‌‌<br>‌状态与差异‌：<br>git status（查看状态）。<br>git diff（比较工作区与暂存区）。‌‌</p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/04/16/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -921,8 +947,8 @@ spring:
         <category>hexo</category>
       </categories>
       <tags>
-        <tag>hexo</tag>
         <tag>others</tag>
+        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1686,6 +1712,67 @@ CALL fin_invoice_log_record_archive();
       </tags>
   </entry>
   <entry>
+    <title>食物科普</title>
+    <url>/2023/10/25/%E5%81%A5%E5%BA%B7%E9%A3%9F%E7%89%A9%E7%A7%91%E6%99%AE/</url>
+    <content><![CDATA[<h4 id="低热量和低脂肪食物有哪些"><a href="#低热量和低脂肪食物有哪些" class="headerlink" title="低热量和低脂肪食物有哪些"></a>低热量和低脂肪食物有哪些</h4><p>低热量和低脂肪食物通常含有较少的能量和脂肪，适合需要控制体重或减少脂肪摄入的人群。以下是一些常见的低热量和低脂肪食物：</p>
+<ol>
+<li>蔬菜：蔬菜通常富含纤维、维生素和矿物质，而且热量较低。例如，西兰花、胡萝卜、黄瓜、芹菜等。</li>
+<li>水果：水果是低热量的健康食物，富含维生素、矿物质和纤维。常见的低热量水果包括苹果、柑橘类水果、草莓、蓝莓等。</li>
+<li>瘦肉：选择低脂肪的瘦肉，如鸡胸肉、鱼肉（比如鲈鱼、鳕鱼）、火鸡肉等。这些肉类含有较少的脂肪，但提供丰富的蛋白质。</li>
+<li>蛋白质来源：蛋白质是重要的营养素，但部分蛋白质来源可能含有较高的脂肪。选择低脂肪的蛋白质来源，如鸡蛋白、豆腐、低脂奶制品（如低脂牛奶、低脂奶酪）等。</li>
+<li>全谷类食物：全谷类食物富含纤维和复杂碳水化合物，而且相对较低热量。例如燕麦、全麦面包、糙米等。</li>
+<li>低脂奶制品：选择低脂或非脂肪的奶制品，如低脂牛奶、非脂肪酸奶等，这些食物提供丰富的蛋白质和钙，但脂肪含量较低。</li>
+<li>蔬果汁：新鲜榨取的蔬果汁是低热量且富含营养的选择，可以尽量选择无糖添加的纯果汁。</li>
+<li>豆类：豆类是良好的蛋白质和纤维来源，同时含有较低的脂肪，如豆腐、扁豆、黑豆等。</li>
+<li>高纤维谷物：除了全谷类食物，还有其他高纤维的谷物，如燕麦片、麦片、全麦面条等。</li>
+<li>蔬菜汤：以蔬菜为主的汤食，可以提供丰富的营养，同时热量较低。</li>
+<li>低脂冰淇淋和酸奶：选择低脂或无脂的冰淇淋和酸奶，可以满足甜食的欲望，同时控制脂肪摄入。</li>
+<li>烤、蒸或煮的食物：相比于油炸或炒制的食物，烤、蒸或煮的食物通常含有更低的脂肪，是更健康的选择。</li>
+</ol>
+<h4 id="高热量和高脂肪食物有哪些"><a href="#高热量和高脂肪食物有哪些" class="headerlink" title="高热量和高脂肪食物有哪些"></a>高热量和高脂肪食物有哪些</h4><p>高热量和高脂肪食物通常富含能量，但过多摄入可能导致体重增加和健康问题。以下是一些常见的高热量和高脂肪食物：</p>
+<ol>
+<li>油炸食品：如薯条、炸鸡、炸鱼等，这些食物通常在烹饪过程中吸收了大量的油脂。</li>
+<li>快餐：快餐通常含有较高的脂肪和热量，例如汉堡包、炸鸡块、薯条等。</li>
+<li>糕点和甜点：蛋糕、巧克力、饼干、冰淇淋等含有大量的糖和脂肪，很容易导致热量过剩。</li>
+<li>奶油和奶制品：奶油、黄油、乳酪等含有较高的脂肪，需要适量消费。</li>
+<li>高脂肪肉类：肥牛、猪肉肥瘦相间的部位、鸭肉等富含脂肪的肉类，尽量适量食用。</li>
+<li>坚果和种子：虽然坚果和种子富含健康的脂肪，但它们也具有较高的热量，适量食用为宜。</li>
+</ol>
+<p>请注意，脂肪在适量的情况下是身体所需的重要营养素之一，但过量摄入可能对健康产生不良影响。在饮食中要注意平衡，选择低脂肪、低热量的食物，搭配丰富的蔬菜、水果和全谷类食物，以维持健康的饮食平衡。</p>
+<h4 id="高碘食物"><a href="#高碘食物" class="headerlink" title="高碘食物"></a>高碘食物</h4><ol>
+<li>海带</li>
+<li>紫菜</li>
+<li>海鱼 如：鳕鱼、鲑鱼、鳗鱼等</li>
+<li>昆布</li>
+<li>海虾 如：黑河虾</li>
+</ol>
+<h4 id="低碘食物"><a href="#低碘食物" class="headerlink" title="低碘食物"></a>低碘食物</h4><ol>
+<li>花甲</li>
+<li>碘盐</li>
+<li>螃蟹</li>
+<li>绿豆</li>
+<li>胡萝卜</li>
+<li>菠菜</li>
+<li>白芝麻</li>
+</ol>
+<h4 id="无碘食物"><a href="#无碘食物" class="headerlink" title="无碘食物"></a>无碘食物</h4><h4 id="低脂食物"><a href="#低脂食物" class="headerlink" title="低脂食物"></a>低脂食物</h4><h4 id="维生素A丰富的食物"><a href="#维生素A丰富的食物" class="headerlink" title="维生素A丰富的食物"></a>维生素A丰富的食物</h4><p>动物肝脏：猪肝、鹅肝、鸡肝等动物肝脏 含有大量的维生素A，能够快速被人体吸收。(4971ug/100g)</p>
+<p>西兰花 :(1202ug/100g)</p>
+<p>胡萝卜：这主要是胡萝卜中的胡萝卜素是维生素A的主要来源，胡萝卜素可以在人体内能转化成维生素A，同时也含维生素C (688ug/100g)</p>
+<p>菠菜：有丰富的维生素A,同时富含也含铁</p>
+<p>青蟹：也叫膏蟹 （402ug/100g）</p>
+<p>紫苋菜：（248ug/100g）</p>
+<p>韭菜</p>
+<p>鸡蛋</p>
+<h4 id="维生素B丰富的食物"><a href="#维生素B丰富的食物" class="headerlink" title="维生素B丰富的食物"></a>维生素B丰富的食物</h4><p>绿豆：绿豆含有丰富的B族维生素、矿物质等营养成分，其中维生素B1是鸡肉的17.5倍，维生素B2是禾谷类的2～4倍且高于猪肉、牛奶、鸡肉、鱼，钙是禾谷类的4倍、鸡肉的7倍，铁是鸡肉的4倍，磷是禾谷类及猪肉、鸡肉、鱼、鸡蛋的2倍，还含有多种人体所需的磷脂。同时也是低脂食物</p>
+]]></content>
+      <categories>
+        <category>健康</category>
+      </categories>
+      <tags>
+        <tag>食物</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>wmware centos7 虚拟机通过宿主机的Clash访问外网</title>
     <url>/2024/07/13/wmware%20centos7%20%E8%99%9A%E6%8B%9F%E6%9C%BA%E9%80%9A%E8%BF%87%E5%AE%BF%E4%B8%BB%E6%9C%BA%E7%9A%84Clash%E8%AE%BF%E9%97%AE%E5%A4%96%E7%BD%91/</url>
     <content><![CDATA[<h4 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h4><p>在使用虚拟机的时候，经常拉取不到镜像包，这个时候需要开启代理</p>
@@ -1760,67 +1847,6 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </categories>
       <tags>
         <tag>虚拟机</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>食物科普</title>
-    <url>/2023/10/25/%E5%81%A5%E5%BA%B7%E9%A3%9F%E7%89%A9%E7%A7%91%E6%99%AE/</url>
-    <content><![CDATA[<h4 id="低热量和低脂肪食物有哪些"><a href="#低热量和低脂肪食物有哪些" class="headerlink" title="低热量和低脂肪食物有哪些"></a>低热量和低脂肪食物有哪些</h4><p>低热量和低脂肪食物通常含有较少的能量和脂肪，适合需要控制体重或减少脂肪摄入的人群。以下是一些常见的低热量和低脂肪食物：</p>
-<ol>
-<li>蔬菜：蔬菜通常富含纤维、维生素和矿物质，而且热量较低。例如，西兰花、胡萝卜、黄瓜、芹菜等。</li>
-<li>水果：水果是低热量的健康食物，富含维生素、矿物质和纤维。常见的低热量水果包括苹果、柑橘类水果、草莓、蓝莓等。</li>
-<li>瘦肉：选择低脂肪的瘦肉，如鸡胸肉、鱼肉（比如鲈鱼、鳕鱼）、火鸡肉等。这些肉类含有较少的脂肪，但提供丰富的蛋白质。</li>
-<li>蛋白质来源：蛋白质是重要的营养素，但部分蛋白质来源可能含有较高的脂肪。选择低脂肪的蛋白质来源，如鸡蛋白、豆腐、低脂奶制品（如低脂牛奶、低脂奶酪）等。</li>
-<li>全谷类食物：全谷类食物富含纤维和复杂碳水化合物，而且相对较低热量。例如燕麦、全麦面包、糙米等。</li>
-<li>低脂奶制品：选择低脂或非脂肪的奶制品，如低脂牛奶、非脂肪酸奶等，这些食物提供丰富的蛋白质和钙，但脂肪含量较低。</li>
-<li>蔬果汁：新鲜榨取的蔬果汁是低热量且富含营养的选择，可以尽量选择无糖添加的纯果汁。</li>
-<li>豆类：豆类是良好的蛋白质和纤维来源，同时含有较低的脂肪，如豆腐、扁豆、黑豆等。</li>
-<li>高纤维谷物：除了全谷类食物，还有其他高纤维的谷物，如燕麦片、麦片、全麦面条等。</li>
-<li>蔬菜汤：以蔬菜为主的汤食，可以提供丰富的营养，同时热量较低。</li>
-<li>低脂冰淇淋和酸奶：选择低脂或无脂的冰淇淋和酸奶，可以满足甜食的欲望，同时控制脂肪摄入。</li>
-<li>烤、蒸或煮的食物：相比于油炸或炒制的食物，烤、蒸或煮的食物通常含有更低的脂肪，是更健康的选择。</li>
-</ol>
-<h4 id="高热量和高脂肪食物有哪些"><a href="#高热量和高脂肪食物有哪些" class="headerlink" title="高热量和高脂肪食物有哪些"></a>高热量和高脂肪食物有哪些</h4><p>高热量和高脂肪食物通常富含能量，但过多摄入可能导致体重增加和健康问题。以下是一些常见的高热量和高脂肪食物：</p>
-<ol>
-<li>油炸食品：如薯条、炸鸡、炸鱼等，这些食物通常在烹饪过程中吸收了大量的油脂。</li>
-<li>快餐：快餐通常含有较高的脂肪和热量，例如汉堡包、炸鸡块、薯条等。</li>
-<li>糕点和甜点：蛋糕、巧克力、饼干、冰淇淋等含有大量的糖和脂肪，很容易导致热量过剩。</li>
-<li>奶油和奶制品：奶油、黄油、乳酪等含有较高的脂肪，需要适量消费。</li>
-<li>高脂肪肉类：肥牛、猪肉肥瘦相间的部位、鸭肉等富含脂肪的肉类，尽量适量食用。</li>
-<li>坚果和种子：虽然坚果和种子富含健康的脂肪，但它们也具有较高的热量，适量食用为宜。</li>
-</ol>
-<p>请注意，脂肪在适量的情况下是身体所需的重要营养素之一，但过量摄入可能对健康产生不良影响。在饮食中要注意平衡，选择低脂肪、低热量的食物，搭配丰富的蔬菜、水果和全谷类食物，以维持健康的饮食平衡。</p>
-<h4 id="高碘食物"><a href="#高碘食物" class="headerlink" title="高碘食物"></a>高碘食物</h4><ol>
-<li>海带</li>
-<li>紫菜</li>
-<li>海鱼 如：鳕鱼、鲑鱼、鳗鱼等</li>
-<li>昆布</li>
-<li>海虾 如：黑河虾</li>
-</ol>
-<h4 id="低碘食物"><a href="#低碘食物" class="headerlink" title="低碘食物"></a>低碘食物</h4><ol>
-<li>花甲</li>
-<li>碘盐</li>
-<li>螃蟹</li>
-<li>绿豆</li>
-<li>胡萝卜</li>
-<li>菠菜</li>
-<li>白芝麻</li>
-</ol>
-<h4 id="无碘食物"><a href="#无碘食物" class="headerlink" title="无碘食物"></a>无碘食物</h4><h4 id="低脂食物"><a href="#低脂食物" class="headerlink" title="低脂食物"></a>低脂食物</h4><h4 id="维生素A丰富的食物"><a href="#维生素A丰富的食物" class="headerlink" title="维生素A丰富的食物"></a>维生素A丰富的食物</h4><p>动物肝脏：猪肝、鹅肝、鸡肝等动物肝脏 含有大量的维生素A，能够快速被人体吸收。(4971ug/100g)</p>
-<p>西兰花 :(1202ug/100g)</p>
-<p>胡萝卜：这主要是胡萝卜中的胡萝卜素是维生素A的主要来源，胡萝卜素可以在人体内能转化成维生素A，同时也含维生素C (688ug/100g)</p>
-<p>菠菜：有丰富的维生素A,同时富含也含铁</p>
-<p>青蟹：也叫膏蟹 （402ug/100g）</p>
-<p>紫苋菜：（248ug/100g）</p>
-<p>韭菜</p>
-<p>鸡蛋</p>
-<h4 id="维生素B丰富的食物"><a href="#维生素B丰富的食物" class="headerlink" title="维生素B丰富的食物"></a>维生素B丰富的食物</h4><p>绿豆：绿豆含有丰富的B族维生素、矿物质等营养成分，其中维生素B1是鸡肉的17.5倍，维生素B2是禾谷类的2～4倍且高于猪肉、牛奶、鸡肉、鱼，钙是禾谷类的4倍、鸡肉的7倍，铁是鸡肉的4倍，磷是禾谷类及猪肉、鸡肉、鱼、鸡蛋的2倍，还含有多种人体所需的磷脂。同时也是低脂食物</p>
-]]></content>
-      <categories>
-        <category>健康</category>
-      </categories>
-      <tags>
-        <tag>食物</tag>
       </tags>
   </entry>
   <entry>
@@ -1995,44 +2021,6 @@ src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlL
       </tags>
   </entry>
   <entry>
-    <title>吉丽装修记【终】</title>
-    <url>/2023/08/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%90%E7%BB%88%E3%80%91/</url>
-    <content><![CDATA[<h5 id="装修交付视频1-0"><a href="#装修交付视频1-0" class="headerlink" title="装修交付视频1.0"></a>装修交付视频1.0</h5><div style="position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    width: 100%;
-    height: 50%;
-    overflow: hidden;">
-<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;"
-    src="https://files.guzlife.site/video/%E8%A3%85%E4%BF%AE%E4%BA%A4%E4%BB%981.0.mp4">
-</iframe>
-</div>
-
-<h5 id="PDF设计图纸预览"><a href="#PDF设计图纸预览" class="headerlink" title="PDF设计图纸预览"></a>PDF设计图纸预览</h5><div style = "border:1px; width:100%; height:1200px;">
-<iframe 
-style="width: 100%;
-    height: 100%" 
-src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FpmIXmsZ%2FlupwuZG9jeA%3D%3D">
-</iframe>
-</div>
-
-
-<h5 id="PDF设计图纸下载"><a href="#PDF设计图纸下载" class="headerlink" title="PDF设计图纸下载"></a>PDF设计图纸下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/白沙洲阅江府.pdf">点击下载—&gt;</a></p>
-<h5 id="10栋总平面图下载"><a href="#10栋总平面图下载" class="headerlink" title="10栋总平面图下载"></a>10栋总平面图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋总平面图.pdf">点击下载—&gt;</a></p>
-<h5 id="10栋2单元dwg户型图下载"><a href="#10栋2单元dwg户型图下载" class="headerlink" title="10栋2单元dwg户型图下载"></a>10栋2单元dwg户型图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋01户户型平面图_t3.dwg">点击下载—&gt;</a></p>
-]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>利用List函数式接口比较集合</title>
     <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%B8%80%EF%BC%89/</url>
     <content><![CDATA[<h2 id="结果集合封装类"><a href="#结果集合封装类" class="headerlink" title="结果集合封装类"></a>结果集合封装类</h2><blockquote>
@@ -2105,113 +2093,41 @@ public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUni
       </tags>
   </entry>
   <entry>
-    <title>利用sql 生成 带swagger注解的实体</title>
-    <url>/2023/02/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%B8%89%EF%BC%89/</url>
-    <content><![CDATA[<p>— 设置参数：schema数据库</p>
-<p>SET @table_schema=’ibp_enrolment’;</p>
-<p>— 设置参数：表名称</p>
-<p>SET @table_name=’bs_warehouse_file_config’;</p>
-<p>SELECT</p>
-<p>CONCAT(‘@ApiModelProperty(value=”‘,main.COLUMN_COMMENT,’”)\n’,’private ‘,</p>
-<p>CASE</p>
-<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘varchar%’ OR LOWER(main.DATA_TYPE) LIKE ‘char%’ OR LOWER(main.DATA_TYPE) LIKE ‘LONGTEXT%’ OR LOWER(main.DATA_TYPE) LIKE ‘tinytext%’ THEN ‘String’</p>
-<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘decimal%’ OR LOWER(main.DATA_TYPE) = ‘float’THEN ‘Double’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’int’ OR LOWER(main.DATA_TYPE)=’tinyint’ THEN ‘Integer’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’bigint’ THEN ‘Long’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’datetime’ OR LOWER(main.DATA_TYPE)=’timestamp’ THEN ‘Timestamp’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’date’ THEN ‘Date’</p>
-<p>ELSE ‘’</p>
-<p>END,’ ‘,</p>
-<p>underlineToCamel(main.COLUMN_NAME),</p>
-<p>‘=’,</p>
-<p>CASE</p>
-<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘varchar%’ OR LOWER(main.DATA_TYPE) LIKE ‘char%’ THEN ‘\”\”‘</p>
-<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘decimal%’ THEN IF(main.NUMERIC_SCALE=1,’0.0D’,IF(main.NUMERIC_SCALE=2,’0.00D’,IF(main.NUMERIC_SCALE=3,’0.000D’,IF(main.NUMERIC_SCALE=4,’0.0000D’,’0.00D’))))</p>
-<p>WHEN LOWER(main.DATA_TYPE) = ‘float’ THEN ‘0.0D’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’int’ OR LOWER(main.DATA_TYPE)=’tinyint’ THEN ‘0’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’bigint’ THEN ‘0L’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’datetime’ OR LOWER(main.DATA_TYPE)=’timestamp’ THEN ‘Timestamp.valueOf(LocalDateTime.now())’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’date’ THEN ‘Date.valueOf(LocalDate.now())’</p>
-<p>ELSE ‘’</p>
-<p>END,</p>
-<p>‘;’) AS VO,</p>
-<p>CONCAT(‘/<em>*\n’,’</em>‘,main.COLUMN_COMMENT,’\n*/\n’,</p>
-<p>CASE WHEN main.COLUMN_NAME=’valid’ THEN ‘@TableLogic(value = “0”, delval = “1”)\n@TableField(fill = FieldFill.INSERT)\n’</p>
-<p>WHEN main.COLUMN_NAME=’version’ THEN ‘@Version\n@TableField(fill = FieldFill.INSERT_UPDATE)\n’</p>
-<p>WHEN main.COLUMN_NAME=’created_user_code’ THEN ‘@TableField(fill = FieldFill.INSERT)\n’</p>
-<p>WHEN main.COLUMN_NAME=’created_time’ THEN ‘@TableField(fill = FieldFill.INSERT)\n’</p>
-<p>WHEN main.COLUMN_NAME=’updated_user_code’ THEN ‘@TableField(fill = FieldFill.INSERT_UPDATE)\n’</p>
-<p>WHEN main.COLUMN_NAME=’updated_time’ THEN ‘@TableField(fill = FieldFill.INSERT_UPDATE)\n’</p>
-<p>WHEN main.COLUMN_NAME=’id’ THEN ‘@TableId(type = IdType.AUTO)\n’</p>
-<p>ELSE ‘’</p>
-<p>END</p>
-<p>,’private ‘,</p>
-<p>CASE</p>
-<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘varchar%’ OR LOWER(main.DATA_TYPE) LIKE ‘char%’ OR LOWER(main.DATA_TYPE) LIKE ‘LONGTEXT%’ OR LOWER(main.DATA_TYPE) LIKE ‘tinytext%’ THEN ‘String’</p>
-<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘decimal%’ OR LOWER(main.DATA_TYPE) = ‘float’THEN ‘Double’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’int’ OR LOWER(main.DATA_TYPE)=’tinyint’ THEN ‘Integer’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’bigint’ THEN ‘Long’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’datetime’ OR LOWER(main.DATA_TYPE)=’timestamp’ THEN ‘Timestamp’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’date’ THEN ‘Date’</p>
-<p>ELSE ‘’</p>
-<p>END,’ ‘,</p>
-<p>underlineToCamel(main.COLUMN_NAME),</p>
-<p>‘=’,</p>
-<p>CASE</p>
-<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘varchar%’ OR LOWER(main.DATA_TYPE) LIKE ‘char%’ THEN ‘\”\”‘</p>
-<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘decimal%’ THEN IF(main.NUMERIC_SCALE=1,’0.0D’,IF(main.NUMERIC_SCALE=2,’0.00D’,IF(main.NUMERIC_SCALE=3,’0.000D’,IF(main.NUMERIC_SCALE=4,’0.0000D’,’0.00D’))))</p>
-<p>WHEN LOWER(main.DATA_TYPE) = ‘float’ THEN ‘0.0D’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’int’ OR LOWER(main.DATA_TYPE)=’tinyint’ THEN ‘0’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’bigint’ THEN ‘0L’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’datetime’ OR LOWER(main.DATA_TYPE)=’timestamp’ THEN ‘Timestamp.valueOf(LocalDateTime.now())’</p>
-<p>WHEN LOWER(main.DATA_TYPE)=’date’ THEN ‘Date.valueOf(LocalDate.now())’</p>
-<p>ELSE ‘’</p>
-<p>END,</p>
-<p>‘;’) AS ‘Entity’</p>
-<p>FROM</p>
-<p>information_schema.<code>COLUMNS</code> main</p>
-<p>WHERE</p>
-<p>main.TABLE_SCHEMA = @table_schema</p>
-<p>AND main.TABLE_NAME = @table_name;</p>
-<p>其中转驼峰的函数underlineToCamel 如下：</p>
-<p>CREATE DEFINER=<code>vx</code>@<code>%</code> FUNCTION <code>underlineToCamel</code>(paramString VARCHAR(200)) RETURNS varchar(200) CHARSET utf8</p>
-<p>DETERMINISTIC</p>
-<p>begin</p>
-<p>set paramString = replace(paramString, ‘_a’, ‘A’);</p>
-<p>set paramString = replace(paramString, ‘_b’, ‘B’);</p>
-<p>set paramString = replace(paramString, ‘_c’, ‘C’);</p>
-<p>set paramString = replace(paramString, ‘_d’, ‘D’);</p>
-<p>set paramString = replace(paramString, ‘_e’, ‘E’);</p>
-<p>set paramString = replace(paramString, ‘_f’, ‘F’);</p>
-<p>set paramString = replace(paramString, ‘_g’, ‘G’);</p>
-<p>set paramString = replace(paramString, ‘_h’, ‘H’);</p>
-<p>set paramString = replace(paramString, ‘_i’, ‘I’);</p>
-<p>set paramString = replace(paramString, ‘_j’, ‘J’);</p>
-<p>set paramString = replace(paramString, ‘_k’, ‘K’);</p>
-<p>set paramString = replace(paramString, ‘_l’, ‘L’);</p>
-<p>set paramString = replace(paramString, ‘_m’, ‘M’);</p>
-<p>set paramString = replace(paramString, ‘_n’, ‘N’);</p>
-<p>set paramString = replace(paramString, ‘_o’, ‘O’);</p>
-<p>set paramString = replace(paramString, ‘_p’, ‘P’);</p>
-<p>set paramString = replace(paramString, ‘_q’, ‘Q’);</p>
-<p>set paramString = replace(paramString, ‘_r’, ‘R’);</p>
-<p>set paramString = replace(paramString, ‘_s’, ‘S’);</p>
-<p>set paramString = replace(paramString, ‘_t’, ‘T’);</p>
-<p>set paramString = replace(paramString, ‘_u’, ‘U’);</p>
-<p>set paramString = replace(paramString, ‘_v’, ‘V’);</p>
-<p>set paramString = replace(paramString, ‘_w’, ‘W’);</p>
-<p>set paramString = replace(paramString, ‘_x’, ‘X’);</p>
-<p>set paramString = replace(paramString, ‘_y’, ‘Y’);</p>
-<p>set paramString = replace(paramString, ‘_z’, ‘Z’);</p>
-<p>set paramString = replace(paramString, ‘_’, ‘’);</p>
-<p>RETURN paramString;</p>
-<p>end</p>
+    <title>吉丽装修记【终】</title>
+    <url>/2023/08/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%90%E7%BB%88%E3%80%91/</url>
+    <content><![CDATA[<h5 id="装修交付视频1-0"><a href="#装修交付视频1-0" class="headerlink" title="装修交付视频1.0"></a>装修交付视频1.0</h5><div style="position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;">
+<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;"
+    src="https://files.guzlife.site/video/%E8%A3%85%E4%BF%AE%E4%BA%A4%E4%BB%981.0.mp4">
+</iframe>
+</div>
+
+<h5 id="PDF设计图纸预览"><a href="#PDF设计图纸预览" class="headerlink" title="PDF设计图纸预览"></a>PDF设计图纸预览</h5><div style = "border:1px; width:100%; height:1200px;">
+<iframe 
+style="width: 100%;
+    height: 100%" 
+src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FpmIXmsZ%2FlupwuZG9jeA%3D%3D">
+</iframe>
+</div>
+
+
+<h5 id="PDF设计图纸下载"><a href="#PDF设计图纸下载" class="headerlink" title="PDF设计图纸下载"></a>PDF设计图纸下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/白沙洲阅江府.pdf">点击下载—&gt;</a></p>
+<h5 id="10栋总平面图下载"><a href="#10栋总平面图下载" class="headerlink" title="10栋总平面图下载"></a>10栋总平面图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋总平面图.pdf">点击下载—&gt;</a></p>
+<h5 id="10栋2单元dwg户型图下载"><a href="#10栋2单元dwg户型图下载" class="headerlink" title="10栋2单元dwg户型图下载"></a>10栋2单元dwg户型图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋01户户型平面图_t3.dwg">点击下载—&gt;</a></p>
 ]]></content>
       <categories>
-        <category>后端技术</category>
+        <category>吉丽装修记</category>
       </categories>
       <tags>
-        <tag>sql</tag>
+        <tag>装修</tag>
       </tags>
   </entry>
   <entry>
@@ -2330,6 +2246,116 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
+    <title>利用sql 生成 带swagger注解的实体</title>
+    <url>/2023/02/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%B8%89%EF%BC%89/</url>
+    <content><![CDATA[<p>— 设置参数：schema数据库</p>
+<p>SET @table_schema=’ibp_enrolment’;</p>
+<p>— 设置参数：表名称</p>
+<p>SET @table_name=’bs_warehouse_file_config’;</p>
+<p>SELECT</p>
+<p>CONCAT(‘@ApiModelProperty(value=”‘,main.COLUMN_COMMENT,’”)\n’,’private ‘,</p>
+<p>CASE</p>
+<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘varchar%’ OR LOWER(main.DATA_TYPE) LIKE ‘char%’ OR LOWER(main.DATA_TYPE) LIKE ‘LONGTEXT%’ OR LOWER(main.DATA_TYPE) LIKE ‘tinytext%’ THEN ‘String’</p>
+<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘decimal%’ OR LOWER(main.DATA_TYPE) = ‘float’THEN ‘Double’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’int’ OR LOWER(main.DATA_TYPE)=’tinyint’ THEN ‘Integer’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’bigint’ THEN ‘Long’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’datetime’ OR LOWER(main.DATA_TYPE)=’timestamp’ THEN ‘Timestamp’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’date’ THEN ‘Date’</p>
+<p>ELSE ‘’</p>
+<p>END,’ ‘,</p>
+<p>underlineToCamel(main.COLUMN_NAME),</p>
+<p>‘=’,</p>
+<p>CASE</p>
+<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘varchar%’ OR LOWER(main.DATA_TYPE) LIKE ‘char%’ THEN ‘\”\”‘</p>
+<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘decimal%’ THEN IF(main.NUMERIC_SCALE=1,’0.0D’,IF(main.NUMERIC_SCALE=2,’0.00D’,IF(main.NUMERIC_SCALE=3,’0.000D’,IF(main.NUMERIC_SCALE=4,’0.0000D’,’0.00D’))))</p>
+<p>WHEN LOWER(main.DATA_TYPE) = ‘float’ THEN ‘0.0D’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’int’ OR LOWER(main.DATA_TYPE)=’tinyint’ THEN ‘0’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’bigint’ THEN ‘0L’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’datetime’ OR LOWER(main.DATA_TYPE)=’timestamp’ THEN ‘Timestamp.valueOf(LocalDateTime.now())’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’date’ THEN ‘Date.valueOf(LocalDate.now())’</p>
+<p>ELSE ‘’</p>
+<p>END,</p>
+<p>‘;’) AS VO,</p>
+<p>CONCAT(‘/<em>*\n’,’</em>‘,main.COLUMN_COMMENT,’\n*/\n’,</p>
+<p>CASE WHEN main.COLUMN_NAME=’valid’ THEN ‘@TableLogic(value = “0”, delval = “1”)\n@TableField(fill = FieldFill.INSERT)\n’</p>
+<p>WHEN main.COLUMN_NAME=’version’ THEN ‘@Version\n@TableField(fill = FieldFill.INSERT_UPDATE)\n’</p>
+<p>WHEN main.COLUMN_NAME=’created_user_code’ THEN ‘@TableField(fill = FieldFill.INSERT)\n’</p>
+<p>WHEN main.COLUMN_NAME=’created_time’ THEN ‘@TableField(fill = FieldFill.INSERT)\n’</p>
+<p>WHEN main.COLUMN_NAME=’updated_user_code’ THEN ‘@TableField(fill = FieldFill.INSERT_UPDATE)\n’</p>
+<p>WHEN main.COLUMN_NAME=’updated_time’ THEN ‘@TableField(fill = FieldFill.INSERT_UPDATE)\n’</p>
+<p>WHEN main.COLUMN_NAME=’id’ THEN ‘@TableId(type = IdType.AUTO)\n’</p>
+<p>ELSE ‘’</p>
+<p>END</p>
+<p>,’private ‘,</p>
+<p>CASE</p>
+<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘varchar%’ OR LOWER(main.DATA_TYPE) LIKE ‘char%’ OR LOWER(main.DATA_TYPE) LIKE ‘LONGTEXT%’ OR LOWER(main.DATA_TYPE) LIKE ‘tinytext%’ THEN ‘String’</p>
+<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘decimal%’ OR LOWER(main.DATA_TYPE) = ‘float’THEN ‘Double’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’int’ OR LOWER(main.DATA_TYPE)=’tinyint’ THEN ‘Integer’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’bigint’ THEN ‘Long’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’datetime’ OR LOWER(main.DATA_TYPE)=’timestamp’ THEN ‘Timestamp’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’date’ THEN ‘Date’</p>
+<p>ELSE ‘’</p>
+<p>END,’ ‘,</p>
+<p>underlineToCamel(main.COLUMN_NAME),</p>
+<p>‘=’,</p>
+<p>CASE</p>
+<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘varchar%’ OR LOWER(main.DATA_TYPE) LIKE ‘char%’ THEN ‘\”\”‘</p>
+<p>WHEN LOWER(main.DATA_TYPE) LIKE ‘decimal%’ THEN IF(main.NUMERIC_SCALE=1,’0.0D’,IF(main.NUMERIC_SCALE=2,’0.00D’,IF(main.NUMERIC_SCALE=3,’0.000D’,IF(main.NUMERIC_SCALE=4,’0.0000D’,’0.00D’))))</p>
+<p>WHEN LOWER(main.DATA_TYPE) = ‘float’ THEN ‘0.0D’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’int’ OR LOWER(main.DATA_TYPE)=’tinyint’ THEN ‘0’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’bigint’ THEN ‘0L’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’datetime’ OR LOWER(main.DATA_TYPE)=’timestamp’ THEN ‘Timestamp.valueOf(LocalDateTime.now())’</p>
+<p>WHEN LOWER(main.DATA_TYPE)=’date’ THEN ‘Date.valueOf(LocalDate.now())’</p>
+<p>ELSE ‘’</p>
+<p>END,</p>
+<p>‘;’) AS ‘Entity’</p>
+<p>FROM</p>
+<p>information_schema.<code>COLUMNS</code> main</p>
+<p>WHERE</p>
+<p>main.TABLE_SCHEMA = @table_schema</p>
+<p>AND main.TABLE_NAME = @table_name;</p>
+<p>其中转驼峰的函数underlineToCamel 如下：</p>
+<p>CREATE DEFINER=<code>vx</code>@<code>%</code> FUNCTION <code>underlineToCamel</code>(paramString VARCHAR(200)) RETURNS varchar(200) CHARSET utf8</p>
+<p>DETERMINISTIC</p>
+<p>begin</p>
+<p>set paramString = replace(paramString, ‘_a’, ‘A’);</p>
+<p>set paramString = replace(paramString, ‘_b’, ‘B’);</p>
+<p>set paramString = replace(paramString, ‘_c’, ‘C’);</p>
+<p>set paramString = replace(paramString, ‘_d’, ‘D’);</p>
+<p>set paramString = replace(paramString, ‘_e’, ‘E’);</p>
+<p>set paramString = replace(paramString, ‘_f’, ‘F’);</p>
+<p>set paramString = replace(paramString, ‘_g’, ‘G’);</p>
+<p>set paramString = replace(paramString, ‘_h’, ‘H’);</p>
+<p>set paramString = replace(paramString, ‘_i’, ‘I’);</p>
+<p>set paramString = replace(paramString, ‘_j’, ‘J’);</p>
+<p>set paramString = replace(paramString, ‘_k’, ‘K’);</p>
+<p>set paramString = replace(paramString, ‘_l’, ‘L’);</p>
+<p>set paramString = replace(paramString, ‘_m’, ‘M’);</p>
+<p>set paramString = replace(paramString, ‘_n’, ‘N’);</p>
+<p>set paramString = replace(paramString, ‘_o’, ‘O’);</p>
+<p>set paramString = replace(paramString, ‘_p’, ‘P’);</p>
+<p>set paramString = replace(paramString, ‘_q’, ‘Q’);</p>
+<p>set paramString = replace(paramString, ‘_r’, ‘R’);</p>
+<p>set paramString = replace(paramString, ‘_s’, ‘S’);</p>
+<p>set paramString = replace(paramString, ‘_t’, ‘T’);</p>
+<p>set paramString = replace(paramString, ‘_u’, ‘U’);</p>
+<p>set paramString = replace(paramString, ‘_v’, ‘V’);</p>
+<p>set paramString = replace(paramString, ‘_w’, ‘W’);</p>
+<p>set paramString = replace(paramString, ‘_x’, ‘X’);</p>
+<p>set paramString = replace(paramString, ‘_y’, ‘Y’);</p>
+<p>set paramString = replace(paramString, ‘_z’, ‘Z’);</p>
+<p>set paramString = replace(paramString, ‘_’, ‘’);</p>
+<p>RETURN paramString;</p>
+<p>end</p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>sql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>父工程从springboot2.7.18升级到3.4.2总结</title>
     <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot2.7.18%E5%8D%87%E7%BA%A7%E5%88%B03.4.2%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
@@ -2394,80 +2420,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
         <tag>java</tag>
         <tag>springboot</tag>
         <tag>gradle</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>瓦克玻璃胶采购</title>
-    <url>/2023/06/17/%E7%8E%BB%E7%92%83%E8%83%B6%E9%87%87%E8%B4%AD/</url>
-    <content><![CDATA[<p>瓦克一瓶按标准的缝隙大小打10米左右 </p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">型号/价格</th>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">产品特点</th>
-<th style="text-align:center">使用范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">DA(87元/瓶)</td>
-<td style="text-align:center">强效防霉醇型中性硅酮密封胶</td>
-<td style="text-align:center">12倍0级防霉标准  德国EC1环保认证 法国A+认证</td>
-<td style="text-align:center">厨卫淋浴房等场所防霉密封</td>
-</tr>
-<tr>
-<td style="text-align:center">KB(59元/瓶)</td>
-<td style="text-align:center">厨房卫浴专用长效防霉密封胶</td>
-<td style="text-align:center">德国EC环保认证 0级长效防霉</td>
-<td style="text-align:center">厨房卫浴防霉专用</td>
-</tr>
-<tr>
-<td style="text-align:center">GM(30元/瓶)</td>
-<td style="text-align:center">醇型中性硅酮密封胶</td>
-<td style="text-align:center">通过SGS检测甲醛释放符合环保标准</td>
-<td style="text-align:center">用于家装装潢、踢脚线、门套、窗户、吊顶等密封</td>
-</tr>
-<tr>
-<td style="text-align:center">SN(41元/瓶)</td>
-<td style="text-align:center">醇型厨卫防霉硅酮密封胶</td>
-<td style="text-align:center">0级长效防霉</td>
-<td style="text-align:center">台盆，马桶，灶台等一般厨房卫生间等洁具防霉</td>
-</tr>
-<tr>
-<td style="text-align:center">CA(72元/瓶)</td>
-<td style="text-align:center">防霉醇型中性硅酮密封胶</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">DA降级版</td>
-</tr>
-<tr>
-<td style="text-align:center">GF(68元/瓶)</td>
-<td style="text-align:center">晶彩美容胶</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">CS(36元/瓶)</td>
-<td style="text-align:center">建筑中性硅酮密封胶（耐候胶）</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">室外门窗装配耐候密封</td>
-</tr>
-<tr>
-<td style="text-align:center">HA(69元/瓶)</td>
-<td style="text-align:center">高强度胶粘剂</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">五金、木材、金属、玻璃等的粘接</td>
-</tr>
-</tbody>
-</table>
-</div>
-]]></content>
-      <categories>
-        <category>购物</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
       </tags>
   </entry>
   <entry>
@@ -2586,6 +2538,80 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
+    <title>瓦克玻璃胶采购</title>
+    <url>/2023/06/17/%E7%8E%BB%E7%92%83%E8%83%B6%E9%87%87%E8%B4%AD/</url>
+    <content><![CDATA[<p>瓦克一瓶按标准的缝隙大小打10米左右 </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">型号/价格</th>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">产品特点</th>
+<th style="text-align:center">使用范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DA(87元/瓶)</td>
+<td style="text-align:center">强效防霉醇型中性硅酮密封胶</td>
+<td style="text-align:center">12倍0级防霉标准  德国EC1环保认证 法国A+认证</td>
+<td style="text-align:center">厨卫淋浴房等场所防霉密封</td>
+</tr>
+<tr>
+<td style="text-align:center">KB(59元/瓶)</td>
+<td style="text-align:center">厨房卫浴专用长效防霉密封胶</td>
+<td style="text-align:center">德国EC环保认证 0级长效防霉</td>
+<td style="text-align:center">厨房卫浴防霉专用</td>
+</tr>
+<tr>
+<td style="text-align:center">GM(30元/瓶)</td>
+<td style="text-align:center">醇型中性硅酮密封胶</td>
+<td style="text-align:center">通过SGS检测甲醛释放符合环保标准</td>
+<td style="text-align:center">用于家装装潢、踢脚线、门套、窗户、吊顶等密封</td>
+</tr>
+<tr>
+<td style="text-align:center">SN(41元/瓶)</td>
+<td style="text-align:center">醇型厨卫防霉硅酮密封胶</td>
+<td style="text-align:center">0级长效防霉</td>
+<td style="text-align:center">台盆，马桶，灶台等一般厨房卫生间等洁具防霉</td>
+</tr>
+<tr>
+<td style="text-align:center">CA(72元/瓶)</td>
+<td style="text-align:center">防霉醇型中性硅酮密封胶</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">DA降级版</td>
+</tr>
+<tr>
+<td style="text-align:center">GF(68元/瓶)</td>
+<td style="text-align:center">晶彩美容胶</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">CS(36元/瓶)</td>
+<td style="text-align:center">建筑中性硅酮密封胶（耐候胶）</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">室外门窗装配耐候密封</td>
+</tr>
+<tr>
+<td style="text-align:center">HA(69元/瓶)</td>
+<td style="text-align:center">高强度胶粘剂</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">五金、木材、金属、玻璃等的粘接</td>
+</tr>
+</tbody>
+</table>
+</div>
+]]></content>
+      <categories>
+        <category>购物</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>生活录【2023-01】</title>
     <url>/2023/01/01/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-01%E3%80%91/</url>
     <content><![CDATA[<ul>
@@ -2683,32 +2709,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
-    <title>生活录【2023-02】</title>
-    <url>/2023/03/03/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-03%E3%80%91%20/</url>
-    <content><![CDATA[<ul>
-<li>[2023-03-03]<blockquote>
-<p>坐高铁回武汉看装修设计,办完回家看儿子</p>
-</blockquote>
-</li>
-<li>[2023-03-06]<blockquote>
-<p>今天又是忙碌的一天！上午一家人带儿子去武汉儿童医院，到了医院后开车又过江去了趟车管所办理车贷解押，办完中午去万象城吃了个饭后又给儿子带去涂了氟</p>
-</blockquote>
-</li>
-<li>[2023-03-08]<blockquote>
-<p>一早回了上海上班，老婆带着儿子检查单去医院看门诊，没啥问题，儿子健健康康</p>
-</blockquote>
-</li>
-<li>[2023-03-09]</li>
-</ul>
-]]></content>
-      <categories>
-        <category>日常</category>
-      </categories>
-      <tags>
-        <tag>小记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>装修知识分享</title>
     <url>/2023/07/08/%E8%A3%85%E4%BF%AE%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/</url>
     <content><![CDATA[<h2 id="gt-厨房要用4平方线，不然容易跳闸"><a href="#gt-厨房要用4平方线，不然容易跳闸" class="headerlink" title="&gt; 厨房要用4平方线，不然容易跳闸"></a>&gt; 厨房要用4平方线，不然容易跳闸</h2><div class="table-container">
@@ -2755,6 +2755,32 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </categories>
       <tags>
         <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>生活录【2023-02】</title>
+    <url>/2023/03/03/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-03%E3%80%91%20/</url>
+    <content><![CDATA[<ul>
+<li>[2023-03-03]<blockquote>
+<p>坐高铁回武汉看装修设计,办完回家看儿子</p>
+</blockquote>
+</li>
+<li>[2023-03-06]<blockquote>
+<p>今天又是忙碌的一天！上午一家人带儿子去武汉儿童医院，到了医院后开车又过江去了趟车管所办理车贷解押，办完中午去万象城吃了个饭后又给儿子带去涂了氟</p>
+</blockquote>
+</li>
+<li>[2023-03-08]<blockquote>
+<p>一早回了上海上班，老婆带着儿子检查单去医院看门诊，没啥问题，儿子健健康康</p>
+</blockquote>
+</li>
+<li>[2023-03-09]</li>
+</ul>
+]]></content>
+      <categories>
+        <category>日常</category>
+      </categories>
+      <tags>
+        <tag>小记</tag>
       </tags>
   </entry>
   <entry>
