@@ -313,6 +313,177 @@ docker run -d -p 8888:8888 --name zx-order zx-order:latest<span aria-hidden="tru
       </tags>
   </entry>
   <entry>
+    <title>apifox接口测试工具使用分享</title>
+    <url>/2023/10/21/apifox%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h4 id="apifox介绍"><a href="#apifox介绍" class="headerlink" title="apifox介绍"></a>apifox介绍</h4><blockquote>
+<p>今天分享一下apifox工具使用<br>apifox是阿里开发的一款集API 文档、API 调试、API Mock、API 自动化测试于一体的协助工具<br>Apifox = Postman + Swagger + Mock + JMeter</p>
+<p>基础的使用就不用多介绍了，下面介绍一些常用的高级特性</p>
+</blockquote>
+<h4 id="apifox-环境维护"><a href="#apifox-环境维护" class="headerlink" title="apifox-环境维护"></a>apifox-环境维护</h4><blockquote>
+<p>使用场景：为了方便一个项目服务在多个环境发布后中进行接口测试，比如本地开发环境、mit、sit、prod等等</p>
+<p>使用介绍：新建一个演示项目001后，点击右上角可以进入管理环境页面可以维护本地开发，测试，生产等环境</p>
+<p>通过gayway路由的微服务添加测试环境时带上服务名，本地测试不加</p>
+</blockquote>
+<h4 id="apifox-接口维护"><a href="#apifox-接口维护" class="headerlink" title="apifox-接口维护"></a>apifox-接口维护</h4><blockquote>
+<p>在项目接口管理中维护一个接口有三种方式</p>
+<ul>
+<li><p>手动添加</p>
+<p>在接口管理中新建接口手动维护，如果只是想简单测一下项目接口地址可以建一个快捷请求</p>
+</li>
+<li><p>手动导入添加</p>
+<p>点击项目设置，在数据管理中有个导入数据, 导入分手动导入和定时导入，手动导入都是导入各种类型的数据文件 支持的还挺全面</p>
+</li>
+<li><p>定时同步添加或更新</p>
+<p>在项目设置-&gt;数据管理中的定时导入可以根据设置的url 和频次进行定时更新接口文档，维护好后可以手动触发更新</p>
+</li>
+</ul>
+</blockquote>
+<h4 id=""><a href="#" class="headerlink" title=" "></a> </h4><h4 id="apifox-压测"><a href="#apifox-压测" class="headerlink" title="apifox-压测"></a>apifox-压测</h4><blockquote>
+<p>在项目自动化测试中添加测试场景 - 测试场景001， 添加步骤 可以接口导入，测试用例导入也可以自定义</p>
+<p>接口导入选择需要测试的接口，最右边有设置运行配置 如：循环次数，线程数。</p>
+</blockquote>
+<p>​    </p>
+<h4 id="apifox-脚本使用"><a href="#apifox-脚本使用" class="headerlink" title="apifox-脚本使用"></a>apifox-脚本使用</h4><blockquote>
+<p>接口中前置操作或后置操作可以添加脚本。例如以下接口脚本，此接口请求前需要获取上个接口中的响应token，然后放置在请求头上再去请求</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取环境里的 前置 URL</span>
+<span class="token keyword">const</span> baseUrl <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">getBaseUrl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> loginRequest <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">url</span><span class="token operator">:</span> baseUrl <span class="token operator">+</span> <span class="token string">"/ehr-service/foreignApi/token/getToken"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">method</span><span class="token operator">:</span> <span class="token string">"POST"</span><span class="token punctuation">,</span>
+   <span class="token literal-property property">header</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token string-property property">"Content-Type"</span><span class="token operator">:</span> <span class="token string">"application/json"</span><span class="token punctuation">,</span> <span class="token comment">// 注意：header 需要加上 Content-Type</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">body</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'raw'</span><span class="token punctuation">,</span><span class="token comment">// 此处为 raw</span>
+    <span class="token literal-property property">raw</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> <span class="token literal-property property">appId</span><span class="token operator">:</span> <span class="token string">'wlxz0001'</span><span class="token punctuation">,</span> <span class="token literal-property property">appSecret</span><span class="token operator">:</span><span class="token string">'135873E92784809A0B68B5511456CB85'</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 序列化后的 json 字符串</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+pm<span class="token punctuation">.</span><span class="token function">sendRequest</span><span class="token punctuation">(</span>loginRequest<span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 获取 Header 参数对象</span>
+  <span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
+  <span class="token comment">// 修改 header 参数（如不存在则新增）</span>
+  headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"token"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">value</span><span class="token operator">:</span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>body<span class="token punctuation">.</span>token<span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以参考：<a href="https://apifox.com/help/best-practices/how-to-handle-auth">登录态（Auth）如何处理 | Apifox 帮助文档</a></p>
+<p>提示：最后饭有代码片段提示，点高级功能可以调转到帮助文档</p>
+<ol>
+<li><p>环境变量</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">*</span><span class="token comment">// 设置环境变量*</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token operator">*</span><span class="token comment">// 获取环境变量*</span>
+<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token operator">*</span><span class="token comment">// unset 环境变量*</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>读取的时候，需要使用<code>JSON.parse</code>转换回来</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'array'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">'val'</span> <span class="token punctuation">&#125;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'obj'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">var</span> array <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'array'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'obj'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">// 处理异常</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<ol>
+<li><p>全局变量</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 设置全局变量</span>
+pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取全局变量</span>
+<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// unset 全局变量</span>
+pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<ol>
+<li><p>临时变量</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 设置临时变量</span>
+pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取临时变量</span>
+<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// unset 临时变量</span>
+pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<ol>
+<li><p>URL 相关信息</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 url 对象</span>
+<span class="token keyword">var</span> urlObj <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>url<span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取完整接口请求 URL，包含 query 参数</span>
+<span class="token keyword">var</span> url <span class="token operator">=</span> urlObj<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取协议（http 或 https）</span>
+<span class="token keyword">var</span> protocol <span class="token operator">=</span> urlObj<span class="token punctuation">.</span>protocol<span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取 端口</span>
+<span class="token keyword">var</span> port <span class="token operator">=</span> urlObj<span class="token punctuation">.</span>port<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<ol>
+<li><p>Header 参数</p>
+<p>获取header参数</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 Header 参数对象</span>
+<span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取 key 为 field1 的 header 参数的值</span>
+<span class="token keyword">var</span> field1 <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"field1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 已键值对象方式获取所有 header 参数</span>
+<span class="token keyword">var</span> headersObject <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">toObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 遍历整个 header</span>
+headers<span class="token punctuation">.</span><span class="token function">each</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出参数名</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出参数值</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>修改 header 参数</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 Header 参数对象</span>
+<span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
+      
+<span class="token comment">// 增加 header 参数</span>
+headers<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"field1"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token string">"value1"</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 修改 header 参数（如不存在则新增）</span>
+headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"field2"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token string">"value2"</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>更多使用示例：</p>
+<p><a href="https://apifox.com/help/pre-post-processors-and-scripts/scripts/examples/variables">脚本使用变量 | Apifox 帮助文档</a></p>
+<p><a href="https://apifox.com/help/pre-post-processors-and-scripts/scripts/api-references/pm-reference">pm 对象 API | Apifox 帮助文档</a></p>
+</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>butterfly-notes</title>
     <url>/2020/04/16/butterfly-notes/</url>
     <content><![CDATA[<h4 id="note"><a href="#note" class="headerlink" title="note"></a>note</h4><pre class="line-numbers language-none"><code class="language-none">&#123;% note warning [no-icon] modern %&#125;
@@ -373,6 +544,226 @@ This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfl
       <tags>
         <tag>hexo</tag>
         <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>好用的docker镜像</title>
+    <url>/2025/09/18/docker-runs(%E7%BB%AD)/</url>
+    <content><![CDATA[<h4 id="Markdown-编辑器"><a href="#Markdown-编辑器" class="headerlink" title="Markdown 编辑器"></a>Markdown 编辑器</h4><ul>
+<li><strong>官网地址</strong>  <a href="https://md.doocs.org">https://md.doocs.org</a></li>
+<li><strong>开源地址</strong>  <a href="https://gitee.com/doocs/md">https://gitee.com/doocs/md</a></li>
+<li><strong>镜像运行</strong> <pre class="line-numbers language-none"><code class="language-none">docker run --name md-editor -d -p 8080:80 doocs&#x2F;md:latest<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ul>
+<h4 id="文档在线预览"><a href="#文档在线预览" class="headerlink" title="文档在线预览"></a>文档在线预览</h4><ul>
+<li><strong>官网地址</strong>  <a href="https://kkview.cn">https://kkview.cn</a></li>
+<li><strong>开源地址</strong>  <a href="https://gitee.com/kekingcn/file-online-preview">https://gitee.com/kekingcn/file-online-preview</a></li>
+<li><strong>镜像运行</strong> <pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown"><span class="token title important"><span class="token punctuation">####</span> 拉取镜像</span>
+docker load -i kkFileView-4.4.0-docker.tar
+<span class="token title important"><span class="token punctuation">####</span> 运行</span>
+docker run -it -p 8012:8012 keking/kkfileview:4.4.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ftl模版表格中根据条件合并行</title>
+    <url>/2025/03/31/ftl%E6%A8%A1%E7%89%88%E8%A1%A8%E6%A0%BC%E4%B8%AD%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E5%90%88%E5%B9%B6%E8%A1%8C/</url>
+    <content><![CDATA[<h4 id="序章"><a href="#序章" class="headerlink" title="序章"></a>序章</h4><blockquote>
+<p>想到开发中遇到每个ftl模版表格合并行操作时都需要逻辑代码实现比较繁琐，闲着无聊开发个工具解决下。思路是这样的：<br>每个表格的需要合并列的合并的规则基本一致，也就是数据一样即可在首行的格子设置rowspan，并将除首行外相同数据清空。如以下表格：<br><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>年龄<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>姓名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>李莉<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>王五<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>24<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>赵四<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>那这个表格中相同的年龄就可以合并</p>
+</blockquote>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>年龄<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>姓名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token comment">&lt;!--设置rowspan--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">rowspan</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>李莉<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+     <span class="token comment">&lt;!--清空相同的年龄数据--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>王五<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>24<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>赵四<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以上，我们理清楚三点：  </p>
+<ol>
+<li>需要设置的合并列  </li>
+<li>清空的数据列  </li>
+<li>设置rowspan的值<br>话不多说，开整</li>
+</ol>
+<h4 id="步骤1-新建一个接口RowSpanInterface"><a href="#步骤1-新建一个接口RowSpanInterface" class="headerlink" title="步骤1. 新建一个接口RowSpanInterface"></a>步骤1. 新建一个接口RowSpanInterface</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">RowSpanInterface</span> <span class="token punctuation">&#123;</span>
+     <span class="token class-name">String</span> <span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">void</span> <span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">void</span> <span class="token function">setRowSpan</span><span class="token punctuation">(</span><span class="token keyword">int</span> row<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="步骤2-新建ftl模版"><a href="#步骤2-新建ftl模版" class="headerlink" title="步骤2. 新建ftl模版"></a>步骤2. 新建ftl模版</h4><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#assign</span> <span class="token attr-name">header25</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size: 11px;font-family: 楷体;text-align: center;font-weight: bold; background-color: #BE0001; color: #FFFFFF;height: 25px;<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#assign</span> <span class="token attr-name">center9_list_tr</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-align: center;vertical-align: middle;font-size: 10px;font-family: 楷体;height: 25px;<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>caption</span><span class="token punctuation">></span></span>战区TOP10<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>caption</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token selector">$</span><span class="token punctuation">&#123;</span>header25<span class="token punctuation">&#125;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期月<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border-left-color</span><span class="token punctuation">:</span> #f8e099</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>top10排名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>园区<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同编号<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户名称<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户集群<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期未签约面积（m²）<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期未签约单元<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同开始日期<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同结束日期<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同归属人<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>是否KA客户<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户owner<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#if</span> <span class="token attr-name">areaTop10List??</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#list</span> <span class="token attr-name">areaTop10List</span> <span class="token attr-name">as</span> <span class="token attr-name">item</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token selector">$</span><span class="token punctuation">&#123;</span>center9_list_tr<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#if</span> <span class="token attr-name">item.month??</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">rowspan</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$&#123;item.rowSpan!<span class="token punctuation">"</span></span><span class="token attr-name">1"&#125;"</span><span class="token punctuation">></span></span>$&#123;item.month!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#if</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.rank!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.mallName!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contNo!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerName!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerCluster!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.unSignedSquare!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.unSignedStore!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contStartDate!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contEndDate!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contOwner!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.isKACustomer!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerOwner!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#list</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#if</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="3-新建数据模型，并实现接口"><a href="#3-新建数据模型，并实现接口" class="headerlink" title="3. 新建数据模型，并实现接口"></a>3. 新建数据模型，并实现接口</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Data</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AreaTop10VacancyModel</span> <span class="token keyword">implements</span> <span class="token class-name">RowSpanInterface</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> rowSpan<span class="token punctuation">;</span>
+    <span class="token comment">//临期月</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> month<span class="token punctuation">;</span>
+    <span class="token comment">//top10排名</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> rank<span class="token punctuation">;</span>
+    <span class="token comment">//园区</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> mallName<span class="token punctuation">;</span>
+    <span class="token comment">//合同编号</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> contNo<span class="token punctuation">;</span>
+    <span class="token comment">//客户名称</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> customerName<span class="token punctuation">;</span>
+    <span class="token comment">//客户集群</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> customerCluster<span class="token punctuation">;</span>
+    <span class="token comment">//临期未签约面积</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> unSignedSquare<span class="token punctuation">;</span>
+    <span class="token comment">//临期未签约单元</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> unSignedStore<span class="token punctuation">;</span>
+    <span class="token comment">//合同开始日期</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> contStartDate<span class="token punctuation">;</span>
+    <span class="token comment">//合同结束日期</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> contEndDate<span class="token punctuation">;</span>
+    <span class="token comment">//合同归属人</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> contOwner<span class="token punctuation">;</span>
+    <span class="token comment">//是否KA客户</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> isKACustomer<span class="token punctuation">;</span>
+    <span class="token comment">//客户owner</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> customerOwner<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> month<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>month <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="4-核心处理类"><a href="#4-核心处理类" class="headerlink" title="4. 核心处理类"></a>4. 核心处理类</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RowSpanHandler</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">handle</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">RowSpanInterface</span><span class="token punctuation">></span></span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 使用通配符类型进行流操作，避免强制类型转换</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Long</span><span class="token punctuation">></span></span> countMap <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">-></span> <span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span><span class="token punctuation">)</span> item<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">groupingBy</span><span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span><span class="token operator">::</span><span class="token function">rowSpanKey</span><span class="token punctuation">,</span> <span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">counting</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Set</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> cacheKeys <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span> rowSpanInterface <span class="token operator">:</span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">String</span> rowSpanKey <span class="token operator">=</span> rowSpanInterface<span class="token punctuation">.</span><span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> rowSpan <span class="token operator">=</span> countMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">intValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>cacheKeys<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                rowSpanInterface<span class="token punctuation">.</span><span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                cacheKeys<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                rowSpanInterface<span class="token punctuation">.</span><span class="token function">setRowSpan</span><span class="token punctuation">(</span>rowSpan<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="5-调用"><a href="#5-调用" class="headerlink" title="5. 调用"></a>5. 调用</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">AreaTop10VacancyModel</span><span class="token punctuation">></span></span> areaTop10List <span class="token operator">=</span> <span class="token function">getTop10List</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">RowSpanHandler</span><span class="token punctuation">.</span><span class="token function">handle</span><span class="token punctuation">(</span>areaTop10List<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>至此，相同的临期月排名数据已合并，这个方案后期可以维护升级成多个相同列进行多次合并，如果相同临期月中排名一样的需要再次合并的需求,这里不再赘述</p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git快捷操作</title>
+    <url>/2023/07/04/git%20%E5%BF%AB%E6%8D%B7%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h4 id="git-删除本地分支"><a href="#git-删除本地分支" class="headerlink" title="git 删除本地分支"></a>git 删除本地分支</h4><p>git branch -d 本地分支名称  </p>
+<h4 id="git-删除远程分支"><a href="#git-删除远程分支" class="headerlink" title="git 删除远程分支"></a>git 删除远程分支</h4><p>方式一. git push origin —delete <branch_name><br>方式二. git push origin :<branch_name>  </p>
+<h4 id="创建-切换分支操作"><a href="#创建-切换分支操作" class="headerlink" title="创建/切换分支操作"></a>创建/切换分支操作</h4><p>git branch (查看本地分支)<br>git branch -r (查看远程分支)<br>git branch -a (查看本地和远程分支)<br>git checkout -b <branch_name> (创建分支)<br>git branch -m 旧分支  新分支（重命名分支）<br>git checkout <branch_name> （切换到指定分支）<br>git switch <branch_name> （切换分支）<br>git switch -c <branch_name> （创建新分支）<br>git checkout <branch_name> <commit_hash> （指定提交切换分支）</p>
+<h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h4><p>git merge <branch_name> （将指定分支合并到当前分支）<br>‌git cherry-pick‌ <commit_id> （只合并分支提交的改动内容，非整个分支合并） </p>
+<h4 id="git丢弃已暂存的修改"><a href="#git丢弃已暂存的修改" class="headerlink" title="git丢弃已暂存的修改"></a>git丢弃已暂存的修改</h4><p>git reset HEAD <file> (<file>不指定= 丢弃所有已暂存的文件)<br>git reset —hard HEAD （同时丢弃暂存区和工作区的修改）<br>此命令将工作区和暂存区重置到最后一次提交的状态，所有未提交的更改都会被丢弃，不可恢复。</p>
+<h4 id="取消最近的-commit"><a href="#取消最近的-commit" class="headerlink" title="取消最近的 commit"></a>取消最近的 commit</h4><p>git reset —soft HEAD~1 （保留文件变更） </p>
+<ul>
+<li>—soft：将 HEAD 指针回退到前一个提交（即 HEAD~1），但是保留工作区和暂存区的变更，变 更会被放回到暂存区。 </li>
+<li>HEAD~1：表示上一个提交。<br>git reset —hard HEAD~1 (不保留文件变更)<br>git reset —hard <commit_id>(回退到某个历史提交)  </li>
+</ul>
+<h4 id="git-设置‌基础配置"><a href="#git-设置‌基础配置" class="headerlink" title="git 设置‌基础配置"></a>git 设置‌基础配置</h4><ol>
+<li>设置用户信息<br>git config —global user.name “姓名”<br>git config —global user.email “邮箱”  </li>
+<li>查看配置‌<br>git config —list<br>git config —global xxx</li>
+</ol>
+<h4 id="git-文件操作与提交"><a href="#git-文件操作与提交" class="headerlink" title="git 文件操作与提交"></a>git 文件操作与提交</h4><p>‌暂存文件‌：<br>git add [file]（添加指定文件）。<br>git add .（添加所有修改）。‌‌<br>1‌‌<br>‌提交更改‌：git commit -m “提交信息”（含—amend修改最后一次提交）。‌‌<br>2‌‌<br>‌状态与差异‌：<br>git status（查看状态）。<br>git diff（比较工作区与暂存区）。‌‌</p>
+<h4 id="git-查询分支创建点"><a href="#git-查询分支创建点" class="headerlink" title="git 查询分支创建点"></a>git 查询分支创建点</h4><p>git reflog —date=iso 分支名称</p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -731,370 +1122,6 @@ spring:
       <tags>
         <tag>docker</tag>
         <tag>others</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ftl模版表格中根据条件合并行</title>
-    <url>/2025/03/31/ftl%E6%A8%A1%E7%89%88%E8%A1%A8%E6%A0%BC%E4%B8%AD%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E5%90%88%E5%B9%B6%E8%A1%8C/</url>
-    <content><![CDATA[<h4 id="序章"><a href="#序章" class="headerlink" title="序章"></a>序章</h4><blockquote>
-<p>想到开发中遇到每个ftl模版表格合并行操作时都需要逻辑代码实现比较繁琐，闲着无聊开发个工具解决下。思路是这样的：<br>每个表格的需要合并列的合并的规则基本一致，也就是数据一样即可在首行的格子设置rowspan，并将除首行外相同数据清空。如以下表格：<br><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>年龄<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>姓名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>李莉<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>王五<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>24<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>赵四<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>那这个表格中相同的年龄就可以合并</p>
-</blockquote>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>年龄<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>姓名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token comment">&lt;!--设置rowspan--></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">rowspan</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>李莉<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-     <span class="token comment">&lt;!--清空相同的年龄数据--></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>王五<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>24<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>赵四<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>以上，我们理清楚三点：  </p>
-<ol>
-<li>需要设置的合并列  </li>
-<li>清空的数据列  </li>
-<li>设置rowspan的值<br>话不多说，开整</li>
-</ol>
-<h4 id="步骤1-新建一个接口RowSpanInterface"><a href="#步骤1-新建一个接口RowSpanInterface" class="headerlink" title="步骤1. 新建一个接口RowSpanInterface"></a>步骤1. 新建一个接口RowSpanInterface</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">RowSpanInterface</span> <span class="token punctuation">&#123;</span>
-     <span class="token class-name">String</span> <span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token keyword">void</span> <span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token keyword">void</span> <span class="token function">setRowSpan</span><span class="token punctuation">(</span><span class="token keyword">int</span> row<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="步骤2-新建ftl模版"><a href="#步骤2-新建ftl模版" class="headerlink" title="步骤2. 新建ftl模版"></a>步骤2. 新建ftl模版</h4><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#assign</span> <span class="token attr-name">header25</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size: 11px;font-family: 楷体;text-align: center;font-weight: bold; background-color: #BE0001; color: #FFFFFF;height: 25px;<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#assign</span> <span class="token attr-name">center9_list_tr</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-align: center;vertical-align: middle;font-size: 10px;font-family: 楷体;height: 25px;<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>caption</span><span class="token punctuation">></span></span>战区TOP10<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>caption</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token selector">$</span><span class="token punctuation">&#123;</span>header25<span class="token punctuation">&#125;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期月<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border-left-color</span><span class="token punctuation">:</span> #f8e099</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>top10排名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>园区<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同编号<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户名称<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户集群<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期未签约面积（m²）<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期未签约单元<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同开始日期<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同结束日期<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同归属人<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>是否KA客户<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户owner<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#if</span> <span class="token attr-name">areaTop10List??</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#list</span> <span class="token attr-name">areaTop10List</span> <span class="token attr-name">as</span> <span class="token attr-name">item</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token selector">$</span><span class="token punctuation">&#123;</span>center9_list_tr<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#if</span> <span class="token attr-name">item.month??</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">rowspan</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$&#123;item.rowSpan!<span class="token punctuation">"</span></span><span class="token attr-name">1"&#125;"</span><span class="token punctuation">></span></span>$&#123;item.month!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#if</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.rank!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.mallName!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contNo!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerName!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerCluster!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.unSignedSquare!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.unSignedStore!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contStartDate!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contEndDate!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contOwner!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.isKACustomer!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerOwner!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#list</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#if</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="3-新建数据模型，并实现接口"><a href="#3-新建数据模型，并实现接口" class="headerlink" title="3. 新建数据模型，并实现接口"></a>3. 新建数据模型，并实现接口</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Data</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AreaTop10VacancyModel</span> <span class="token keyword">implements</span> <span class="token class-name">RowSpanInterface</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">private</span> <span class="token keyword">int</span> rowSpan<span class="token punctuation">;</span>
-    <span class="token comment">//临期月</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> month<span class="token punctuation">;</span>
-    <span class="token comment">//top10排名</span>
-    <span class="token keyword">private</span> <span class="token keyword">int</span> rank<span class="token punctuation">;</span>
-    <span class="token comment">//园区</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> mallName<span class="token punctuation">;</span>
-    <span class="token comment">//合同编号</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> contNo<span class="token punctuation">;</span>
-    <span class="token comment">//客户名称</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> customerName<span class="token punctuation">;</span>
-    <span class="token comment">//客户集群</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> customerCluster<span class="token punctuation">;</span>
-    <span class="token comment">//临期未签约面积</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> unSignedSquare<span class="token punctuation">;</span>
-    <span class="token comment">//临期未签约单元</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> unSignedStore<span class="token punctuation">;</span>
-    <span class="token comment">//合同开始日期</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> contStartDate<span class="token punctuation">;</span>
-    <span class="token comment">//合同结束日期</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> contEndDate<span class="token punctuation">;</span>
-    <span class="token comment">//合同归属人</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> contOwner<span class="token punctuation">;</span>
-    <span class="token comment">//是否KA客户</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> isKACustomer<span class="token punctuation">;</span>
-    <span class="token comment">//客户owner</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> customerOwner<span class="token punctuation">;</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">return</span> month<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>month <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="4-核心处理类"><a href="#4-核心处理类" class="headerlink" title="4. 核心处理类"></a>4. 核心处理类</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RowSpanHandler</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">handle</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">RowSpanInterface</span><span class="token punctuation">></span></span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">// 使用通配符类型进行流操作，避免强制类型转换</span>
-        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Long</span><span class="token punctuation">></span></span> countMap <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-                <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">-></span> <span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span><span class="token punctuation">)</span> item<span class="token punctuation">)</span>
-                <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">groupingBy</span><span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span><span class="token operator">::</span><span class="token function">rowSpanKey</span><span class="token punctuation">,</span> <span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">counting</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">Set</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> cacheKeys <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span> rowSpanInterface <span class="token operator">:</span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token class-name">String</span> rowSpanKey <span class="token operator">=</span> rowSpanInterface<span class="token punctuation">.</span><span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">int</span> rowSpan <span class="token operator">=</span> countMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">intValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>cacheKeys<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                rowSpanInterface<span class="token punctuation">.</span><span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
-                cacheKeys<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                rowSpanInterface<span class="token punctuation">.</span><span class="token function">setRowSpan</span><span class="token punctuation">(</span>rowSpan<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="5-调用"><a href="#5-调用" class="headerlink" title="5. 调用"></a>5. 调用</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">AreaTop10VacancyModel</span><span class="token punctuation">></span></span> areaTop10List <span class="token operator">=</span> <span class="token function">getTop10List</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token class-name">RowSpanHandler</span><span class="token punctuation">.</span><span class="token function">handle</span><span class="token punctuation">(</span>areaTop10List<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>至此，相同的临期月排名数据已合并，这个方案后期可以维护升级成多个相同列进行多次合并，如果相同临期月中排名一样的需要再次合并的需求,这里不再赘述</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git快捷操作</title>
-    <url>/2023/07/04/git%20%E5%BF%AB%E6%8D%B7%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h4 id="git-删除本地分支"><a href="#git-删除本地分支" class="headerlink" title="git 删除本地分支"></a>git 删除本地分支</h4><p>git branch -d 本地分支名称  </p>
-<h4 id="git-删除远程分支"><a href="#git-删除远程分支" class="headerlink" title="git 删除远程分支"></a>git 删除远程分支</h4><p>方式一. git push origin —delete <branch_name><br>方式二. git push origin :<branch_name>  </p>
-<h4 id="创建-切换分支操作"><a href="#创建-切换分支操作" class="headerlink" title="创建/切换分支操作"></a>创建/切换分支操作</h4><p>git branch (查看本地分支)<br>git branch -r (查看远程分支)<br>git branch -a (查看本地和远程分支)<br>git checkout -b <branch_name> (创建分支)<br>git branch -m 旧分支  新分支（重命名分支）<br>git checkout <branch_name> （切换到指定分支）<br>git switch <branch_name> （切换分支）<br>git switch -c <branch_name> （创建新分支）<br>git checkout <branch_name> <commit_hash> （指定提交切换分支）</p>
-<h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h4><p>git merge <branch_name> （将指定分支合并到当前分支）<br>‌git cherry-pick‌ <commit_id> （只合并分支提交的改动内容，非整个分支合并） </p>
-<h4 id="git丢弃已暂存的修改"><a href="#git丢弃已暂存的修改" class="headerlink" title="git丢弃已暂存的修改"></a>git丢弃已暂存的修改</h4><p>git reset HEAD <file> (<file>不指定= 丢弃所有已暂存的文件)<br>git reset —hard HEAD （同时丢弃暂存区和工作区的修改）<br>此命令将工作区和暂存区重置到最后一次提交的状态，所有未提交的更改都会被丢弃，不可恢复。</p>
-<h4 id="取消最近的-commit"><a href="#取消最近的-commit" class="headerlink" title="取消最近的 commit"></a>取消最近的 commit</h4><p>git reset —soft HEAD~1 （保留文件变更） </p>
-<ul>
-<li>—soft：将 HEAD 指针回退到前一个提交（即 HEAD~1），但是保留工作区和暂存区的变更，变 更会被放回到暂存区。 </li>
-<li>HEAD~1：表示上一个提交。<br>git reset —hard HEAD~1 (不保留文件变更)<br>git reset —hard <commit_id>(回退到某个历史提交)  </li>
-</ul>
-<h4 id="git-设置‌基础配置"><a href="#git-设置‌基础配置" class="headerlink" title="git 设置‌基础配置"></a>git 设置‌基础配置</h4><ol>
-<li>设置用户信息<br>git config —global user.name “姓名”<br>git config —global user.email “邮箱”  </li>
-<li>查看配置‌<br>git config —list<br>git config —global xxx</li>
-</ol>
-<h4 id="git-文件操作与提交"><a href="#git-文件操作与提交" class="headerlink" title="git 文件操作与提交"></a>git 文件操作与提交</h4><p>‌暂存文件‌：<br>git add [file]（添加指定文件）。<br>git add .（添加所有修改）。‌‌<br>1‌‌<br>‌提交更改‌：git commit -m “提交信息”（含—amend修改最后一次提交）。‌‌<br>2‌‌<br>‌状态与差异‌：<br>git status（查看状态）。<br>git diff（比较工作区与暂存区）。‌‌</p>
-<h4 id="git-查询分支创建点"><a href="#git-查询分支创建点" class="headerlink" title="git 查询分支创建点"></a>git 查询分支创建点</h4><p>git reflog —date=iso 分支名称</p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>apifox接口测试工具使用分享</title>
-    <url>/2023/10/21/apifox%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h4 id="apifox介绍"><a href="#apifox介绍" class="headerlink" title="apifox介绍"></a>apifox介绍</h4><blockquote>
-<p>今天分享一下apifox工具使用<br>apifox是阿里开发的一款集API 文档、API 调试、API Mock、API 自动化测试于一体的协助工具<br>Apifox = Postman + Swagger + Mock + JMeter</p>
-<p>基础的使用就不用多介绍了，下面介绍一些常用的高级特性</p>
-</blockquote>
-<h4 id="apifox-环境维护"><a href="#apifox-环境维护" class="headerlink" title="apifox-环境维护"></a>apifox-环境维护</h4><blockquote>
-<p>使用场景：为了方便一个项目服务在多个环境发布后中进行接口测试，比如本地开发环境、mit、sit、prod等等</p>
-<p>使用介绍：新建一个演示项目001后，点击右上角可以进入管理环境页面可以维护本地开发，测试，生产等环境</p>
-<p>通过gayway路由的微服务添加测试环境时带上服务名，本地测试不加</p>
-</blockquote>
-<h4 id="apifox-接口维护"><a href="#apifox-接口维护" class="headerlink" title="apifox-接口维护"></a>apifox-接口维护</h4><blockquote>
-<p>在项目接口管理中维护一个接口有三种方式</p>
-<ul>
-<li><p>手动添加</p>
-<p>在接口管理中新建接口手动维护，如果只是想简单测一下项目接口地址可以建一个快捷请求</p>
-</li>
-<li><p>手动导入添加</p>
-<p>点击项目设置，在数据管理中有个导入数据, 导入分手动导入和定时导入，手动导入都是导入各种类型的数据文件 支持的还挺全面</p>
-</li>
-<li><p>定时同步添加或更新</p>
-<p>在项目设置-&gt;数据管理中的定时导入可以根据设置的url 和频次进行定时更新接口文档，维护好后可以手动触发更新</p>
-</li>
-</ul>
-</blockquote>
-<h4 id=""><a href="#" class="headerlink" title=" "></a> </h4><h4 id="apifox-压测"><a href="#apifox-压测" class="headerlink" title="apifox-压测"></a>apifox-压测</h4><blockquote>
-<p>在项目自动化测试中添加测试场景 - 测试场景001， 添加步骤 可以接口导入，测试用例导入也可以自定义</p>
-<p>接口导入选择需要测试的接口，最右边有设置运行配置 如：循环次数，线程数。</p>
-</blockquote>
-<p>​    </p>
-<h4 id="apifox-脚本使用"><a href="#apifox-脚本使用" class="headerlink" title="apifox-脚本使用"></a>apifox-脚本使用</h4><blockquote>
-<p>接口中前置操作或后置操作可以添加脚本。例如以下接口脚本，此接口请求前需要获取上个接口中的响应token，然后放置在请求头上再去请求</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取环境里的 前置 URL</span>
-<span class="token keyword">const</span> baseUrl <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">getBaseUrl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> loginRequest <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
-  <span class="token literal-property property">url</span><span class="token operator">:</span> baseUrl <span class="token operator">+</span> <span class="token string">"/ehr-service/foreignApi/token/getToken"</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">method</span><span class="token operator">:</span> <span class="token string">"POST"</span><span class="token punctuation">,</span>
-   <span class="token literal-property property">header</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-    <span class="token string-property property">"Content-Type"</span><span class="token operator">:</span> <span class="token string">"application/json"</span><span class="token punctuation">,</span> <span class="token comment">// 注意：header 需要加上 Content-Type</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">body</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-    <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'raw'</span><span class="token punctuation">,</span><span class="token comment">// 此处为 raw</span>
-    <span class="token literal-property property">raw</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> <span class="token literal-property property">appId</span><span class="token operator">:</span> <span class="token string">'wlxz0001'</span><span class="token punctuation">,</span> <span class="token literal-property property">appSecret</span><span class="token operator">:</span><span class="token string">'135873E92784809A0B68B5511456CB85'</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 序列化后的 json 字符串</span>
-  <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-pm<span class="token punctuation">.</span><span class="token function">sendRequest</span><span class="token punctuation">(</span>loginRequest<span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token comment">// 获取 Header 参数对象</span>
-  <span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
-  <span class="token comment">// 修改 header 参数（如不存在则新增）</span>
-  headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
-  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"token"</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">value</span><span class="token operator">:</span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>body<span class="token punctuation">.</span>token<span class="token punctuation">,</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>可以参考：<a href="https://apifox.com/help/best-practices/how-to-handle-auth">登录态（Auth）如何处理 | Apifox 帮助文档</a></p>
-<p>提示：最后饭有代码片段提示，点高级功能可以调转到帮助文档</p>
-<ol>
-<li><p>环境变量</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">*</span><span class="token comment">// 设置环境变量*</span>
-pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token operator">*</span><span class="token comment">// 获取环境变量*</span>
-<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token operator">*</span><span class="token comment">// unset 环境变量*</span>
-pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>读取的时候，需要使用<code>JSON.parse</code>转换回来</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'array'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">'val'</span> <span class="token punctuation">&#125;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'obj'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">var</span> array <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'array'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'obj'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">// 处理异常</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<ol>
-<li><p>全局变量</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 设置全局变量</span>
-pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取全局变量</span>
-<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// unset 全局变量</span>
-pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<ol>
-<li><p>临时变量</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 设置临时变量</span>
-pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取临时变量</span>
-<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// unset 临时变量</span>
-pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<ol>
-<li><p>URL 相关信息</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 url 对象</span>
-<span class="token keyword">var</span> urlObj <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>url<span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取完整接口请求 URL，包含 query 参数</span>
-<span class="token keyword">var</span> url <span class="token operator">=</span> urlObj<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取协议（http 或 https）</span>
-<span class="token keyword">var</span> protocol <span class="token operator">=</span> urlObj<span class="token punctuation">.</span>protocol<span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取 端口</span>
-<span class="token keyword">var</span> port <span class="token operator">=</span> urlObj<span class="token punctuation">.</span>port<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<ol>
-<li><p>Header 参数</p>
-<p>获取header参数</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 Header 参数对象</span>
-<span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取 key 为 field1 的 header 参数的值</span>
-<span class="token keyword">var</span> field1 <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"field1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 已键值对象方式获取所有 header 参数</span>
-<span class="token keyword">var</span> headersObject <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">toObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 遍历整个 header</span>
-headers<span class="token punctuation">.</span><span class="token function">each</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出参数名</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出参数值</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>修改 header 参数</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 Header 参数对象</span>
-<span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
-      
-<span class="token comment">// 增加 header 参数</span>
-headers<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
-  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"field1"</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token string">"value1"</span><span class="token punctuation">,</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 修改 header 参数（如不存在则新增）</span>
-headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
-  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"field2"</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token string">"value2"</span><span class="token punctuation">,</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>更多使用示例：</p>
-<p><a href="https://apifox.com/help/pre-post-processors-and-scripts/scripts/examples/variables">脚本使用变量 | Apifox 帮助文档</a></p>
-<p><a href="https://apifox.com/help/pre-post-processors-and-scripts/scripts/api-references/pm-reference">pm 对象 API | Apifox 帮助文档</a></p>
-</li>
-</ol>
-</blockquote>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -1479,6 +1506,50 @@ binlog_expire_logs_seconds&#x3D;604800
       </tags>
   </entry>
   <entry>
+    <title>mysql定期归档历史数据</title>
+    <url>/2025/03/05/mysql%E5%AE%9A%E6%9C%9F%E5%BD%92%E6%A1%A3%E5%8E%86%E5%8F%B2%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<h4 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h4><p>mysql中fin_invoice_log表一年稳定增加上千万条数据，导致联合查询性能降低，先需将每前两年的数据归档到历史表中。<br>例如表中存在2019,2020,2021,2022,2023,2024,2025，当前归档年份 2025年，则将包括2023年在内之前的数据归档到fin_invoice_log_2023中</p>
+<h4 id="三种解决方案"><a href="#三种解决方案" class="headerlink" title="三种解决方案"></a>三种解决方案</h4><h5 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h5><p>利用event定时调度mysql存储过程实现,具体如下:<br><pre class="line-numbers language-none"><code class="language-none">-- 创建存储过程
+CREATE PROCEDURE fin_invoice_log_record_archive()
+BEGIN
+    DECLARE current_month VARCHAR(7);
+    DECLARE year_month_limit VARCHAR(50);
+    DECLARE archive_table_name VARCHAR(50);
+    DECLARE current_year VARCHAR(50);
+                
+    SET current_year &#x3D; YEAR(NOW()) - 2;
+    SET year_month_limit &#x3D; MAKEDATE(YEAR(CURDATE()) - 1, 1);
+    SET archive_table_name &#x3D; CONCAT(&#39;fin_invoice_log_&#39;, current_year);
+
+                SET @sql &#x3D; CONCAT(&#39;CREATE TABLE &#39;, archive_table_name, &#39;select * from fin_invoice_log where operation_AT &lt; &quot;&#39;,year_month_limit,&#39;&quot;;&#39;);
+                PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+                
+                SET @sql &#x3D; CONCAT(&#39;delete from fin_invoice_log where operation_AT &lt;&quot;&#39;, year_month_limit, &#39;&quot;;&#39;);
+                PREPARE stmt2 FROM @sql ;
+    EXECUTE stmt2;
+end;
+
+-- 创建事件调度任务（1年调用一次）,调度也可以使用其他调度框架定时调用以上存储过程
+CREATE EVENT fin_invoice_log_archive_event
+ON SCHEDULE EVERY 1 YEAR
+STARTS CURRENT_TIMESTAMP
+DO
+CALL fin_invoice_log_record_archive();
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br><b>这个存储过程的逻辑有个弊端，因为它只是将历史数据筛选出来后放到新建的表中，原来表将历史数据删除，这将导致原表的索引随着时间增长还在会继续扩大，从而影响性能；逻辑应该调整为：<br>将原表重命名为历史表，然后将时间节点之后的数据迁入新表中，这样业务使用新表就不会有问题</b></p>
+<h5 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h5><p>利用后端代码+定时调度框架去实现，比较容易实现具体不多做展示</p>
+<h5 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h5><p>利用后端分库分表去实现按照年度去入库分表，也比较容易不多做展示</p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>sql</tag>
+        <tag>小工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>poi结合模板引擎导出word</title>
     <url>/2024/03/05/poi%E7%BB%93%E5%90%88%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E%E5%AF%BC%E5%87%BAword/</url>
     <content><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>最近一期需求开发遇到导出一个复杂的word用代码实现巨难受，特意找了个便捷方法实现  </p>
@@ -1635,50 +1706,6 @@ binlog_expire_logs_seconds&#x3D;604800
       </tags>
   </entry>
   <entry>
-    <title>mysql定期归档历史数据</title>
-    <url>/2025/03/05/mysql%E5%AE%9A%E6%9C%9F%E5%BD%92%E6%A1%A3%E5%8E%86%E5%8F%B2%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<h4 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h4><p>mysql中fin_invoice_log表一年稳定增加上千万条数据，导致联合查询性能降低，先需将每前两年的数据归档到历史表中。<br>例如表中存在2019,2020,2021,2022,2023,2024,2025，当前归档年份 2025年，则将包括2023年在内之前的数据归档到fin_invoice_log_2023中</p>
-<h4 id="三种解决方案"><a href="#三种解决方案" class="headerlink" title="三种解决方案"></a>三种解决方案</h4><h5 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h5><p>利用event定时调度mysql存储过程实现,具体如下:<br><pre class="line-numbers language-none"><code class="language-none">-- 创建存储过程
-CREATE PROCEDURE fin_invoice_log_record_archive()
-BEGIN
-    DECLARE current_month VARCHAR(7);
-    DECLARE year_month_limit VARCHAR(50);
-    DECLARE archive_table_name VARCHAR(50);
-    DECLARE current_year VARCHAR(50);
-                
-    SET current_year &#x3D; YEAR(NOW()) - 2;
-    SET year_month_limit &#x3D; MAKEDATE(YEAR(CURDATE()) - 1, 1);
-    SET archive_table_name &#x3D; CONCAT(&#39;fin_invoice_log_&#39;, current_year);
-
-                SET @sql &#x3D; CONCAT(&#39;CREATE TABLE &#39;, archive_table_name, &#39;select * from fin_invoice_log where operation_AT &lt; &quot;&#39;,year_month_limit,&#39;&quot;;&#39;);
-                PREPARE stmt FROM @sql;
-    EXECUTE stmt;
-                
-                SET @sql &#x3D; CONCAT(&#39;delete from fin_invoice_log where operation_AT &lt;&quot;&#39;, year_month_limit, &#39;&quot;;&#39;);
-                PREPARE stmt2 FROM @sql ;
-    EXECUTE stmt2;
-end;
-
--- 创建事件调度任务（1年调用一次）,调度也可以使用其他调度框架定时调用以上存储过程
-CREATE EVENT fin_invoice_log_archive_event
-ON SCHEDULE EVERY 1 YEAR
-STARTS CURRENT_TIMESTAMP
-DO
-CALL fin_invoice_log_record_archive();
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br><b>这个存储过程的逻辑有个弊端，因为它只是将历史数据筛选出来后放到新建的表中，原来表将历史数据删除，这将导致原表的索引随着时间增长还在会继续扩大，从而影响性能；逻辑应该调整为：<br>将原表重命名为历史表，然后将时间节点之后的数据迁入新表中，这样业务使用新表就不会有问题</b></p>
-<h5 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h5><p>利用后端代码+定时调度框架去实现，比较容易实现具体不多做展示</p>
-<h5 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h5><p>利用后端分库分表去实现按照年度去入库分表，也比较容易不多做展示</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>sql</tag>
-        <tag>小工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rabbitMQ延时消息问题</title>
     <url>/2025/02/13/rabbitMQ%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h4 id="rabbitMQ延时消息问题描述"><a href="#rabbitMQ延时消息问题描述" class="headerlink" title="rabbitMQ延时消息问题描述"></a>rabbitMQ延时消息问题描述</h4><p>rabbit延时消息 可以设置为队列延时和消息延时，队列延时时队列里的每条消息都会延时一样的时间，而消息设置TTL时可以为每一条消息设置延时<br>此时，消息延时有个严重问题，如果前面的消息延时时间大于后面的消息，就会发生堵塞。<br>例如：消息A 设置延时 10S ,后一条消息B设置延时 3S，这个时候按需求来讲，3秒过后消息B应该会被消费者消费，但实际上消息B被堵塞了，直到消息A的TTL过期后A,B消息同时放出</p>
@@ -1710,6 +1737,67 @@ CALL fin_invoice_log_record_archive();
       </categories>
       <tags>
         <tag>spring</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>食物科普</title>
+    <url>/2023/10/25/%E5%81%A5%E5%BA%B7%E9%A3%9F%E7%89%A9%E7%A7%91%E6%99%AE/</url>
+    <content><![CDATA[<h4 id="低热量和低脂肪食物有哪些"><a href="#低热量和低脂肪食物有哪些" class="headerlink" title="低热量和低脂肪食物有哪些"></a>低热量和低脂肪食物有哪些</h4><p>低热量和低脂肪食物通常含有较少的能量和脂肪，适合需要控制体重或减少脂肪摄入的人群。以下是一些常见的低热量和低脂肪食物：</p>
+<ol>
+<li>蔬菜：蔬菜通常富含纤维、维生素和矿物质，而且热量较低。例如，西兰花、胡萝卜、黄瓜、芹菜等。</li>
+<li>水果：水果是低热量的健康食物，富含维生素、矿物质和纤维。常见的低热量水果包括苹果、柑橘类水果、草莓、蓝莓等。</li>
+<li>瘦肉：选择低脂肪的瘦肉，如鸡胸肉、鱼肉（比如鲈鱼、鳕鱼）、火鸡肉等。这些肉类含有较少的脂肪，但提供丰富的蛋白质。</li>
+<li>蛋白质来源：蛋白质是重要的营养素，但部分蛋白质来源可能含有较高的脂肪。选择低脂肪的蛋白质来源，如鸡蛋白、豆腐、低脂奶制品（如低脂牛奶、低脂奶酪）等。</li>
+<li>全谷类食物：全谷类食物富含纤维和复杂碳水化合物，而且相对较低热量。例如燕麦、全麦面包、糙米等。</li>
+<li>低脂奶制品：选择低脂或非脂肪的奶制品，如低脂牛奶、非脂肪酸奶等，这些食物提供丰富的蛋白质和钙，但脂肪含量较低。</li>
+<li>蔬果汁：新鲜榨取的蔬果汁是低热量且富含营养的选择，可以尽量选择无糖添加的纯果汁。</li>
+<li>豆类：豆类是良好的蛋白质和纤维来源，同时含有较低的脂肪，如豆腐、扁豆、黑豆等。</li>
+<li>高纤维谷物：除了全谷类食物，还有其他高纤维的谷物，如燕麦片、麦片、全麦面条等。</li>
+<li>蔬菜汤：以蔬菜为主的汤食，可以提供丰富的营养，同时热量较低。</li>
+<li>低脂冰淇淋和酸奶：选择低脂或无脂的冰淇淋和酸奶，可以满足甜食的欲望，同时控制脂肪摄入。</li>
+<li>烤、蒸或煮的食物：相比于油炸或炒制的食物，烤、蒸或煮的食物通常含有更低的脂肪，是更健康的选择。</li>
+</ol>
+<h4 id="高热量和高脂肪食物有哪些"><a href="#高热量和高脂肪食物有哪些" class="headerlink" title="高热量和高脂肪食物有哪些"></a>高热量和高脂肪食物有哪些</h4><p>高热量和高脂肪食物通常富含能量，但过多摄入可能导致体重增加和健康问题。以下是一些常见的高热量和高脂肪食物：</p>
+<ol>
+<li>油炸食品：如薯条、炸鸡、炸鱼等，这些食物通常在烹饪过程中吸收了大量的油脂。</li>
+<li>快餐：快餐通常含有较高的脂肪和热量，例如汉堡包、炸鸡块、薯条等。</li>
+<li>糕点和甜点：蛋糕、巧克力、饼干、冰淇淋等含有大量的糖和脂肪，很容易导致热量过剩。</li>
+<li>奶油和奶制品：奶油、黄油、乳酪等含有较高的脂肪，需要适量消费。</li>
+<li>高脂肪肉类：肥牛、猪肉肥瘦相间的部位、鸭肉等富含脂肪的肉类，尽量适量食用。</li>
+<li>坚果和种子：虽然坚果和种子富含健康的脂肪，但它们也具有较高的热量，适量食用为宜。</li>
+</ol>
+<p>请注意，脂肪在适量的情况下是身体所需的重要营养素之一，但过量摄入可能对健康产生不良影响。在饮食中要注意平衡，选择低脂肪、低热量的食物，搭配丰富的蔬菜、水果和全谷类食物，以维持健康的饮食平衡。</p>
+<h4 id="高碘食物"><a href="#高碘食物" class="headerlink" title="高碘食物"></a>高碘食物</h4><ol>
+<li>海带</li>
+<li>紫菜</li>
+<li>海鱼 如：鳕鱼、鲑鱼、鳗鱼等</li>
+<li>昆布</li>
+<li>海虾 如：黑河虾</li>
+</ol>
+<h4 id="低碘食物"><a href="#低碘食物" class="headerlink" title="低碘食物"></a>低碘食物</h4><ol>
+<li>花甲</li>
+<li>碘盐</li>
+<li>螃蟹</li>
+<li>绿豆</li>
+<li>胡萝卜</li>
+<li>菠菜</li>
+<li>白芝麻</li>
+</ol>
+<h4 id="无碘食物"><a href="#无碘食物" class="headerlink" title="无碘食物"></a>无碘食物</h4><h4 id="低脂食物"><a href="#低脂食物" class="headerlink" title="低脂食物"></a>低脂食物</h4><h4 id="维生素A丰富的食物"><a href="#维生素A丰富的食物" class="headerlink" title="维生素A丰富的食物"></a>维生素A丰富的食物</h4><p>动物肝脏：猪肝、鹅肝、鸡肝等动物肝脏 含有大量的维生素A，能够快速被人体吸收。(4971ug/100g)</p>
+<p>西兰花 :(1202ug/100g)</p>
+<p>胡萝卜：这主要是胡萝卜中的胡萝卜素是维生素A的主要来源，胡萝卜素可以在人体内能转化成维生素A，同时也含维生素C (688ug/100g)</p>
+<p>菠菜：有丰富的维生素A,同时富含也含铁</p>
+<p>青蟹：也叫膏蟹 （402ug/100g）</p>
+<p>紫苋菜：（248ug/100g）</p>
+<p>韭菜</p>
+<p>鸡蛋</p>
+<h4 id="维生素B丰富的食物"><a href="#维生素B丰富的食物" class="headerlink" title="维生素B丰富的食物"></a>维生素B丰富的食物</h4><p>绿豆：绿豆含有丰富的B族维生素、矿物质等营养成分，其中维生素B1是鸡肉的17.5倍，维生素B2是禾谷类的2～4倍且高于猪肉、牛奶、鸡肉、鱼，钙是禾谷类的4倍、鸡肉的7倍，铁是鸡肉的4倍，磷是禾谷类及猪肉、鸡肉、鱼、鸡蛋的2倍，还含有多种人体所需的磷脂。同时也是低脂食物</p>
+]]></content>
+      <categories>
+        <category>健康</category>
+      </categories>
+      <tags>
+        <tag>食物</tag>
       </tags>
   </entry>
   <entry>
@@ -1875,64 +1963,35 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
-    <title>食物科普</title>
-    <url>/2023/10/25/%E5%81%A5%E5%BA%B7%E9%A3%9F%E7%89%A9%E7%A7%91%E6%99%AE/</url>
-    <content><![CDATA[<h4 id="低热量和低脂肪食物有哪些"><a href="#低热量和低脂肪食物有哪些" class="headerlink" title="低热量和低脂肪食物有哪些"></a>低热量和低脂肪食物有哪些</h4><p>低热量和低脂肪食物通常含有较少的能量和脂肪，适合需要控制体重或减少脂肪摄入的人群。以下是一些常见的低热量和低脂肪食物：</p>
-<ol>
-<li>蔬菜：蔬菜通常富含纤维、维生素和矿物质，而且热量较低。例如，西兰花、胡萝卜、黄瓜、芹菜等。</li>
-<li>水果：水果是低热量的健康食物，富含维生素、矿物质和纤维。常见的低热量水果包括苹果、柑橘类水果、草莓、蓝莓等。</li>
-<li>瘦肉：选择低脂肪的瘦肉，如鸡胸肉、鱼肉（比如鲈鱼、鳕鱼）、火鸡肉等。这些肉类含有较少的脂肪，但提供丰富的蛋白质。</li>
-<li>蛋白质来源：蛋白质是重要的营养素，但部分蛋白质来源可能含有较高的脂肪。选择低脂肪的蛋白质来源，如鸡蛋白、豆腐、低脂奶制品（如低脂牛奶、低脂奶酪）等。</li>
-<li>全谷类食物：全谷类食物富含纤维和复杂碳水化合物，而且相对较低热量。例如燕麦、全麦面包、糙米等。</li>
-<li>低脂奶制品：选择低脂或非脂肪的奶制品，如低脂牛奶、非脂肪酸奶等，这些食物提供丰富的蛋白质和钙，但脂肪含量较低。</li>
-<li>蔬果汁：新鲜榨取的蔬果汁是低热量且富含营养的选择，可以尽量选择无糖添加的纯果汁。</li>
-<li>豆类：豆类是良好的蛋白质和纤维来源，同时含有较低的脂肪，如豆腐、扁豆、黑豆等。</li>
-<li>高纤维谷物：除了全谷类食物，还有其他高纤维的谷物，如燕麦片、麦片、全麦面条等。</li>
-<li>蔬菜汤：以蔬菜为主的汤食，可以提供丰富的营养，同时热量较低。</li>
-<li>低脂冰淇淋和酸奶：选择低脂或无脂的冰淇淋和酸奶，可以满足甜食的欲望，同时控制脂肪摄入。</li>
-<li>烤、蒸或煮的食物：相比于油炸或炒制的食物，烤、蒸或煮的食物通常含有更低的脂肪，是更健康的选择。</li>
-</ol>
-<h4 id="高热量和高脂肪食物有哪些"><a href="#高热量和高脂肪食物有哪些" class="headerlink" title="高热量和高脂肪食物有哪些"></a>高热量和高脂肪食物有哪些</h4><p>高热量和高脂肪食物通常富含能量，但过多摄入可能导致体重增加和健康问题。以下是一些常见的高热量和高脂肪食物：</p>
-<ol>
-<li>油炸食品：如薯条、炸鸡、炸鱼等，这些食物通常在烹饪过程中吸收了大量的油脂。</li>
-<li>快餐：快餐通常含有较高的脂肪和热量，例如汉堡包、炸鸡块、薯条等。</li>
-<li>糕点和甜点：蛋糕、巧克力、饼干、冰淇淋等含有大量的糖和脂肪，很容易导致热量过剩。</li>
-<li>奶油和奶制品：奶油、黄油、乳酪等含有较高的脂肪，需要适量消费。</li>
-<li>高脂肪肉类：肥牛、猪肉肥瘦相间的部位、鸭肉等富含脂肪的肉类，尽量适量食用。</li>
-<li>坚果和种子：虽然坚果和种子富含健康的脂肪，但它们也具有较高的热量，适量食用为宜。</li>
-</ol>
-<p>请注意，脂肪在适量的情况下是身体所需的重要营养素之一，但过量摄入可能对健康产生不良影响。在饮食中要注意平衡，选择低脂肪、低热量的食物，搭配丰富的蔬菜、水果和全谷类食物，以维持健康的饮食平衡。</p>
-<h4 id="高碘食物"><a href="#高碘食物" class="headerlink" title="高碘食物"></a>高碘食物</h4><ol>
-<li>海带</li>
-<li>紫菜</li>
-<li>海鱼 如：鳕鱼、鲑鱼、鳗鱼等</li>
-<li>昆布</li>
-<li>海虾 如：黑河虾</li>
-</ol>
-<h4 id="低碘食物"><a href="#低碘食物" class="headerlink" title="低碘食物"></a>低碘食物</h4><ol>
-<li>花甲</li>
-<li>碘盐</li>
-<li>螃蟹</li>
-<li>绿豆</li>
-<li>胡萝卜</li>
-<li>菠菜</li>
-<li>白芝麻</li>
-</ol>
-<h4 id="无碘食物"><a href="#无碘食物" class="headerlink" title="无碘食物"></a>无碘食物</h4><h4 id="低脂食物"><a href="#低脂食物" class="headerlink" title="低脂食物"></a>低脂食物</h4><h4 id="维生素A丰富的食物"><a href="#维生素A丰富的食物" class="headerlink" title="维生素A丰富的食物"></a>维生素A丰富的食物</h4><p>动物肝脏：猪肝、鹅肝、鸡肝等动物肝脏 含有大量的维生素A，能够快速被人体吸收。(4971ug/100g)</p>
-<p>西兰花 :(1202ug/100g)</p>
-<p>胡萝卜：这主要是胡萝卜中的胡萝卜素是维生素A的主要来源，胡萝卜素可以在人体内能转化成维生素A，同时也含维生素C (688ug/100g)</p>
-<p>菠菜：有丰富的维生素A,同时富含也含铁</p>
-<p>青蟹：也叫膏蟹 （402ug/100g）</p>
-<p>紫苋菜：（248ug/100g）</p>
-<p>韭菜</p>
-<p>鸡蛋</p>
-<h4 id="维生素B丰富的食物"><a href="#维生素B丰富的食物" class="headerlink" title="维生素B丰富的食物"></a>维生素B丰富的食物</h4><p>绿豆：绿豆含有丰富的B族维生素、矿物质等营养成分，其中维生素B1是鸡肉的17.5倍，维生素B2是禾谷类的2～4倍且高于猪肉、牛奶、鸡肉、鱼，钙是禾谷类的4倍、鸡肉的7倍，铁是鸡肉的4倍，磷是禾谷类及猪肉、鸡肉、鱼、鸡蛋的2倍，还含有多种人体所需的磷脂。同时也是低脂食物</p>
-]]></content>
+    <title>吉丽装修记【1】</title>
+    <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
+    <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
+>> 装修整理清单1.4版
+<iframe 
+style="width: 100%;
+    height: 100%" 
+src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D">
+</iframe>
+</div>
+
+<div style="position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;">
+<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;"
+    src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
+</iframe>
+</div>]]></content>
       <categories>
-        <category>健康</category>
+        <category>吉丽装修记</category>
       </categories>
       <tags>
-        <tag>食物</tag>
+        <tag>装修</tag>
       </tags>
   </entry>
   <entry>
@@ -1960,38 +2019,6 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
 ]]></content>
       <categories>
         <category>装修清单</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>吉丽装修记【1】</title>
-    <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
-    <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
->> 装修整理清单1.4版
-<iframe 
-style="width: 100%;
-    height: 100%" 
-src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D">
-</iframe>
-</div>
-
-<div style="position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;">
-<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;"
-    src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
-</iframe>
-</div>]]></content>
-      <categories>
-        <category>吉丽装修记</category>
       </categories>
       <tags>
         <tag>装修</tag>
@@ -2106,8 +2133,8 @@ src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZ
         <category>开发</category>
       </categories>
       <tags>
-        <tag>java</tag>
         <tag>工具</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -2335,80 +2362,6 @@ private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
       </tags>
   </entry>
   <entry>
-    <title>瓦克玻璃胶采购</title>
-    <url>/2023/06/17/%E7%8E%BB%E7%92%83%E8%83%B6%E9%87%87%E8%B4%AD/</url>
-    <content><![CDATA[<p>瓦克一瓶按标准的缝隙大小打10米左右 </p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">型号/价格</th>
-<th style="text-align:center">名称</th>
-<th style="text-align:center">产品特点</th>
-<th style="text-align:center">使用范围</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">DA(87元/瓶)</td>
-<td style="text-align:center">强效防霉醇型中性硅酮密封胶</td>
-<td style="text-align:center">12倍0级防霉标准  德国EC1环保认证 法国A+认证</td>
-<td style="text-align:center">厨卫淋浴房等场所防霉密封</td>
-</tr>
-<tr>
-<td style="text-align:center">KB(59元/瓶)</td>
-<td style="text-align:center">厨房卫浴专用长效防霉密封胶</td>
-<td style="text-align:center">德国EC环保认证 0级长效防霉</td>
-<td style="text-align:center">厨房卫浴防霉专用</td>
-</tr>
-<tr>
-<td style="text-align:center">GM(30元/瓶)</td>
-<td style="text-align:center">醇型中性硅酮密封胶</td>
-<td style="text-align:center">通过SGS检测甲醛释放符合环保标准</td>
-<td style="text-align:center">用于家装装潢、踢脚线、门套、窗户、吊顶等密封</td>
-</tr>
-<tr>
-<td style="text-align:center">SN(41元/瓶)</td>
-<td style="text-align:center">醇型厨卫防霉硅酮密封胶</td>
-<td style="text-align:center">0级长效防霉</td>
-<td style="text-align:center">台盆，马桶，灶台等一般厨房卫生间等洁具防霉</td>
-</tr>
-<tr>
-<td style="text-align:center">CA(72元/瓶)</td>
-<td style="text-align:center">防霉醇型中性硅酮密封胶</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">DA降级版</td>
-</tr>
-<tr>
-<td style="text-align:center">GF(68元/瓶)</td>
-<td style="text-align:center">晶彩美容胶</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">CS(36元/瓶)</td>
-<td style="text-align:center">建筑中性硅酮密封胶（耐候胶）</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">室外门窗装配耐候密封</td>
-</tr>
-<tr>
-<td style="text-align:center">HA(69元/瓶)</td>
-<td style="text-align:center">高强度胶粘剂</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">五金、木材、金属、玻璃等的粘接</td>
-</tr>
-</tbody>
-</table>
-</div>
-]]></content>
-      <categories>
-        <category>购物</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>父工程从springboot1.5.x 升级到2.5.15总结.md</title>
     <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot1.5.x%20%E5%8D%87%E7%BA%A7%E5%88%B02.5.15%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
@@ -2546,6 +2499,80 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
         <tag>java</tag>
         <tag>springboot</tag>
         <tag>gradle</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>瓦克玻璃胶采购</title>
+    <url>/2023/06/17/%E7%8E%BB%E7%92%83%E8%83%B6%E9%87%87%E8%B4%AD/</url>
+    <content><![CDATA[<p>瓦克一瓶按标准的缝隙大小打10米左右 </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">型号/价格</th>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">产品特点</th>
+<th style="text-align:center">使用范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DA(87元/瓶)</td>
+<td style="text-align:center">强效防霉醇型中性硅酮密封胶</td>
+<td style="text-align:center">12倍0级防霉标准  德国EC1环保认证 法国A+认证</td>
+<td style="text-align:center">厨卫淋浴房等场所防霉密封</td>
+</tr>
+<tr>
+<td style="text-align:center">KB(59元/瓶)</td>
+<td style="text-align:center">厨房卫浴专用长效防霉密封胶</td>
+<td style="text-align:center">德国EC环保认证 0级长效防霉</td>
+<td style="text-align:center">厨房卫浴防霉专用</td>
+</tr>
+<tr>
+<td style="text-align:center">GM(30元/瓶)</td>
+<td style="text-align:center">醇型中性硅酮密封胶</td>
+<td style="text-align:center">通过SGS检测甲醛释放符合环保标准</td>
+<td style="text-align:center">用于家装装潢、踢脚线、门套、窗户、吊顶等密封</td>
+</tr>
+<tr>
+<td style="text-align:center">SN(41元/瓶)</td>
+<td style="text-align:center">醇型厨卫防霉硅酮密封胶</td>
+<td style="text-align:center">0级长效防霉</td>
+<td style="text-align:center">台盆，马桶，灶台等一般厨房卫生间等洁具防霉</td>
+</tr>
+<tr>
+<td style="text-align:center">CA(72元/瓶)</td>
+<td style="text-align:center">防霉醇型中性硅酮密封胶</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">DA降级版</td>
+</tr>
+<tr>
+<td style="text-align:center">GF(68元/瓶)</td>
+<td style="text-align:center">晶彩美容胶</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">CS(36元/瓶)</td>
+<td style="text-align:center">建筑中性硅酮密封胶（耐候胶）</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">室外门窗装配耐候密封</td>
+</tr>
+<tr>
+<td style="text-align:center">HA(69元/瓶)</td>
+<td style="text-align:center">高强度胶粘剂</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">五金、木材、金属、玻璃等的粘接</td>
+</tr>
+</tbody>
+</table>
+</div>
+]]></content>
+      <categories>
+        <category>购物</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
       </tags>
   </entry>
   <entry>
@@ -2787,6 +2814,55 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
+    <title>装修知识分享</title>
+    <url>/2023/07/08/%E8%A3%85%E4%BF%AE%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/</url>
+    <content><![CDATA[<h2 id="gt-厨房要用4平方线，不然容易跳闸"><a href="#gt-厨房要用4平方线，不然容易跳闸" class="headerlink" title="&gt; 厨房要用4平方线，不然容易跳闸"></a>&gt; 厨房要用4平方线，不然容易跳闸</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>品类</th>
+<th>范围</th>
+<th>价格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.5MM平方电线</td>
+<td>交通牌铜芯线(单线标准) 注:正常用做照明线路</td>
+<td>1.20/M</td>
+</tr>
+<tr>
+<td>2.5MM平方电线</td>
+<td>长江牌铜芯线(单线标准) 注:正常用做插座线路包括挂壁空调(空调线路为专用线路单线单用),也可用做照明线路需和客户确认</td>
+<td>1.40/M</td>
+</tr>
+<tr>
+<td>4MM平方电线</td>
+<td>交通牌铜芯线(单线标准) 注:正常用做柜式空调专用线路</td>
+<td>1.60/M</td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<p>空调，厨房，壁挂炉等留 16A插座;电视墙可以嵌入50管，但墙体是承重墙不可嵌入，水管需要包管</p>
+<p>以下来自抖音博主分享<br><div class="gallery">
+    <div class="fj-gallery  data" data-rowHeight="220" data-limit="10">
+    <span class="gallery-data">[{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_4.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_8.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_10.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_13.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_16.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_19.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_22.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_25.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_28.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_32.jpg","alt":""}]</span>
+    </div>
+    <button class="gallery-load-more"><span>加载更多</span><i class="fa-solid fa-arrow-down"></i></button>
+    </div></p>
+</blockquote>
+<p>​<br>​<br>​    </p>
+]]></content>
+      <categories>
+        <category>装修知识分享</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>记录一个webflux的异常问题</title>
     <url>/2023/11/01/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AAwebflux%E7%9A%84%E5%BC%82%E5%B8%B8%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h4 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h4><p>webflux 中发现一个正常接口中远程调用其他第三方接口，会出现系统阻塞假死。请看如下代码：</p>
@@ -2848,88 +2924,13 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
     <content><![CDATA[<h4 id="案例一"><a href="#案例一" class="headerlink" title="案例一"></a>案例一</h4><a href="/2025/05/28/sql%E6%A1%88%E4%BE%8B/%E6%A1%88%E4%BE%8B%E4%B8%80/" title="租期去重后的总天数">租期去重后的总天数</a> 
 <h4 id="案例二"><a href="#案例二" class="headerlink" title="案例二"></a>案例二</h4><a href="/2025/05/28/sql%E6%A1%88%E4%BE%8B/%E6%A1%88%E4%BE%8B%E4%BA%8C/" title="导出问卷题目与答案">导出问卷题目与答案</a> 
 <h4 id="案例三"><a href="#案例三" class="headerlink" title="案例三"></a>案例三</h4><a href="/2025/05/28/sql%E6%A1%88%E4%BE%8B/%E6%A1%88%E4%BE%8B%E4%B8%89/" title="应出未出水电查询">应出未出水电查询</a>
-<h4 id="案例四"><a href="#案例四" class="headerlink" title="案例四"></a>案例四</h4><a href="/2025/06/13/sql%E6%A1%88%E4%BE%8B/%E6%A1%88%E4%BE%8B%E5%9B%9B/" title="查询每组数据中时间最大的一条">查询每组数据中时间最大的一条</a>]]></content>
+<h4 id="案例四"><a href="#案例四" class="headerlink" title="案例四"></a>案例四</h4><a href="/2025/06/13/sql%E6%A1%88%E4%BE%8B/%E6%A1%88%E4%BE%8B%E5%9B%9B/" title="查询每组数据中时间最大的一条">查询每组数据中时间最大的一条</a>
+<h4 id="案例五"><a href="#案例五" class="headerlink" title="案例五"></a>案例五</h4><a href="/2025/10/13/sql%E6%A1%88%E4%BE%8B/%E6%A1%88%E4%BE%8B%E4%BA%94/" title="临期合同明细-均价计算和续租判断">临期合同明细-均价计算和续租判断</a>]]></content>
       <categories>
         <category>开发</category>
       </categories>
       <tags>
         <tag>sql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>装修知识分享</title>
-    <url>/2023/07/08/%E8%A3%85%E4%BF%AE%E7%9F%A5%E8%AF%86%E5%88%86%E4%BA%AB/</url>
-    <content><![CDATA[<h2 id="gt-厨房要用4平方线，不然容易跳闸"><a href="#gt-厨房要用4平方线，不然容易跳闸" class="headerlink" title="&gt; 厨房要用4平方线，不然容易跳闸"></a>&gt; 厨房要用4平方线，不然容易跳闸</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>品类</th>
-<th>范围</th>
-<th>价格</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1.5MM平方电线</td>
-<td>交通牌铜芯线(单线标准) 注:正常用做照明线路</td>
-<td>1.20/M</td>
-</tr>
-<tr>
-<td>2.5MM平方电线</td>
-<td>长江牌铜芯线(单线标准) 注:正常用做插座线路包括挂壁空调(空调线路为专用线路单线单用),也可用做照明线路需和客户确认</td>
-<td>1.40/M</td>
-</tr>
-<tr>
-<td>4MM平方电线</td>
-<td>交通牌铜芯线(单线标准) 注:正常用做柜式空调专用线路</td>
-<td>1.60/M</td>
-</tr>
-</tbody>
-</table>
-</div>
-<blockquote>
-<p>空调，厨房，壁挂炉等留 16A插座;电视墙可以嵌入50管，但墙体是承重墙不可嵌入，水管需要包管</p>
-<p>以下来自抖音博主分享<br><div class="gallery">
-    <div class="fj-gallery  data" data-rowHeight="220" data-limit="10">
-    <span class="gallery-data">[{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_4.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_8.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_10.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_13.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_16.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_19.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_22.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_25.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_28.jpg","alt":""},{"url":"https://files.guzlife.site/hexo/zhuangxiu/装修分享_32.jpg","alt":""}]</span>
-    </div>
-    <button class="gallery-load-more"><span>加载更多</span><i class="fa-solid fa-arrow-down"></i></button>
-    </div></p>
-</blockquote>
-<p>​<br>​<br>​    </p>
-]]></content>
-      <categories>
-        <category>装修知识分享</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>好用的docker镜像</title>
-    <url>/2025/09/18/docker-runs(%E7%BB%AD)/</url>
-    <content><![CDATA[<h4 id="Markdown-编辑器"><a href="#Markdown-编辑器" class="headerlink" title="Markdown 编辑器"></a>Markdown 编辑器</h4><ul>
-<li><strong>官网地址</strong>  <a href="https://md.doocs.org">https://md.doocs.org</a></li>
-<li><strong>开源地址</strong>  <a href="https://gitee.com/doocs/md">https://gitee.com/doocs/md</a></li>
-<li><strong>镜像运行</strong> <pre class="line-numbers language-none"><code class="language-none">docker run --name md-editor -d -p 8080:80 doocs&#x2F;md:latest<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-</ul>
-<h4 id="文档在线预览"><a href="#文档在线预览" class="headerlink" title="文档在线预览"></a>文档在线预览</h4><ul>
-<li><strong>官网地址</strong>  <a href="https://kkview.cn">https://kkview.cn</a></li>
-<li><strong>开源地址</strong>  <a href="https://gitee.com/kekingcn/file-online-preview">https://gitee.com/kekingcn/file-online-preview</a></li>
-<li><strong>镜像运行</strong> <pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown"><span class="token title important"><span class="token punctuation">####</span> 拉取镜像</span>
-docker load -i kkFileView-4.4.0-docker.tar
-<span class="token title important"><span class="token punctuation">####</span> 运行</span>
-docker run -it -p 8012:8012 keking/kkfileview:4.4.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>others</tag>
       </tags>
   </entry>
 </search>
