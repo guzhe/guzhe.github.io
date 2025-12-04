@@ -18,11 +18,33 @@ date: 2024-04-23 15:56:00
 	2.3 升级后 封装继承AbstractMethod时注意写法需要有构造器，传入methodName参数 
 	2.4 pagehelper-spring-boot-starter 需要升级2.1.1,老版本没兼容分页有问题
 	2.5 自定义sql注入器中生成的sql ,由于连续参数为null，导致动态sql中有连续空行的情况会报错，这个兼容处理
+	2.6 xml sql中 不能连续空多行，不然pagehelper分页sql不完整（应该是pagehelper升级导致的）,ide工具搜索多个空行的正则：(^[ \t]*\r?\n){2,}
 3. 加载数据库驱动，springboot3.0开始mysql驱动改为com.mysql.cj.jdbc.Driver，而非com.mysql.jdbc.Driver	
 4. hutool 从5.7.10升级到5.8.34, guava 从30.0-jre升级到33.3.1-jre
 5. 如果项目应用了apollo老版本也需要升级，本次升级到2.3.0
-6. jdk升级到17/21,项目以及maven编译等级也需要升到17/21,gradle升级到8.12等
+6. jdk升级到17/21,项目以及maven编译等级也需要升到17/21,gradle升级到8.12，gradle模块向上传递依赖的方式更改为api关键字等等
 7. 如果使用了spring cloud 升级到2024.0.0之后  
+8. 需要手动配置开启spring循环依赖
+spring:
+  main:
+    allow-circular-references: true  
+9. springfox注解改成springdoc注解，api接口地址更改验证
+> ~~~ 
+> @EnableEurekaClient 换成 @EnableDiscoveryClient
+> 	RedisTemplate引入需指定，包里会自动注入StringRedisTemplate
+> 	
+> 	import io.swagger.annotations.ApiModelProperty;  全量替换  import io.swagger.v3.oas.annotations.media.Schema;
+> 	@ApiModelProperty(value =    全量替换    @Schema(description =
+> 	
+> 	@ApiModel(value =    全量替换   @Schema(description =
+> 	
+> 	import io.swagger.annotations.Api;  全量替换  import io.swagger.v3.oas.annotations.tags.Tag;
+> 	@Api(tags =   全量替换   @Tag(name =
+> 	
+> 	import io.swagger.annotations.ApiOperation; 全量替换 import io.swagger.v3.oas.annotations.Operation;
+> 	@ApiOperation(value =  全量替换  @Operation(summary =
+> ~~~
+
 ...
 
 #### 配置写法问题
