@@ -1423,8 +1423,22 @@ public class MyController &#123;
   &quot;experimental&quot;: false,
   &quot;hosts&quot;: [
     &quot;tcp:&#x2F;&#x2F;0.0.0.0:2375&quot;
+  ],
+  &quot;registry-mirrors&quot;: [
+    &quot;https:&#x2F;&#x2F;docker.rainbond.cc&quot;,
+    &quot;https:&#x2F;&#x2F;elastic.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;elastic.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;docker.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;gcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;ghcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;k8s-gcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;k8s.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;mcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;nvcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;quay.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;ccr.ccs.tencentyun.com&quot;
   ]
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 </li>
 </ol>
 <h4 id="用管理员身份运行CMD命令"><a href="#用管理员身份运行CMD命令" class="headerlink" title="用管理员身份运行CMD命令"></a>用管理员身份运行CMD命令</h4><p>netsh interface portproxy reset<br>netsh interface portproxy add v4tov4 listenport=2375 connectaddress=localhost connectport=2375<br>net start iphlpsvc</p>
@@ -1438,6 +1452,32 @@ public class MyController &#123;
       </categories>
       <tags>
         <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>maven清除仓库未下载文件</title>
+    <url>/2025/06/06/maven_repo_clean/</url>
+    <content><![CDATA[<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><pre class="line-numbers language-dos" data-language="dos"><code class="language-dos">
+@echo off
+rem create by NettQun
+  
+rem 仓库路径
+set REPOSITORY_PATH&#x3D;D:\maven_repository
+rem 搜索中
+for &#x2F;f &quot;delims&#x3D;&quot; %%i in (&#39;dir &#x2F;b &#x2F;s &quot;%REPOSITORY_PATH%\*lastUpdated*&quot;&#39;) do (
+    echo %%i
+    del &#x2F;s &#x2F;q &quot;%%i&quot;
+)
+rem 搜索完毕
+pause
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>others</tag>
+        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -1516,32 +1556,6 @@ mvn archetype:generate -B ^
         <category>后端技术</category>
       </categories>
       <tags>
-        <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>maven清除仓库未下载文件</title>
-    <url>/2025/06/06/maven_repo_clean/</url>
-    <content><![CDATA[<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><pre class="line-numbers language-dos" data-language="dos"><code class="language-dos">
-@echo off
-rem create by NettQun
-  
-rem 仓库路径
-set REPOSITORY_PATH&#x3D;D:\maven_repository
-rem 搜索中
-for &#x2F;f &quot;delims&#x3D;&quot; %%i in (&#39;dir &#x2F;b &#x2F;s &quot;%REPOSITORY_PATH%\*lastUpdated*&quot;&#39;) do (
-    echo %%i
-    del &#x2F;s &#x2F;q &quot;%%i&quot;
-)
-rem 搜索完毕
-pause
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>others</tag>
         <tag>maven</tag>
       </tags>
   </entry>
@@ -1769,6 +1783,50 @@ binlog_expire_logs_seconds&#x3D;604800
       </tags>
   </entry>
   <entry>
+    <title>mysql定期归档历史数据</title>
+    <url>/2025/03/05/mysql%E5%AE%9A%E6%9C%9F%E5%BD%92%E6%A1%A3%E5%8E%86%E5%8F%B2%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<h4 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h4><p>mysql中fin_invoice_log表一年稳定增加上千万条数据，导致联合查询性能降低，先需将每前两年的数据归档到历史表中。<br>例如表中存在2019,2020,2021,2022,2023,2024,2025，当前归档年份 2025年，则将包括2023年在内之前的数据归档到fin_invoice_log_2023中</p>
+<h4 id="三种解决方案"><a href="#三种解决方案" class="headerlink" title="三种解决方案"></a>三种解决方案</h4><h5 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h5><p>利用event定时调度mysql存储过程实现,具体如下:<br><pre class="line-numbers language-none"><code class="language-none">-- 创建存储过程
+CREATE PROCEDURE fin_invoice_log_record_archive()
+BEGIN
+    DECLARE current_month VARCHAR(7);
+    DECLARE year_month_limit VARCHAR(50);
+    DECLARE archive_table_name VARCHAR(50);
+    DECLARE current_year VARCHAR(50);
+                
+    SET current_year &#x3D; YEAR(NOW()) - 2;
+    SET year_month_limit &#x3D; MAKEDATE(YEAR(CURDATE()) - 1, 1);
+    SET archive_table_name &#x3D; CONCAT(&#39;fin_invoice_log_&#39;, current_year);
+
+                SET @sql &#x3D; CONCAT(&#39;CREATE TABLE &#39;, archive_table_name, &#39;select * from fin_invoice_log where operation_AT &lt; &quot;&#39;,year_month_limit,&#39;&quot;;&#39;);
+                PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+                
+                SET @sql &#x3D; CONCAT(&#39;delete from fin_invoice_log where operation_AT &lt;&quot;&#39;, year_month_limit, &#39;&quot;;&#39;);
+                PREPARE stmt2 FROM @sql ;
+    EXECUTE stmt2;
+end;
+
+-- 创建事件调度任务（1年调用一次）,调度也可以使用其他调度框架定时调用以上存储过程
+CREATE EVENT fin_invoice_log_archive_event
+ON SCHEDULE EVERY 1 YEAR
+STARTS CURRENT_TIMESTAMP
+DO
+CALL fin_invoice_log_record_archive();
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br><b>这个存储过程的逻辑有个弊端，因为它只是将历史数据筛选出来后放到新建的表中，原来表将历史数据删除，这将导致原表的索引随着时间增长还在会继续扩大，从而影响性能；逻辑应该调整为：<br>将原表重命名为历史表，然后将时间节点之后的数据迁入新表中，这样业务使用新表就不会有问题</b></p>
+<h5 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h5><p>利用后端代码+定时调度框架去实现，比较容易实现具体不多做展示</p>
+<h5 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h5><p>利用后端分库分表去实现按照年度去入库分表，也比较容易不多做展示</p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>sql</tag>
+        <tag>小工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>poi结合模板引擎导出word</title>
     <url>/2024/03/05/poi%E7%BB%93%E5%90%88%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E%E5%AF%BC%E5%87%BAword/</url>
     <content><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>最近一期需求开发遇到导出一个复杂的word用代码实现巨难受，特意找了个便捷方法实现  </p>
@@ -1922,50 +1980,6 @@ binlog_expire_logs_seconds&#x3D;604800
         <tag>java</tag>
         <tag>poi</tag>
         <tag>word</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mysql定期归档历史数据</title>
-    <url>/2025/03/05/mysql%E5%AE%9A%E6%9C%9F%E5%BD%92%E6%A1%A3%E5%8E%86%E5%8F%B2%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<h4 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h4><p>mysql中fin_invoice_log表一年稳定增加上千万条数据，导致联合查询性能降低，先需将每前两年的数据归档到历史表中。<br>例如表中存在2019,2020,2021,2022,2023,2024,2025，当前归档年份 2025年，则将包括2023年在内之前的数据归档到fin_invoice_log_2023中</p>
-<h4 id="三种解决方案"><a href="#三种解决方案" class="headerlink" title="三种解决方案"></a>三种解决方案</h4><h5 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h5><p>利用event定时调度mysql存储过程实现,具体如下:<br><pre class="line-numbers language-none"><code class="language-none">-- 创建存储过程
-CREATE PROCEDURE fin_invoice_log_record_archive()
-BEGIN
-    DECLARE current_month VARCHAR(7);
-    DECLARE year_month_limit VARCHAR(50);
-    DECLARE archive_table_name VARCHAR(50);
-    DECLARE current_year VARCHAR(50);
-                
-    SET current_year &#x3D; YEAR(NOW()) - 2;
-    SET year_month_limit &#x3D; MAKEDATE(YEAR(CURDATE()) - 1, 1);
-    SET archive_table_name &#x3D; CONCAT(&#39;fin_invoice_log_&#39;, current_year);
-
-                SET @sql &#x3D; CONCAT(&#39;CREATE TABLE &#39;, archive_table_name, &#39;select * from fin_invoice_log where operation_AT &lt; &quot;&#39;,year_month_limit,&#39;&quot;;&#39;);
-                PREPARE stmt FROM @sql;
-    EXECUTE stmt;
-                
-                SET @sql &#x3D; CONCAT(&#39;delete from fin_invoice_log where operation_AT &lt;&quot;&#39;, year_month_limit, &#39;&quot;;&#39;);
-                PREPARE stmt2 FROM @sql ;
-    EXECUTE stmt2;
-end;
-
--- 创建事件调度任务（1年调用一次）,调度也可以使用其他调度框架定时调用以上存储过程
-CREATE EVENT fin_invoice_log_archive_event
-ON SCHEDULE EVERY 1 YEAR
-STARTS CURRENT_TIMESTAMP
-DO
-CALL fin_invoice_log_record_archive();
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br><b>这个存储过程的逻辑有个弊端，因为它只是将历史数据筛选出来后放到新建的表中，原来表将历史数据删除，这将导致原表的索引随着时间增长还在会继续扩大，从而影响性能；逻辑应该调整为：<br>将原表重命名为历史表，然后将时间节点之后的数据迁入新表中，这样业务使用新表就不会有问题</b></p>
-<h5 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h5><p>利用后端代码+定时调度框架去实现，比较容易实现具体不多做展示</p>
-<h5 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h5><p>利用后端分库分表去实现按照年度去入库分表，也比较容易不多做展示</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>sql</tag>
-        <tag>小工具</tag>
       </tags>
   </entry>
   <entry>
@@ -2401,6 +2415,78 @@ src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZ
       </tags>
   </entry>
   <entry>
+    <title>利用List函数式接口比较集合</title>
+    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="结果集合封装类"><a href="#结果集合封装类" class="headerlink" title="结果集合封装类"></a>结果集合封装类</h2><blockquote>
+<p> / <em>*
+     </em></p>
+<pre><code> * 比较结果集合封装类
+ * /
+</code></pre><p>public class CompareListSameResponseModel<T> {<br>    /**</p>
+<pre><code> * 新增数组，入参
+ * /
+private List&lt;T&gt; addList;
+/**
+ * 修改数组，入参
+ * /
+private List&lt;T&gt; updateList;
+/**
+ * 删除数组，数据库
+ * /
+private List&lt;T&gt; deleteList;
+</code></pre><p>}</p>
+</blockquote>
+<h2 id="比较工具类方法"><a href="#比较工具类方法" class="headerlink" title="比较工具类方法"></a>比较工具类方法</h2><blockquote>
+<p> /**</p>
+<pre><code> * 获取新增列表、更新列表、删除列表
+ * 数据库未存在uniqueKey，新增数据有uniqueKey，则为新增数据
+ * 数据库未存在uniqueKey，新增数据也没有uniqueKey，无操作
+ * 数据库存在uniqueKey，新增数据有uniqueKey，则为修改数据
+ * 数据库存在uniqueKey，新增数据没有uniqueKey，则为删除数据
+ *
+ * @param uniqueKey 根据uniqueKey是否存在于数据库中来进行比较
+ * @return
+ * /
+public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUniqueKey(List&lt;T&gt; requestList, List&lt;T&gt; dbList, Function&lt;? super T, ?&gt; uniqueKey) &#123;
+    CompareListSameResponseModel&lt;T&gt; responseModel = new CompareListSameResponseModel&lt;&gt;();
+    List&lt;T&gt; insertList;
+    List&lt;T&gt; updateList;
+    List&lt;T&gt; deleteList;
+    //list 为空处理
+    requestList = Optional.ofNullable(requestList).orElse(new ArrayList&lt;&gt;());
+    dbList = Optional.ofNullable(dbList).orElse(new ArrayList&lt;&gt;());
+    Set&lt;?&gt; requestKeySet = requestList
+            .stream()
+            .map(uniqueKey)
+            .collect(Collectors.toSet());
+    Set&lt;?&gt; dbKeySet = dbList
+            .stream()
+            .map(uniqueKey)
+            .collect(Collectors.toSet());
+    //新增，从request数据中，去除db中已存在的数据
+    insertList = requestList
+            .stream()
+            .filter(x -&gt; !dbKeySet.contains(uniqueKey.apply(x)))
+            .collect(Collectors.toList());
+    //修改，找出request数据，与db都有的相同的数据
+    updateList = requestList
+            .stream()
+            .filter(x -&gt; requestKeySet.contains(uniqueKey.apply(x)) &amp;&amp; dbKeySet.contains(uniqueKey.apply(x)))
+            .collect(Collectors.toList());
+</code></pre><p> //       删除，从dblist中找出，request没有的数据<br>        deleteList = dbList<br>                .stream()<br>                .filter(x -&gt; !requestKeySet.contains(uniqueKey.apply(x)))<br>                .collect(Collectors.toList());<br>        responseModel.setAddList(insertList);<br>        responseModel.setUpdateList(updateList);<br>        responseModel.setDeleteList(deleteList);<br>        return responseModel;<br>    }</p>
+</blockquote>
+<h4 id="上面方式用于比较对象泛型一致的情况，但开发的过程中一般是-请求集合-List-和数据库集合List-进行比对，使用方法是需要先将-List-转成-List-后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是-DbModel，原来requestModel里的属性-DbModel中没有就会存在后续代码-増删改集合中就无法使用到-requestModel中的一些属性"><a href="#上面方式用于比较对象泛型一致的情况，但开发的过程中一般是-请求集合-List-和数据库集合List-进行比对，使用方法是需要先将-List-转成-List-后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是-DbModel，原来requestModel里的属性-DbModel中没有就会存在后续代码-増删改集合中就无法使用到-requestModel中的一些属性" class="headerlink" title="上面方式用于比较对象泛型一致的情况，但开发的过程中一般是 请求集合 List 和数据库集合List 进行比对，使用方法是需要先将 List 转成 List 后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是 DbModel，原来requestModel里的属性 DbModel中没有就会存在后续代码 増删改集合中就无法使用到 requestModel中的一些属性"></a>上面方式用于比较对象泛型一致的情况，但开发的过程中一般是 请求集合 List<requestModel> 和数据库集合List<DbModel> 进行比对，使用方法是需要先将 List<requestModel> 转成 List<DbModel> 后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是 DbModel，原来requestModel里的属性 DbModel中没有就会存在后续代码 増删改集合中就无法使用到 requestModel中的一些属性</h4><h2 id="优化上面的代码方案"><a href="#优化上面的代码方案" class="headerlink" title="优化上面的代码方案"></a>优化上面的代码方案</h2><blockquote>
+<p>可以将泛型定义成两个 CompareListSameResponseModel<T,V> ,入参传入两个Function即可</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>利用sql 生成 带swagger注解的实体</title>
     <url>/2023/02/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%B8%89%EF%BC%89/</url>
     <content><![CDATA[<p>— 设置参数：schema数据库</p>
@@ -2511,120 +2597,6 @@ src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZ
       </tags>
   </entry>
   <entry>
-    <title>利用List函数式接口比较集合</title>
-    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="结果集合封装类"><a href="#结果集合封装类" class="headerlink" title="结果集合封装类"></a>结果集合封装类</h2><blockquote>
-<p> / <em>*
-     </em></p>
-<pre><code> * 比较结果集合封装类
- * /
-</code></pre><p>public class CompareListSameResponseModel<T> {<br>    /**</p>
-<pre><code> * 新增数组，入参
- * /
-private List&lt;T&gt; addList;
-/**
- * 修改数组，入参
- * /
-private List&lt;T&gt; updateList;
-/**
- * 删除数组，数据库
- * /
-private List&lt;T&gt; deleteList;
-</code></pre><p>}</p>
-</blockquote>
-<h2 id="比较工具类方法"><a href="#比较工具类方法" class="headerlink" title="比较工具类方法"></a>比较工具类方法</h2><blockquote>
-<p> /**</p>
-<pre><code> * 获取新增列表、更新列表、删除列表
- * 数据库未存在uniqueKey，新增数据有uniqueKey，则为新增数据
- * 数据库未存在uniqueKey，新增数据也没有uniqueKey，无操作
- * 数据库存在uniqueKey，新增数据有uniqueKey，则为修改数据
- * 数据库存在uniqueKey，新增数据没有uniqueKey，则为删除数据
- *
- * @param uniqueKey 根据uniqueKey是否存在于数据库中来进行比较
- * @return
- * /
-public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUniqueKey(List&lt;T&gt; requestList, List&lt;T&gt; dbList, Function&lt;? super T, ?&gt; uniqueKey) &#123;
-    CompareListSameResponseModel&lt;T&gt; responseModel = new CompareListSameResponseModel&lt;&gt;();
-    List&lt;T&gt; insertList;
-    List&lt;T&gt; updateList;
-    List&lt;T&gt; deleteList;
-    //list 为空处理
-    requestList = Optional.ofNullable(requestList).orElse(new ArrayList&lt;&gt;());
-    dbList = Optional.ofNullable(dbList).orElse(new ArrayList&lt;&gt;());
-    Set&lt;?&gt; requestKeySet = requestList
-            .stream()
-            .map(uniqueKey)
-            .collect(Collectors.toSet());
-    Set&lt;?&gt; dbKeySet = dbList
-            .stream()
-            .map(uniqueKey)
-            .collect(Collectors.toSet());
-    //新增，从request数据中，去除db中已存在的数据
-    insertList = requestList
-            .stream()
-            .filter(x -&gt; !dbKeySet.contains(uniqueKey.apply(x)))
-            .collect(Collectors.toList());
-    //修改，找出request数据，与db都有的相同的数据
-    updateList = requestList
-            .stream()
-            .filter(x -&gt; requestKeySet.contains(uniqueKey.apply(x)) &amp;&amp; dbKeySet.contains(uniqueKey.apply(x)))
-            .collect(Collectors.toList());
-</code></pre><p> //       删除，从dblist中找出，request没有的数据<br>        deleteList = dbList<br>                .stream()<br>                .filter(x -&gt; !requestKeySet.contains(uniqueKey.apply(x)))<br>                .collect(Collectors.toList());<br>        responseModel.setAddList(insertList);<br>        responseModel.setUpdateList(updateList);<br>        responseModel.setDeleteList(deleteList);<br>        return responseModel;<br>    }</p>
-</blockquote>
-<h4 id="上面方式用于比较对象泛型一致的情况，但开发的过程中一般是-请求集合-List-和数据库集合List-进行比对，使用方法是需要先将-List-转成-List-后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是-DbModel，原来requestModel里的属性-DbModel中没有就会存在后续代码-増删改集合中就无法使用到-requestModel中的一些属性"><a href="#上面方式用于比较对象泛型一致的情况，但开发的过程中一般是-请求集合-List-和数据库集合List-进行比对，使用方法是需要先将-List-转成-List-后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是-DbModel，原来requestModel里的属性-DbModel中没有就会存在后续代码-増删改集合中就无法使用到-requestModel中的一些属性" class="headerlink" title="上面方式用于比较对象泛型一致的情况，但开发的过程中一般是 请求集合 List 和数据库集合List 进行比对，使用方法是需要先将 List 转成 List 后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是 DbModel，原来requestModel里的属性 DbModel中没有就会存在后续代码 増删改集合中就无法使用到 requestModel中的一些属性"></a>上面方式用于比较对象泛型一致的情况，但开发的过程中一般是 请求集合 List<requestModel> 和数据库集合List<DbModel> 进行比对，使用方法是需要先将 List<requestModel> 转成 List<DbModel> 后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是 DbModel，原来requestModel里的属性 DbModel中没有就会存在后续代码 増删改集合中就无法使用到 requestModel中的一些属性</h4><h2 id="优化上面的代码方案"><a href="#优化上面的代码方案" class="headerlink" title="优化上面的代码方案"></a>优化上面的代码方案</h2><blockquote>
-<p>可以将泛型定义成两个 CompareListSameResponseModel<T,V> ,入参传入两个Function即可</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>集合</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>结合apollo动态刷新日志级别</title>
-    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><blockquote>
-<p>/**</p>
-<ul>
-<li>结合apollo动态刷新日志级别</li>
-<li>@author: zhumh17</li>
-<li><p>@date: 11点50分<br>*/<br> @Configuration<br> public class LogListenerConfig {</p>
-<p> private static final Logger logger = LoggerFactory.getLogger&gt; (LoggerConfiguration.class);<br> /**</p>
-<ul>
-<li><p>监听关键字，当配置中心的依次开头的配置发生变化时，日志级别刷新<br>*/<br>private static final String LOGGER_TAG = “logging.level”;</p>
-<p>private LoggingSystem loggingSystem;<br>public LogListenerConfig(LoggingSystem loggingSystem) {<br> Assert.notNull(loggingSystem, “LoggingSystem must not be null”);<br> this.loggingSystem = loggingSystem;<br>}</p>
-</li>
-</ul>
-</li>
-</ul>
-<pre><code>@ApolloConfigChangeListener(value = &quot;application.yml&quot;)
-public void configChangeLister(ConfigChangeEvent changeEvent) &#123;
-    refreshLoggingLevels(changeEvent);
-&#125;
-
-private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
-    ConfigChange configChange = changeEvent.getChange(LOGGER_TAG);
-    String strLevel = configChange.getNewValue();
-    LogLevel level = LogLevel.valueOf(strLevel.toUpperCase());
-    loggingSystem.setLogLevel(&quot;com.vx&quot;, level);
-    logger.info(&quot;日志级别变化&#123;&#125;:&#123;&#125;&quot;,LOGGER_TAG,strLevel);
-&#125;
-</code></pre><p>}</p>
-</blockquote>
-<h2 id="这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别"><a href="#这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别" class="headerlink" title="这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别"></a>这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别</h2><h2 id="末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog"><a href="#末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog" class="headerlink" title="末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog"></a>末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog</h2><blockquote>
-<p>TLog提供了一种最简单的方式来解决日志追踪问题，它不收集日志，也不需要另外的存储空间，它只是自动的对你的日志进行打标签，自动生成TraceId贯穿你微服务的一整条链路。并且提供上下游节点信息。适合中小型企业以及想快速解决日志追踪问题的公司项目使用。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>日志</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>父工程从springboot1.5.x 升级到2.5.15总结.md</title>
     <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot1.5.x%20%E5%8D%87%E7%BA%A7%E5%88%B02.5.15%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
@@ -2698,6 +2670,48 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
+    <title>结合apollo动态刷新日志级别</title>
+    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><blockquote>
+<p>/**</p>
+<ul>
+<li>结合apollo动态刷新日志级别</li>
+<li>@author: zhumh17</li>
+<li><p>@date: 11点50分<br>*/<br> @Configuration<br> public class LogListenerConfig {</p>
+<p> private static final Logger logger = LoggerFactory.getLogger&gt; (LoggerConfiguration.class);<br> /**</p>
+<ul>
+<li><p>监听关键字，当配置中心的依次开头的配置发生变化时，日志级别刷新<br>*/<br>private static final String LOGGER_TAG = “logging.level”;</p>
+<p>private LoggingSystem loggingSystem;<br>public LogListenerConfig(LoggingSystem loggingSystem) {<br> Assert.notNull(loggingSystem, “LoggingSystem must not be null”);<br> this.loggingSystem = loggingSystem;<br>}</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>@ApolloConfigChangeListener(value = &quot;application.yml&quot;)
+public void configChangeLister(ConfigChangeEvent changeEvent) &#123;
+    refreshLoggingLevels(changeEvent);
+&#125;
+
+private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
+    ConfigChange configChange = changeEvent.getChange(LOGGER_TAG);
+    String strLevel = configChange.getNewValue();
+    LogLevel level = LogLevel.valueOf(strLevel.toUpperCase());
+    loggingSystem.setLogLevel(&quot;com.vx&quot;, level);
+    logger.info(&quot;日志级别变化&#123;&#125;:&#123;&#125;&quot;,LOGGER_TAG,strLevel);
+&#125;
+</code></pre><p>}</p>
+</blockquote>
+<h2 id="这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别"><a href="#这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别" class="headerlink" title="这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别"></a>这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别</h2><h2 id="末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog"><a href="#末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog" class="headerlink" title="末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog"></a>末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog</h2><blockquote>
+<p>TLog提供了一种最简单的方式来解决日志追踪问题，它不收集日志，也不需要另外的存储空间，它只是自动的对你的日志进行打标签，自动生成TraceId贯穿你微服务的一整条链路。并且提供上下游节点信息。适合中小型企业以及想快速解决日志追踪问题的公司项目使用。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>日志</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>父工程从springboot2.7.18升级到3.4.2总结</title>
     <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot2.7.18%E5%8D%87%E7%BA%A7%E5%88%B03.4.2%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
@@ -2729,7 +2743,17 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
 </blockquote>
 </li>
 </ol>
-<p>…</p>
+<h4 id="根据具体需求新增部署jvm参数"><a href="#根据具体需求新增部署jvm参数" class="headerlink" title="根据具体需求新增部署jvm参数"></a>根据具体需求新增部署jvm参数</h4><pre class="line-numbers language-none"><code class="language-none">--add-opens java.base&#x2F;java.lang&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.lang.reflect&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.io&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.net&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.util&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;sun.nio.ch&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;sun.net.www.protocol.http&#x3D;ALL-UNNAMED
+--add-opens java.management&#x2F;sun.management&#x3D;ALL-UNNAMED
+--add-opens jdk.management&#x2F;com.sun.management.internal&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;sun.security.ssl&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.time&#x3D;ALL-UNNAMED<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h4 id="配置写法问题"><a href="#配置写法问题" class="headerlink" title="配置写法问题"></a>配置写法问题</h4><p>redis原来写法为：<br><pre class="line-numbers language-none"><code class="language-none">spring:
   redis:
     # MIT
@@ -2857,27 +2881,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
-    <title>生活录【2022-11】</title>
-    <url>/2022/11/30/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902022-11%E3%80%91/</url>
-    <content><![CDATA[<ul>
-<li>[2022-11-30]<blockquote>
-<p>今日老家下毛毛雪，上海雨夹雪，今年来第一次穿上羽绒服。</p>
-</blockquote>
-</li>
-<li>[2022-11-29]<blockquote>
-<p>新冠疫情已距今三年有余，何日方休~                                         </p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>日常</category>
-      </categories>
-      <tags>
-        <tag>小记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>生活录【2022-12】</title>
     <url>/2022/12/01/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902022-12%E3%80%91/</url>
     <content><![CDATA[<ul>
@@ -2960,6 +2963,27 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
 </li>
 <li>[2022-12-29]<blockquote>
 <p>一早起来还以为到周五，结果还是周四，丧</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>日常</category>
+      </categories>
+      <tags>
+        <tag>小记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>生活录【2022-11】</title>
+    <url>/2022/11/30/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902022-11%E3%80%91/</url>
+    <content><![CDATA[<ul>
+<li>[2022-11-30]<blockquote>
+<p>今日老家下毛毛雪，上海雨夹雪，今年来第一次穿上羽绒服。</p>
+</blockquote>
+</li>
+<li>[2022-11-29]<blockquote>
+<p>新冠疫情已距今三年有余，何日方休~                                         </p>
 </blockquote>
 </li>
 </ul>
@@ -3211,9 +3235,10 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
 </li>
 </ul>
 <h4 id="案例六"><a href="#案例六" class="headerlink" title="案例六"></a>案例六</h4><ul>
-<li>每一条的审批开始时间取当前单据上一步的审批结束时间<a href="/2025/12/16/sql%E6%A1%88%E4%BE%8B/%E6%A1%88%E4%BE%8B%E5%85%AD/" title="报价合同K2审批记录">报价合同K2审批记录</a></li>
+<li>每一条的审批开始时间取当前单据上一步的审批结束时间<a href="/2025/12/16/sql%E6%A1%88%E4%BE%8B/%E6%A1%88%E4%BE%8B%E5%85%AD/" title="报价合同K2审批记录">报价合同K2审批记录</a>
+</li>
 </ul>
-]]></content>
+<h4 id="刷数案例"><a href="#刷数案例" class="headerlink" title="刷数案例"></a>刷数案例</h4><a href="/2025/12/16/sql%E6%A1%88%E4%BE%8B/%E5%88%B7%E6%95%B0%E6%8A%80%E5%B7%A7/" title="刷数技巧">刷数技巧</a>]]></content>
       <categories>
         <category>开发</category>
       </categories>
