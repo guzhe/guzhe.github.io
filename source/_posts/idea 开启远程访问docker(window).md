@@ -23,6 +23,20 @@ date: 2024-10-12 15:22:18
   "experimental": false,
   "hosts": [
     "tcp://0.0.0.0:2375"
+  ],
+  "registry-mirrors": [
+    "https://docker.rainbond.cc",
+    "https://elastic.m.daocloud.io",
+    "https://elastic.m.daocloud.io",
+    "https://docker.m.daocloud.io",
+    "https://gcr.m.daocloud.io",
+    "https://ghcr.m.daocloud.io",
+    "https://k8s-gcr.m.daocloud.io",
+    "https://k8s.m.daocloud.io",
+    "https://mcr.m.daocloud.io",
+    "https://nvcr.m.daocloud.io",
+    "https://quay.m.daocloud.io",
+    "https://ccr.ccs.tencentyun.com"
   ]
 }
 ~~~

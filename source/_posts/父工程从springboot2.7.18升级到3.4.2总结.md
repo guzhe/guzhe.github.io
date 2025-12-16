@@ -45,7 +45,20 @@ spring:
 > 	@ApiOperation(value =  全量替换  @Operation(summary =
 > ~~~
 
-...
+#### 根据具体需求新增部署jvm参数
+~~~
+--add-opens java.base/java.lang=ALL-UNNAMED
+--add-opens java.base/java.lang.reflect=ALL-UNNAMED
+--add-opens java.base/java.io=ALL-UNNAMED
+--add-opens java.base/java.net=ALL-UNNAMED
+--add-opens java.base/java.util=ALL-UNNAMED
+--add-opens java.base/sun.nio.ch=ALL-UNNAMED
+--add-opens java.base/sun.net.www.protocol.http=ALL-UNNAMED
+--add-opens java.management/sun.management=ALL-UNNAMED
+--add-opens jdk.management/com.sun.management.internal=ALL-UNNAMED
+--add-opens java.base/sun.security.ssl=ALL-UNNAMED
+--add-opens java.base/java.time=ALL-UNNAMED
+~~~
 
 #### 配置写法问题
 
