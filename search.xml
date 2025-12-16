@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Jenkins+Docker 一键自动化部署 SpringBoot 项目(续)</title>
+    <url>/2024/01/24/Jenkins+Docker%20%E4%B8%80%E9%94%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%20SpringBoot%20%E9%A1%B9%E7%9B%AE(%E7%BB%AD)/</url>
+    <content><![CDATA[<h4 id="发布项目支持选择git-分支"><a href="#发布项目支持选择git-分支" class="headerlink" title="发布项目支持选择git 分支"></a>发布项目支持选择git 分支</h4><ul>
+<li><p>安装插件Git Parameter</p>
+</li>
+<li><p>项目构建配置中配置 如下图配置参数</p>
+<p><img src="https://img-blog.csdnimg.cn/3c94a62820bc48daa0c8fd509cb0d76a.png" alt="img"></p>
+</li>
+</ul>
+<ul>
+<li><p>在branches to build 中引用 branch 参数 这样就完成配置了</p>
+<p><img src="https://img-blog.csdnimg.cn/b1b9c47c205a43209c89f373ad5d06a9.png" alt="img"></p>
+</li>
+</ul>
+<h4 id="支持服务项目远程部署"><a href="#支持服务项目远程部署" class="headerlink" title="支持服务项目远程部署"></a>支持服务项目远程部署</h4><ol>
+<li><p>安装插件 Publish over SSH</p>
+</li>
+<li><p>系统配置中配置Publish over SSH</p>
+<ul>
+<li><p>下图圈起来的位置是 远程服务器登录密码或者是ssh 的key(取决于服务器认证方式)</p>
+<p><img src="https://img-blog.csdnimg.cn/811f0134211f4ab7984d8c69ec5ad069.png" alt="img"></p>
+</li>
+<li><p>接着添加ssh servers 信息 </p>
+<p><img src="https://img-blog.csdnimg.cn/98a89bdf49e7414b846ebee382c2b551.png" alt="img"></p>
+</li>
+</ul>
+</li>
+<li><p>项目构建中添加构建步骤 send files or execute commands over ssh</p>
+<p><img src="https://img-blog.csdnimg.cn/d27624a09cfb42e7a5f43849be9cddc5.png" alt="img"></p>
+</li>
+<li><p>步骤如下配置 选择ssh server 后配置 transfers</p>
+<p>其中 sources files 位置为工作空间的相对位置</p>
+<p>remove prefix 是去除前缀后的 文件会全部传入远程服务器</p>
+<p>remote directory  是与 上面系统配置ssh servers中的remote directory 结合的位置，此位置就是远程服务器存放传输文件的位置<br><img src="https://img-blog.csdnimg.cn/0387490e558c4634af8242d619aa9d76.png" alt="img"></p>
+</li>
+<li><p>最后一步 配置 exec command,如下图</p>
+<p><img src="https://img-blog.csdnimg.cn/d7ef0ac5ff194027a2dc12172aaa1324.png" alt="img"></p>
+<p> 到此，简单的远程部署就结束了!</p>
+</li>
+</ol>
+<p>​    </p>
+]]></content>
+      <categories>
+        <category>运维</category>
+      </categories>
+      <tags>
+        <tag>jenkins</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>FineReport报表技巧</title>
     <url>/2024/10/30/FineReport%E6%8A%A5%E8%A1%A8%E6%8A%80%E5%B7%A7/</url>
     <content><![CDATA[<h4 id="数据集拼装动态sql条件"><a href="#数据集拼装动态sql条件" class="headerlink" title="数据集拼装动态sql条件"></a>数据集拼装动态sql条件</h4><p>${if(len(控件名称) == 0,””,”and a.bill_code like ‘%”+控件名称+”%’”)}</p>
@@ -96,57 +147,6 @@ if($(this).text().length &gt; length)&#123;
       </categories>
       <tags>
         <tag>FineReport</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Jenkins+Docker 一键自动化部署 SpringBoot 项目(续)</title>
-    <url>/2024/01/24/Jenkins+Docker%20%E4%B8%80%E9%94%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%20SpringBoot%20%E9%A1%B9%E7%9B%AE(%E7%BB%AD)/</url>
-    <content><![CDATA[<h4 id="发布项目支持选择git-分支"><a href="#发布项目支持选择git-分支" class="headerlink" title="发布项目支持选择git 分支"></a>发布项目支持选择git 分支</h4><ul>
-<li><p>安装插件Git Parameter</p>
-</li>
-<li><p>项目构建配置中配置 如下图配置参数</p>
-<p><img src="https://img-blog.csdnimg.cn/3c94a62820bc48daa0c8fd509cb0d76a.png" alt="img"></p>
-</li>
-</ul>
-<ul>
-<li><p>在branches to build 中引用 branch 参数 这样就完成配置了</p>
-<p><img src="https://img-blog.csdnimg.cn/b1b9c47c205a43209c89f373ad5d06a9.png" alt="img"></p>
-</li>
-</ul>
-<h4 id="支持服务项目远程部署"><a href="#支持服务项目远程部署" class="headerlink" title="支持服务项目远程部署"></a>支持服务项目远程部署</h4><ol>
-<li><p>安装插件 Publish over SSH</p>
-</li>
-<li><p>系统配置中配置Publish over SSH</p>
-<ul>
-<li><p>下图圈起来的位置是 远程服务器登录密码或者是ssh 的key(取决于服务器认证方式)</p>
-<p><img src="https://img-blog.csdnimg.cn/811f0134211f4ab7984d8c69ec5ad069.png" alt="img"></p>
-</li>
-<li><p>接着添加ssh servers 信息 </p>
-<p><img src="https://img-blog.csdnimg.cn/98a89bdf49e7414b846ebee382c2b551.png" alt="img"></p>
-</li>
-</ul>
-</li>
-<li><p>项目构建中添加构建步骤 send files or execute commands over ssh</p>
-<p><img src="https://img-blog.csdnimg.cn/d27624a09cfb42e7a5f43849be9cddc5.png" alt="img"></p>
-</li>
-<li><p>步骤如下配置 选择ssh server 后配置 transfers</p>
-<p>其中 sources files 位置为工作空间的相对位置</p>
-<p>remove prefix 是去除前缀后的 文件会全部传入远程服务器</p>
-<p>remote directory  是与 上面系统配置ssh servers中的remote directory 结合的位置，此位置就是远程服务器存放传输文件的位置<br><img src="https://img-blog.csdnimg.cn/0387490e558c4634af8242d619aa9d76.png" alt="img"></p>
-</li>
-<li><p>最后一步 配置 exec command,如下图</p>
-<p><img src="https://img-blog.csdnimg.cn/d7ef0ac5ff194027a2dc12172aaa1324.png" alt="img"></p>
-<p> 到此，简单的远程部署就结束了!</p>
-</li>
-</ol>
-<p>​    </p>
-]]></content>
-      <categories>
-        <category>运维</category>
-      </categories>
-      <tags>
-        <tag>jenkins</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -932,6 +932,172 @@ spring:
       </tags>
   </entry>
   <entry>
+    <title>ftl模版表格中根据条件合并行</title>
+    <url>/2025/03/31/ftl%E6%A8%A1%E7%89%88%E8%A1%A8%E6%A0%BC%E4%B8%AD%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E5%90%88%E5%B9%B6%E8%A1%8C/</url>
+    <content><![CDATA[<h4 id="序章"><a href="#序章" class="headerlink" title="序章"></a>序章</h4><blockquote>
+<p>想到开发中遇到每个ftl模版表格合并行操作时都需要逻辑代码实现比较繁琐，闲着无聊开发个工具解决下。思路是这样的：<br>每个表格的需要合并列的合并的规则基本一致，也就是数据一样即可在首行的格子设置rowspan，并将除首行外相同数据清空。如以下表格：<br><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>年龄<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>姓名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>李莉<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>王五<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>24<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>赵四<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>那这个表格中相同的年龄就可以合并</p>
+</blockquote>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>年龄<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>姓名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token comment">&lt;!--设置rowspan--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">rowspan</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>李莉<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+     <span class="token comment">&lt;!--清空相同的年龄数据--></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>王五<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>24<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>赵四<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>以上，我们理清楚三点：  </p>
+<ol>
+<li>需要设置的合并列  </li>
+<li>清空的数据列  </li>
+<li>设置rowspan的值<br>话不多说，开整</li>
+</ol>
+<h4 id="步骤1-新建一个接口RowSpanInterface"><a href="#步骤1-新建一个接口RowSpanInterface" class="headerlink" title="步骤1. 新建一个接口RowSpanInterface"></a>步骤1. 新建一个接口RowSpanInterface</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">RowSpanInterface</span> <span class="token punctuation">&#123;</span>
+     <span class="token class-name">String</span> <span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">void</span> <span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token keyword">void</span> <span class="token function">setRowSpan</span><span class="token punctuation">(</span><span class="token keyword">int</span> row<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="步骤2-新建ftl模版"><a href="#步骤2-新建ftl模版" class="headerlink" title="步骤2. 新建ftl模版"></a>步骤2. 新建ftl模版</h4><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#assign</span> <span class="token attr-name">header25</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size: 11px;font-family: 楷体;text-align: center;font-weight: bold; background-color: #BE0001; color: #FFFFFF;height: 25px;<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#assign</span> <span class="token attr-name">center9_list_tr</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-align: center;vertical-align: middle;font-size: 10px;font-family: 楷体;height: 25px;<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>caption</span><span class="token punctuation">></span></span>战区TOP10<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>caption</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token selector">$</span><span class="token punctuation">&#123;</span>header25<span class="token punctuation">&#125;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期月<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border-left-color</span><span class="token punctuation">:</span> #f8e099</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>top10排名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>园区<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同编号<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户名称<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户集群<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期未签约面积（m²）<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期未签约单元<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同开始日期<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同结束日期<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同归属人<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>是否KA客户<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户owner<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#if</span> <span class="token attr-name">areaTop10List??</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#list</span> <span class="token attr-name">areaTop10List</span> <span class="token attr-name">as</span> <span class="token attr-name">item</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token selector">$</span><span class="token punctuation">&#123;</span>center9_list_tr<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#if</span> <span class="token attr-name">item.month??</span><span class="token punctuation">></span></span>
+                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">rowspan</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$&#123;item.rowSpan!<span class="token punctuation">"</span></span><span class="token attr-name">1"&#125;"</span><span class="token punctuation">></span></span>$&#123;item.month!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#if</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.rank!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.mallName!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contNo!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerName!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerCluster!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.unSignedSquare!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.unSignedStore!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contStartDate!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contEndDate!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contOwner!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.isKACustomer!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerOwner!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#list</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#if</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="3-新建数据模型，并实现接口"><a href="#3-新建数据模型，并实现接口" class="headerlink" title="3. 新建数据模型，并实现接口"></a>3. 新建数据模型，并实现接口</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Data</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AreaTop10VacancyModel</span> <span class="token keyword">implements</span> <span class="token class-name">RowSpanInterface</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> rowSpan<span class="token punctuation">;</span>
+    <span class="token comment">//临期月</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> month<span class="token punctuation">;</span>
+    <span class="token comment">//top10排名</span>
+    <span class="token keyword">private</span> <span class="token keyword">int</span> rank<span class="token punctuation">;</span>
+    <span class="token comment">//园区</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> mallName<span class="token punctuation">;</span>
+    <span class="token comment">//合同编号</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> contNo<span class="token punctuation">;</span>
+    <span class="token comment">//客户名称</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> customerName<span class="token punctuation">;</span>
+    <span class="token comment">//客户集群</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> customerCluster<span class="token punctuation">;</span>
+    <span class="token comment">//临期未签约面积</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> unSignedSquare<span class="token punctuation">;</span>
+    <span class="token comment">//临期未签约单元</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> unSignedStore<span class="token punctuation">;</span>
+    <span class="token comment">//合同开始日期</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> contStartDate<span class="token punctuation">;</span>
+    <span class="token comment">//合同结束日期</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> contEndDate<span class="token punctuation">;</span>
+    <span class="token comment">//合同归属人</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> contOwner<span class="token punctuation">;</span>
+    <span class="token comment">//是否KA客户</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> isKACustomer<span class="token punctuation">;</span>
+    <span class="token comment">//客户owner</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> customerOwner<span class="token punctuation">;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> month<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>month <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="4-核心处理类"><a href="#4-核心处理类" class="headerlink" title="4. 核心处理类"></a>4. 核心处理类</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RowSpanHandler</span> <span class="token punctuation">&#123;</span>
+
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">handle</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">RowSpanInterface</span><span class="token punctuation">></span></span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 使用通配符类型进行流操作，避免强制类型转换</span>
+        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Long</span><span class="token punctuation">></span></span> countMap <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">-></span> <span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span><span class="token punctuation">)</span> item<span class="token punctuation">)</span>
+                <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">groupingBy</span><span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span><span class="token operator">::</span><span class="token function">rowSpanKey</span><span class="token punctuation">,</span> <span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">counting</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Set</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> cacheKeys <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span> rowSpanInterface <span class="token operator">:</span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token class-name">String</span> rowSpanKey <span class="token operator">=</span> rowSpanInterface<span class="token punctuation">.</span><span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">int</span> rowSpan <span class="token operator">=</span> countMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">intValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>cacheKeys<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                rowSpanInterface<span class="token punctuation">.</span><span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                cacheKeys<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                rowSpanInterface<span class="token punctuation">.</span><span class="token function">setRowSpan</span><span class="token punctuation">(</span>rowSpan<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="5-调用"><a href="#5-调用" class="headerlink" title="5. 调用"></a>5. 调用</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">AreaTop10VacancyModel</span><span class="token punctuation">></span></span> areaTop10List <span class="token operator">=</span> <span class="token function">getTop10List</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">RowSpanHandler</span><span class="token punctuation">.</span><span class="token function">handle</span><span class="token punctuation">(</span>areaTop10List<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<p>至此，相同的临期月排名数据已合并，这个方案后期可以维护升级成多个相同列进行多次合并，如果相同临期月中排名一样的需要再次合并的需求,这里不再赘述</p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ftl模版表格中根据条件合并行（AI版）</title>
     <url>/2025/10/19/ftl%E6%A8%A1%E7%89%88%E8%A1%A8%E6%A0%BC%E4%B8%AD%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E5%90%88%E5%B9%B6%E8%A1%8C(AI%E7%89%88)/</url>
     <content><![CDATA[<h4 id="提示词"><a href="#提示词" class="headerlink" title="提示词"></a>提示词</h4><blockquote>
@@ -1195,172 +1361,6 @@ public class MyController &#123;
       </tags>
   </entry>
   <entry>
-    <title>ftl模版表格中根据条件合并行</title>
-    <url>/2025/03/31/ftl%E6%A8%A1%E7%89%88%E8%A1%A8%E6%A0%BC%E4%B8%AD%E6%A0%B9%E6%8D%AE%E6%9D%A1%E4%BB%B6%E5%90%88%E5%B9%B6%E8%A1%8C/</url>
-    <content><![CDATA[<h4 id="序章"><a href="#序章" class="headerlink" title="序章"></a>序章</h4><blockquote>
-<p>想到开发中遇到每个ftl模版表格合并行操作时都需要逻辑代码实现比较繁琐，闲着无聊开发个工具解决下。思路是这样的：<br>每个表格的需要合并列的合并的规则基本一致，也就是数据一样即可在首行的格子设置rowspan，并将除首行外相同数据清空。如以下表格：<br><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>年龄<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>姓名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>李莉<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>王五<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>24<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>赵四<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>那这个表格中相同的年龄就可以合并</p>
-</blockquote>
-<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span> <span class="token attr-name">border</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>1<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>年龄<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>姓名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token comment">&lt;!--设置rowspan--></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">rowspan</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>23<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>李莉<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-     <span class="token comment">&lt;!--清空相同的年龄数据--></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>王五<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-   <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>24<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>赵四<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>table</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>以上，我们理清楚三点：  </p>
-<ol>
-<li>需要设置的合并列  </li>
-<li>清空的数据列  </li>
-<li>设置rowspan的值<br>话不多说，开整</li>
-</ol>
-<h4 id="步骤1-新建一个接口RowSpanInterface"><a href="#步骤1-新建一个接口RowSpanInterface" class="headerlink" title="步骤1. 新建一个接口RowSpanInterface"></a>步骤1. 新建一个接口RowSpanInterface</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">RowSpanInterface</span> <span class="token punctuation">&#123;</span>
-     <span class="token class-name">String</span> <span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token keyword">void</span> <span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-     <span class="token keyword">void</span> <span class="token function">setRowSpan</span><span class="token punctuation">(</span><span class="token keyword">int</span> row<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="步骤2-新建ftl模版"><a href="#步骤2-新建ftl模版" class="headerlink" title="步骤2. 新建ftl模版"></a>步骤2. 新建ftl模版</h4><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#assign</span> <span class="token attr-name">header25</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>font-size: 11px;font-family: 楷体;text-align: center;font-weight: bold; background-color: #BE0001; color: #FFFFFF;height: 25px;<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#assign</span> <span class="token attr-name">center9_list_tr</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>text-align: center;vertical-align: middle;font-size: 10px;font-family: 楷体;height: 25px;<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span>
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>table</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>caption</span><span class="token punctuation">></span></span>战区TOP10<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>caption</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token selector">$</span><span class="token punctuation">&#123;</span>header25<span class="token punctuation">&#125;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期月<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token property">border-left-color</span><span class="token punctuation">:</span> #f8e099</span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>top10排名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>园区<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同编号<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户名称<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户集群<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期未签约面积（m²）<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>临期未签约单元<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同开始日期<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同结束日期<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>合同归属人<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>是否KA客户<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>th</span><span class="token punctuation">></span></span>客户owner<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>th</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#if</span> <span class="token attr-name">areaTop10List??</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#list</span> <span class="token attr-name">areaTop10List</span> <span class="token attr-name">as</span> <span class="token attr-name">item</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>tr</span> <span class="token special-attr"><span class="token attr-name">style</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span><span class="token value css language-css"><span class="token selector">$</span><span class="token punctuation">&#123;</span>center9_list_tr<span class="token punctuation">&#125;</span><span class="token punctuation">;</span></span><span class="token punctuation">"</span></span></span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>#if</span> <span class="token attr-name">item.month??</span><span class="token punctuation">></span></span>
-                    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span> <span class="token attr-name">rowspan</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>$&#123;item.rowSpan!<span class="token punctuation">"</span></span><span class="token attr-name">1"&#125;"</span><span class="token punctuation">></span></span>$&#123;item.month!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#if</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.rank!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.mallName!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contNo!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerName!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerCluster!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.unSignedSquare!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.unSignedStore!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contStartDate!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contEndDate!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.contOwner!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.isKACustomer!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-                <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>td</span><span class="token punctuation">></span></span>$&#123;item.customerOwner!""&#125;<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>td</span><span class="token punctuation">></span></span>
-            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>tr</span><span class="token punctuation">></span></span>
-        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#list</span><span class="token punctuation">></span></span>
-    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>#if</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="3-新建数据模型，并实现接口"><a href="#3-新建数据模型，并实现接口" class="headerlink" title="3. 新建数据模型，并实现接口"></a>3. 新建数据模型，并实现接口</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Data</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">AreaTop10VacancyModel</span> <span class="token keyword">implements</span> <span class="token class-name">RowSpanInterface</span> <span class="token punctuation">&#123;</span>
-    <span class="token keyword">private</span> <span class="token keyword">int</span> rowSpan<span class="token punctuation">;</span>
-    <span class="token comment">//临期月</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> month<span class="token punctuation">;</span>
-    <span class="token comment">//top10排名</span>
-    <span class="token keyword">private</span> <span class="token keyword">int</span> rank<span class="token punctuation">;</span>
-    <span class="token comment">//园区</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> mallName<span class="token punctuation">;</span>
-    <span class="token comment">//合同编号</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> contNo<span class="token punctuation">;</span>
-    <span class="token comment">//客户名称</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> customerName<span class="token punctuation">;</span>
-    <span class="token comment">//客户集群</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> customerCluster<span class="token punctuation">;</span>
-    <span class="token comment">//临期未签约面积</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> unSignedSquare<span class="token punctuation">;</span>
-    <span class="token comment">//临期未签约单元</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> unSignedStore<span class="token punctuation">;</span>
-    <span class="token comment">//合同开始日期</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> contStartDate<span class="token punctuation">;</span>
-    <span class="token comment">//合同结束日期</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> contEndDate<span class="token punctuation">;</span>
-    <span class="token comment">//合同归属人</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> contOwner<span class="token punctuation">;</span>
-    <span class="token comment">//是否KA客户</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> isKACustomer<span class="token punctuation">;</span>
-    <span class="token comment">//客户owner</span>
-    <span class="token keyword">private</span> <span class="token class-name">String</span> customerOwner<span class="token punctuation">;</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">return</span> month<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-
-    <span class="token annotation punctuation">@Override</span>
-    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token keyword">this</span><span class="token punctuation">.</span>month <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="4-核心处理类"><a href="#4-核心处理类" class="headerlink" title="4. 核心处理类"></a>4. 核心处理类</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">RowSpanHandler</span> <span class="token punctuation">&#123;</span>
-
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">handle</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token operator">?</span> <span class="token keyword">extends</span> <span class="token class-name">RowSpanInterface</span><span class="token punctuation">></span></span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">// 使用通配符类型进行流操作，避免强制类型转换</span>
-        <span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Long</span><span class="token punctuation">></span></span> countMap <span class="token operator">=</span> list<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-                <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>item <span class="token operator">-></span> <span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span><span class="token punctuation">)</span> item<span class="token punctuation">)</span>
-                <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">groupingBy</span><span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span><span class="token operator">::</span><span class="token function">rowSpanKey</span><span class="token punctuation">,</span> <span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">counting</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">Set</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> cacheKeys <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">RowSpanInterface</span> rowSpanInterface <span class="token operator">:</span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token class-name">String</span> rowSpanKey <span class="token operator">=</span> rowSpanInterface<span class="token punctuation">.</span><span class="token function">rowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">int</span> rowSpan <span class="token operator">=</span> countMap<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">intValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>cacheKeys<span class="token punctuation">.</span><span class="token function">contains</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                rowSpanInterface<span class="token punctuation">.</span><span class="token function">cleanRowSpanKey</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
-                cacheKeys<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>rowSpanKey<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                rowSpanInterface<span class="token punctuation">.</span><span class="token function">setRowSpan</span><span class="token punctuation">(</span>rowSpan<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token punctuation">&#125;</span>
-    <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="5-调用"><a href="#5-调用" class="headerlink" title="5. 调用"></a>5. 调用</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">AreaTop10VacancyModel</span><span class="token punctuation">></span></span> areaTop10List <span class="token operator">=</span> <span class="token function">getTop10List</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token class-name">RowSpanHandler</span><span class="token punctuation">.</span><span class="token function">handle</span><span class="token punctuation">(</span>areaTop10List<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<p>至此，相同的临期月排名数据已合并，这个方案后期可以维护升级成多个相同列进行多次合并，如果相同临期月中排名一样的需要再次合并的需求,这里不再赘述</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git快捷操作</title>
     <url>/2023/07/04/git%20%E5%BF%AB%E6%8D%B7%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<h4 id="git-删除本地分支"><a href="#git-删除本地分支" class="headerlink" title="git 删除本地分支"></a>git 删除本地分支</h4><p>git branch -d 本地分支名称  </p>
@@ -1564,32 +1564,6 @@ mvn archetype:generate -B ^
         <category>后端技术</category>
       </categories>
       <tags>
-        <tag>maven</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>maven清除仓库未下载文件</title>
-    <url>/2025/06/06/maven_repo_clean/</url>
-    <content><![CDATA[<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><pre class="line-numbers language-dos" data-language="dos"><code class="language-dos">
-@echo off
-rem create by NettQun
-  
-rem 仓库路径
-set REPOSITORY_PATH&#x3D;D:\maven_repository
-rem 搜索中
-for &#x2F;f &quot;delims&#x3D;&quot; %%i in (&#39;dir &#x2F;b &#x2F;s &quot;%REPOSITORY_PATH%\*lastUpdated*&quot;&#39;) do (
-    echo %%i
-    del &#x2F;s &#x2F;q &quot;%%i&quot;
-)
-rem 搜索完毕
-pause
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>others</tag>
         <tag>maven</tag>
       </tags>
   </entry>
@@ -1814,6 +1788,32 @@ binlog_expire_logs_seconds&#x3D;604800
       <tags>
         <tag>docker</tag>
         <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>maven清除仓库未下载文件</title>
+    <url>/2025/06/06/maven_repo_clean/</url>
+    <content><![CDATA[<h4 id="脚本"><a href="#脚本" class="headerlink" title="脚本"></a>脚本</h4><pre class="line-numbers language-dos" data-language="dos"><code class="language-dos">
+@echo off
+rem create by NettQun
+  
+rem 仓库路径
+set REPOSITORY_PATH&#x3D;D:\maven_repository
+rem 搜索中
+for &#x2F;f &quot;delims&#x3D;&quot; %%i in (&#39;dir &#x2F;b &#x2F;s &quot;%REPOSITORY_PATH%\*lastUpdated*&quot;&#39;) do (
+    echo %%i
+    del &#x2F;s &#x2F;q &quot;%%i&quot;
+)
+rem 搜索完毕
+pause
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>others</tag>
+        <tag>maven</tag>
       </tags>
   </entry>
   <entry>
@@ -2189,6 +2189,68 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
+    <title>装修清单</title>
+    <url>/2023/10/17/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E6%B8%85%E5%8D%95/</url>
+    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
+<blockquote>
+<blockquote>
+<p>装修整理清单1.4版</p>
+<p>&lt;iframe<br>style=”width: 100%;<br>    height: 100%”<br>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h1 id="src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt"><a href="#src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt" class="headerlink" title="src=”https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;"></a>src=”<a href="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;</a></h1><p>src=”<a href="https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;</a></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>bfdb8c93ac8cbe4806e6db96d99f37f2ec2b7dd9<br>&lt;/iframe&gt;<br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/吉吉丽丽的装修消费清单(V1.4">点击下载—&gt;</a>.xlsx)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+]]></content>
+      <categories>
+        <category>装修清单</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>吉丽装修记【1】</title>
+    <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
+    <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
+>> 装修整理清单1.4版
+<iframe 
+style="width: 100%;
+    height: 100%" 
+src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D">
+</iframe>
+</div>
+
+<div style="position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;">
+<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;"
+    src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
+</iframe>
+</div>]]></content>
+      <categories>
+        <category>吉丽装修记</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>全屋公牛插座采购</title>
     <url>/2023/06/17/%E5%85%A8%E5%B1%8B%E5%85%AC%E7%89%9B%E6%8F%92%E5%BA%A7%E9%87%87%E8%B4%AD/</url>
     <content><![CDATA[<p>公牛插座 G51</p>
@@ -2271,68 +2333,6 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </categories>
       <tags>
         <tag>装修公牛</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>装修清单</title>
-    <url>/2023/10/17/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E6%B8%85%E5%8D%95/</url>
-    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
-<blockquote>
-<blockquote>
-<p>装修整理清单1.4版</p>
-<p>&lt;iframe<br>style=”width: 100%;<br>    height: 100%”<br>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<h1 id="src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt"><a href="#src-”https-preview-guzlife-site-onlinePreview-url-aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby-2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA-3D-3D-quot-gt" class="headerlink" title="src=”https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;"></a>src=”<a href="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D&quot;&gt;</a></h1><p>src=”<a href="https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;">https://preview.guzlife.top/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkueGxzeA%3D%3D&quot;&gt;</a></p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>bfdb8c93ac8cbe4806e6db96d99f37f2ec2b7dd9<br>&lt;/iframe&gt;<br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/吉吉丽丽的装修消费清单(V1.4">点击下载—&gt;</a>.xlsx)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-]]></content>
-      <categories>
-        <category>装修清单</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>吉丽装修记【1】</title>
-    <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
-    <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
->> 装修整理清单1.4版
-<iframe 
-style="width: 100%;
-    height: 100%" 
-src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZS50b3A6ODAvZGVtby%2FlkInlkInkuL3kuL3nmoToo4Xkv67mtojotLnmuIXljZUoVjEuNCkoMSkueGxzeA%3D%3D">
-</iframe>
-</div>
-
-<div style="position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px;
-    height: 0;
-    overflow: hidden;">
-<iframe allowfullscreen="true" frameborder="0" style=" position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;"
-    src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
-</iframe>
-</div>]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
       </tags>
   </entry>
   <entry>
@@ -2673,79 +2673,6 @@ private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
       </tags>
   </entry>
   <entry>
-    <title>父工程从springboot1.5.x 升级到2.5.15总结.md</title>
-    <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot1.5.x%20%E5%8D%87%E7%BA%A7%E5%88%B02.5.15%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
-<li>log4j高版本与框架其他引入的jar可能会产生冲突 </li>
-<li>如果项目是gradle项目坑巨多 最大的问题是这个springboot2.5.15 不能用gradle4.9进行编译打包，需要使用更高版本进行编译，而更高版本的gradle语法糖很多地方不兼容老版本导致只能遇到一个坑就填一个…</li>
-</ol>
-<h4 id="配置写法问题"><a href="#配置写法问题" class="headerlink" title="配置写法问题"></a>配置写法问题</h4><ol>
-<li>eureka 配置写法改动<br>老版本eureka.instance.hostname 配置 写法${spring.cloud.client.ipAddress}<br>新版本eureka.instance.hostname 配置 写法 ${spring.cloud.client.ip-address}:${server.port}  </li>
-<li>配置下划线写法<br>老版本配置中的属性节点可以使用下划线不，不会有报错提示<br>新版本配置中属性节点使用下划线会有报错提示  </li>
-<li>会废弃配置</li>
-<li>废弃hystrix，ribbon等，如需要引用需要单独引入包，springcloud官方bom等父工程并不包含hystrix</li>
-</ol>
-<h4 id="mysql-驱动兼容性问题"><a href="#mysql-驱动兼容性问题" class="headerlink" title="mysql 驱动兼容性问题"></a>mysql 驱动兼容性问题</h4><p>首先看个例子：<br><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>TestList<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.vx.TestModel<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
-	select '' as startDate from test 
-<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><br>以上sql 查出的startDate属性如果在TestModel定义为Date类型时<br>在msyql8.0.xx版本的驱动下会报以下错</p>
-<blockquote>
-<p>Error attempting to get column ‘startDate’ from result set.  Cause: java.sql.SQLDataException: Unsupported conversion from LONG to java.sql.Timestamp  </p>
-</blockquote>
-<p>而老版本（5.0.xx）驱动不会报错</p>
-<h4 id="连接池参数问题"><a href="#连接池参数问题" class="headerlink" title="连接池参数问题"></a>连接池参数问题</h4><p>druild 数据库连接参数以及连接池有些参数影响到线上空闲连接池回收机制，在和老版本相同配置情况下，新版本会出现以下错误：<br><pre class="line-numbers language-none"><code class="language-none">	2024-04-14 09:35:35.045 [Druid-ConnectionPool-Create-223696575] ERROR com.alibaba.druid.pool.DruidDataSource - create connection SQLException, 
-	url: jdbc:mysql:&#x2F;&#x2F;172.24.0.24:33306&#x2F;ibp_platform?useUnicode&#x3D;true&amp;characterEncoding&#x3D;UTF8&amp;zeroDateTimeBehavior&#x3D;convertToNull&amp;useSSL&#x3D;false&amp;allowMultiQueries&#x3D;true, 
-	errorCode 0, state 08S01
-	com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:836)
-	at com.mysql.cj.jdbc.ConnectionImpl.&lt;init&gt;(ConnectionImpl.java:456)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:246)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:197)
-	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:118)
-	at com.alibaba.druid.filter.stat.StatFilter.connection_connect(StatFilter.java:232)
-	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:112)
-	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1703)
-	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1786)
-	at com.alibaba.druid.pool.DruidDataSource$CreateConnectionThread.run(DruidDataSource.java:2910)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at sun.reflect.GeneratedConstructorAccessor112.newInstance(Unknown Source)
-	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:91)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:144)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:956)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:826)
-	... 9 common frames omitted
-Caused by: java.net.ConnectException: Connection timed out (Connection timed out)
-	at java.net.PlainSocketImpl.socketConnect(Native Method)
-	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
-	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
-	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
-	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
-	at java.net.Socket.connect(Socket.java:607)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:155)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:65)
-	... 12 common frames omitted<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>springboot</tag>
-        <tag>gradle</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>父工程从springboot2.7.18升级到3.4.2总结</title>
     <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot2.7.18%E5%8D%87%E7%BA%A7%E5%88%B03.4.2%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
@@ -2912,6 +2839,79 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </categories>
       <tags>
         <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>父工程从springboot1.5.x 升级到2.5.15总结.md</title>
+    <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot1.5.x%20%E5%8D%87%E7%BA%A7%E5%88%B02.5.15%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
+<li>log4j高版本与框架其他引入的jar可能会产生冲突 </li>
+<li>如果项目是gradle项目坑巨多 最大的问题是这个springboot2.5.15 不能用gradle4.9进行编译打包，需要使用更高版本进行编译，而更高版本的gradle语法糖很多地方不兼容老版本导致只能遇到一个坑就填一个…</li>
+</ol>
+<h4 id="配置写法问题"><a href="#配置写法问题" class="headerlink" title="配置写法问题"></a>配置写法问题</h4><ol>
+<li>eureka 配置写法改动<br>老版本eureka.instance.hostname 配置 写法${spring.cloud.client.ipAddress}<br>新版本eureka.instance.hostname 配置 写法 ${spring.cloud.client.ip-address}:${server.port}  </li>
+<li>配置下划线写法<br>老版本配置中的属性节点可以使用下划线不，不会有报错提示<br>新版本配置中属性节点使用下划线会有报错提示  </li>
+<li>会废弃配置</li>
+<li>废弃hystrix，ribbon等，如需要引用需要单独引入包，springcloud官方bom等父工程并不包含hystrix</li>
+</ol>
+<h4 id="mysql-驱动兼容性问题"><a href="#mysql-驱动兼容性问题" class="headerlink" title="mysql 驱动兼容性问题"></a>mysql 驱动兼容性问题</h4><p>首先看个例子：<br><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>TestList<span class="token punctuation">"</span></span> <span class="token attr-name">resultType</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>com.vx.TestModel<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+	select '' as startDate from test 
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><br>以上sql 查出的startDate属性如果在TestModel定义为Date类型时<br>在msyql8.0.xx版本的驱动下会报以下错</p>
+<blockquote>
+<p>Error attempting to get column ‘startDate’ from result set.  Cause: java.sql.SQLDataException: Unsupported conversion from LONG to java.sql.Timestamp  </p>
+</blockquote>
+<p>而老版本（5.0.xx）驱动不会报错</p>
+<h4 id="连接池参数问题"><a href="#连接池参数问题" class="headerlink" title="连接池参数问题"></a>连接池参数问题</h4><p>druild 数据库连接参数以及连接池有些参数影响到线上空闲连接池回收机制，在和老版本相同配置情况下，新版本会出现以下错误：<br><pre class="line-numbers language-none"><code class="language-none">	2024-04-14 09:35:35.045 [Druid-ConnectionPool-Create-223696575] ERROR com.alibaba.druid.pool.DruidDataSource - create connection SQLException, 
+	url: jdbc:mysql:&#x2F;&#x2F;172.24.0.24:33306&#x2F;ibp_platform?useUnicode&#x3D;true&amp;characterEncoding&#x3D;UTF8&amp;zeroDateTimeBehavior&#x3D;convertToNull&amp;useSSL&#x3D;false&amp;allowMultiQueries&#x3D;true, 
+	errorCode 0, state 08S01
+	com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:174)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:64)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:836)
+	at com.mysql.cj.jdbc.ConnectionImpl.&lt;init&gt;(ConnectionImpl.java:456)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:246)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:197)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:118)
+	at com.alibaba.druid.filter.stat.StatFilter.connection_connect(StatFilter.java:232)
+	at com.alibaba.druid.filter.FilterChainImpl.connection_connect(FilterChainImpl.java:112)
+	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1703)
+	at com.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1786)
+	at com.alibaba.druid.pool.DruidDataSource$CreateConnectionThread.run(DruidDataSource.java:2910)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at sun.reflect.GeneratedConstructorAccessor112.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:61)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:105)
+	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:151)
+	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:167)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:91)
+	at com.mysql.cj.NativeSession.connect(NativeSession.java:144)
+	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:956)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:826)
+	... 9 common frames omitted
+Caused by: java.net.ConnectException: Connection timed out (Connection timed out)
+	at java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+	at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+	at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+	at java.net.Socket.connect(Socket.java:607)
+	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:155)
+	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:65)
+	... 12 common frames omitted<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>springboot</tag>
+        <tag>gradle</tag>
       </tags>
   </entry>
   <entry>
