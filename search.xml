@@ -150,177 +150,6 @@ if($(this).text().length &gt; length)&#123;
       </tags>
   </entry>
   <entry>
-    <title>apifox接口测试工具使用分享</title>
-    <url>/2023/10/21/apifox%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<h4 id="apifox介绍"><a href="#apifox介绍" class="headerlink" title="apifox介绍"></a>apifox介绍</h4><blockquote>
-<p>今天分享一下apifox工具使用<br>apifox是阿里开发的一款集API 文档、API 调试、API Mock、API 自动化测试于一体的协助工具<br>Apifox = Postman + Swagger + Mock + JMeter</p>
-<p>基础的使用就不用多介绍了，下面介绍一些常用的高级特性</p>
-</blockquote>
-<h4 id="apifox-环境维护"><a href="#apifox-环境维护" class="headerlink" title="apifox-环境维护"></a>apifox-环境维护</h4><blockquote>
-<p>使用场景：为了方便一个项目服务在多个环境发布后中进行接口测试，比如本地开发环境、mit、sit、prod等等</p>
-<p>使用介绍：新建一个演示项目001后，点击右上角可以进入管理环境页面可以维护本地开发，测试，生产等环境</p>
-<p>通过gayway路由的微服务添加测试环境时带上服务名，本地测试不加</p>
-</blockquote>
-<h4 id="apifox-接口维护"><a href="#apifox-接口维护" class="headerlink" title="apifox-接口维护"></a>apifox-接口维护</h4><blockquote>
-<p>在项目接口管理中维护一个接口有三种方式</p>
-<ul>
-<li><p>手动添加</p>
-<p>在接口管理中新建接口手动维护，如果只是想简单测一下项目接口地址可以建一个快捷请求</p>
-</li>
-<li><p>手动导入添加</p>
-<p>点击项目设置，在数据管理中有个导入数据, 导入分手动导入和定时导入，手动导入都是导入各种类型的数据文件 支持的还挺全面</p>
-</li>
-<li><p>定时同步添加或更新</p>
-<p>在项目设置-&gt;数据管理中的定时导入可以根据设置的url 和频次进行定时更新接口文档，维护好后可以手动触发更新</p>
-</li>
-</ul>
-</blockquote>
-<h4 id=""><a href="#" class="headerlink" title=" "></a> </h4><h4 id="apifox-压测"><a href="#apifox-压测" class="headerlink" title="apifox-压测"></a>apifox-压测</h4><blockquote>
-<p>在项目自动化测试中添加测试场景 - 测试场景001， 添加步骤 可以接口导入，测试用例导入也可以自定义</p>
-<p>接口导入选择需要测试的接口，最右边有设置运行配置 如：循环次数，线程数。</p>
-</blockquote>
-<p>​    </p>
-<h4 id="apifox-脚本使用"><a href="#apifox-脚本使用" class="headerlink" title="apifox-脚本使用"></a>apifox-脚本使用</h4><blockquote>
-<p>接口中前置操作或后置操作可以添加脚本。例如以下接口脚本，此接口请求前需要获取上个接口中的响应token，然后放置在请求头上再去请求</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取环境里的 前置 URL</span>
-<span class="token keyword">const</span> baseUrl <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">getBaseUrl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">const</span> loginRequest <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
-  <span class="token literal-property property">url</span><span class="token operator">:</span> baseUrl <span class="token operator">+</span> <span class="token string">"/ehr-service/foreignApi/token/getToken"</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">method</span><span class="token operator">:</span> <span class="token string">"POST"</span><span class="token punctuation">,</span>
-   <span class="token literal-property property">header</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-    <span class="token string-property property">"Content-Type"</span><span class="token operator">:</span> <span class="token string">"application/json"</span><span class="token punctuation">,</span> <span class="token comment">// 注意：header 需要加上 Content-Type</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">body</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
-    <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'raw'</span><span class="token punctuation">,</span><span class="token comment">// 此处为 raw</span>
-    <span class="token literal-property property">raw</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> <span class="token literal-property property">appId</span><span class="token operator">:</span> <span class="token string">'wlxz0001'</span><span class="token punctuation">,</span> <span class="token literal-property property">appSecret</span><span class="token operator">:</span><span class="token string">'135873E92784809A0B68B5511456CB85'</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 序列化后的 json 字符串</span>
-  <span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span>
-pm<span class="token punctuation">.</span><span class="token function">sendRequest</span><span class="token punctuation">(</span>loginRequest<span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token comment">// 获取 Header 参数对象</span>
-  <span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
-  <span class="token comment">// 修改 header 参数（如不存在则新增）</span>
-  headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
-  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"token"</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">value</span><span class="token operator">:</span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>body<span class="token punctuation">.</span>token<span class="token punctuation">,</span>
-  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>可以参考：<a href="https://apifox.com/help/best-practices/how-to-handle-auth">登录态（Auth）如何处理 | Apifox 帮助文档</a></p>
-<p>提示：最后饭有代码片段提示，点高级功能可以调转到帮助文档</p>
-<ol>
-<li><p>环境变量</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">*</span><span class="token comment">// 设置环境变量*</span>
-pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token operator">*</span><span class="token comment">// 获取环境变量*</span>
-<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token operator">*</span><span class="token comment">// unset 环境变量*</span>
-pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>读取的时候，需要使用<code>JSON.parse</code>转换回来</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'array'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">'val'</span> <span class="token punctuation">&#125;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
-pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'obj'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
-  <span class="token keyword">var</span> array <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'array'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-  <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'obj'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-  <span class="token comment">// 处理异常</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<ol>
-<li><p>全局变量</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 设置全局变量</span>
-pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取全局变量</span>
-<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// unset 全局变量</span>
-pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<ol>
-<li><p>临时变量</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 设置临时变量</span>
-pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取临时变量</span>
-<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// unset 临时变量</span>
-pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<ol>
-<li><p>URL 相关信息</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 url 对象</span>
-<span class="token keyword">var</span> urlObj <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>url<span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取完整接口请求 URL，包含 query 参数</span>
-<span class="token keyword">var</span> url <span class="token operator">=</span> urlObj<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取协议（http 或 https）</span>
-<span class="token keyword">var</span> protocol <span class="token operator">=</span> urlObj<span class="token punctuation">.</span>protocol<span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取 端口</span>
-<span class="token keyword">var</span> port <span class="token operator">=</span> urlObj<span class="token punctuation">.</span>port<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<ol>
-<li><p>Header 参数</p>
-<p>获取header参数</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 Header 参数对象</span>
-<span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
-      
-<span class="token comment">// 获取 key 为 field1 的 header 参数的值</span>
-<span class="token keyword">var</span> field1 <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"field1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 已键值对象方式获取所有 header 参数</span>
-<span class="token keyword">var</span> headersObject <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">toObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 遍历整个 header</span>
-headers<span class="token punctuation">.</span><span class="token function">each</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出参数名</span>
-  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出参数值</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>修改 header 参数</p>
-<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 Header 参数对象</span>
-<span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
-      
-<span class="token comment">// 增加 header 参数</span>
-headers<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
-  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"field1"</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token string">"value1"</span><span class="token punctuation">,</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-      
-<span class="token comment">// 修改 header 参数（如不存在则新增）</span>
-headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
-  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"field2"</span><span class="token punctuation">,</span>
-  <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token string">"value2"</span><span class="token punctuation">,</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>更多使用示例：</p>
-<p><a href="https://apifox.com/help/pre-post-processors-and-scripts/scripts/examples/variables">脚本使用变量 | Apifox 帮助文档</a></p>
-<p><a href="https://apifox.com/help/pre-post-processors-and-scripts/scripts/api-references/pm-reference">pm 对象 API | Apifox 帮助文档</a></p>
-</li>
-</ol>
-</blockquote>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Jenkins+Docker 一键自动化部署 SpringBoot 项目</title>
     <url>/2024/01/24/Jenkins+Docker%20%E4%B8%80%E9%94%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%20SpringBoot%20%E9%A1%B9%E7%9B%AE/</url>
     <content><![CDATA[<p>本文章实现最简单全面的<code>Jenkins+docker+springboot</code> 一键自动部署项目，步骤齐全，少走坑路。</p>
@@ -543,6 +372,562 @@ This is my website, click the button &#123;% btn &#39;https:&#x2F;&#x2F;butterfl
       </categories>
       <tags>
         <tag>hexo</tag>
+        <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>apifox接口测试工具使用分享</title>
+    <url>/2023/10/21/apifox%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h4 id="apifox介绍"><a href="#apifox介绍" class="headerlink" title="apifox介绍"></a>apifox介绍</h4><blockquote>
+<p>今天分享一下apifox工具使用<br>apifox是阿里开发的一款集API 文档、API 调试、API Mock、API 自动化测试于一体的协助工具<br>Apifox = Postman + Swagger + Mock + JMeter</p>
+<p>基础的使用就不用多介绍了，下面介绍一些常用的高级特性</p>
+</blockquote>
+<h4 id="apifox-环境维护"><a href="#apifox-环境维护" class="headerlink" title="apifox-环境维护"></a>apifox-环境维护</h4><blockquote>
+<p>使用场景：为了方便一个项目服务在多个环境发布后中进行接口测试，比如本地开发环境、mit、sit、prod等等</p>
+<p>使用介绍：新建一个演示项目001后，点击右上角可以进入管理环境页面可以维护本地开发，测试，生产等环境</p>
+<p>通过gayway路由的微服务添加测试环境时带上服务名，本地测试不加</p>
+</blockquote>
+<h4 id="apifox-接口维护"><a href="#apifox-接口维护" class="headerlink" title="apifox-接口维护"></a>apifox-接口维护</h4><blockquote>
+<p>在项目接口管理中维护一个接口有三种方式</p>
+<ul>
+<li><p>手动添加</p>
+<p>在接口管理中新建接口手动维护，如果只是想简单测一下项目接口地址可以建一个快捷请求</p>
+</li>
+<li><p>手动导入添加</p>
+<p>点击项目设置，在数据管理中有个导入数据, 导入分手动导入和定时导入，手动导入都是导入各种类型的数据文件 支持的还挺全面</p>
+</li>
+<li><p>定时同步添加或更新</p>
+<p>在项目设置-&gt;数据管理中的定时导入可以根据设置的url 和频次进行定时更新接口文档，维护好后可以手动触发更新</p>
+</li>
+</ul>
+</blockquote>
+<h4 id=""><a href="#" class="headerlink" title=" "></a> </h4><h4 id="apifox-压测"><a href="#apifox-压测" class="headerlink" title="apifox-压测"></a>apifox-压测</h4><blockquote>
+<p>在项目自动化测试中添加测试场景 - 测试场景001， 添加步骤 可以接口导入，测试用例导入也可以自定义</p>
+<p>接口导入选择需要测试的接口，最右边有设置运行配置 如：循环次数，线程数。</p>
+</blockquote>
+<p>​    </p>
+<h4 id="apifox-脚本使用"><a href="#apifox-脚本使用" class="headerlink" title="apifox-脚本使用"></a>apifox-脚本使用</h4><blockquote>
+<p>接口中前置操作或后置操作可以添加脚本。例如以下接口脚本，此接口请求前需要获取上个接口中的响应token，然后放置在请求头上再去请求</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取环境里的 前置 URL</span>
+<span class="token keyword">const</span> baseUrl <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span><span class="token function">getBaseUrl</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> loginRequest <span class="token operator">=</span> <span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">url</span><span class="token operator">:</span> baseUrl <span class="token operator">+</span> <span class="token string">"/ehr-service/foreignApi/token/getToken"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">method</span><span class="token operator">:</span> <span class="token string">"POST"</span><span class="token punctuation">,</span>
+   <span class="token literal-property property">header</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token string-property property">"Content-Type"</span><span class="token operator">:</span> <span class="token string">"application/json"</span><span class="token punctuation">,</span> <span class="token comment">// 注意：header 需要加上 Content-Type</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">body</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span>
+    <span class="token literal-property property">mode</span><span class="token operator">:</span> <span class="token string">'raw'</span><span class="token punctuation">,</span><span class="token comment">// 此处为 raw</span>
+    <span class="token literal-property property">raw</span><span class="token operator">:</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span> <span class="token literal-property property">appId</span><span class="token operator">:</span> <span class="token string">'wlxz0001'</span><span class="token punctuation">,</span> <span class="token literal-property property">appSecret</span><span class="token operator">:</span><span class="token string">'135873E92784809A0B68B5511456CB85'</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// 序列化后的 json 字符串</span>
+  <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+pm<span class="token punctuation">.</span><span class="token function">sendRequest</span><span class="token punctuation">(</span>loginRequest<span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">err<span class="token punctuation">,</span> response</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 获取 Header 参数对象</span>
+  <span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
+  <span class="token comment">// 修改 header 参数（如不存在则新增）</span>
+  headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"token"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">value</span><span class="token operator">:</span> response<span class="token punctuation">.</span><span class="token function">json</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>body<span class="token punctuation">.</span>token<span class="token punctuation">,</span>
+  <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>可以参考：<a href="https://apifox.com/help/best-practices/how-to-handle-auth">登录态（Auth）如何处理 | Apifox 帮助文档</a></p>
+<p>提示：最后饭有代码片段提示，点高级功能可以调转到帮助文档</p>
+<ol>
+<li><p>环境变量</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token operator">*</span><span class="token comment">// 设置环境变量*</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token operator">*</span><span class="token comment">// 获取环境变量*</span>
+<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token operator">*</span><span class="token comment">// unset 环境变量*</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>读取的时候，需要使用<code>JSON.parse</code>转换回来</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token keyword">var</span> array <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'array'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>array<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token literal-property property">a</span><span class="token operator">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token literal-property property">b</span><span class="token operator">:</span> <span class="token punctuation">&#123;</span> <span class="token literal-property property">c</span><span class="token operator">:</span> <span class="token string">'val'</span> <span class="token punctuation">&#125;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'obj'</span><span class="token punctuation">,</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">stringify</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+  <span class="token keyword">var</span> array <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'array'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">var</span> obj <span class="token operator">=</span> <span class="token constant">JSON</span><span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>pm<span class="token punctuation">.</span>environment<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'obj'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+  <span class="token comment">// 处理异常</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<ol>
+<li><p>全局变量</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 设置全局变量</span>
+pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取全局变量</span>
+<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// unset 全局变量</span>
+pm<span class="token punctuation">.</span>globals<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<ol>
+<li><p>临时变量</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 设置临时变量</span>
+pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">,</span> <span class="token string">'variable_value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取临时变量</span>
+<span class="token keyword">var</span> variable_key <span class="token operator">=</span> pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// unset 临时变量</span>
+pm<span class="token punctuation">.</span>variables<span class="token punctuation">.</span><span class="token function">unset</span><span class="token punctuation">(</span><span class="token string">'variable_key'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<ol>
+<li><p>URL 相关信息</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 url 对象</span>
+<span class="token keyword">var</span> urlObj <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>url<span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取完整接口请求 URL，包含 query 参数</span>
+<span class="token keyword">var</span> url <span class="token operator">=</span> urlObj<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取协议（http 或 https）</span>
+<span class="token keyword">var</span> protocol <span class="token operator">=</span> urlObj<span class="token punctuation">.</span>protocol<span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取 端口</span>
+<span class="token keyword">var</span> port <span class="token operator">=</span> urlObj<span class="token punctuation">.</span>port<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<ol>
+<li><p>Header 参数</p>
+<p>获取header参数</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 Header 参数对象</span>
+<span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
+      
+<span class="token comment">// 获取 key 为 field1 的 header 参数的值</span>
+<span class="token keyword">var</span> field1 <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token string">"field1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 已键值对象方式获取所有 header 参数</span>
+<span class="token keyword">var</span> headersObject <span class="token operator">=</span> headers<span class="token punctuation">.</span><span class="token function">toObject</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 遍历整个 header</span>
+headers<span class="token punctuation">.</span><span class="token function">each</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">item</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">&#123;</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出参数名</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 输出参数值</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>修改 header 参数</p>
+<pre class="line-numbers language-javascript" data-language="javascript"><code class="language-javascript"><span class="token comment">// 获取 Header 参数对象</span>
+<span class="token keyword">var</span> headers <span class="token operator">=</span> pm<span class="token punctuation">.</span>request<span class="token punctuation">.</span>headers<span class="token punctuation">;</span>
+      
+<span class="token comment">// 增加 header 参数</span>
+headers<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"field1"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token string">"value1"</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      
+<span class="token comment">// 修改 header 参数（如不存在则新增）</span>
+headers<span class="token punctuation">.</span><span class="token function">upsert</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>
+  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"field2"</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">value</span><span class="token operator">:</span> <span class="token string">"value2"</span><span class="token punctuation">,</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>更多使用示例：</p>
+<p><a href="https://apifox.com/help/pre-post-processors-and-scripts/scripts/examples/variables">脚本使用变量 | Apifox 帮助文档</a></p>
+<p><a href="https://apifox.com/help/pre-post-processors-and-scripts/scripts/api-references/pm-reference">pm 对象 API | Apifox 帮助文档</a></p>
+</li>
+</ol>
+</blockquote>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>好用的docker镜像</title>
+    <url>/2025/09/18/docker-runs(%E7%BB%AD)/</url>
+    <content><![CDATA[<h4 id="Markdown-编辑器"><a href="#Markdown-编辑器" class="headerlink" title="Markdown 编辑器"></a>Markdown 编辑器</h4><ul>
+<li><strong>官网地址</strong>  <a href="https://md.doocs.org">https://md.doocs.org</a></li>
+<li><strong>开源地址</strong>  <a href="https://gitee.com/doocs/md">https://gitee.com/doocs/md</a></li>
+<li><strong>镜像运行</strong> <pre class="line-numbers language-none"><code class="language-none">docker run --name md-editor -d -p 8080:80 doocs&#x2F;md:latest<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+</li>
+</ul>
+<h4 id="文档在线预览"><a href="#文档在线预览" class="headerlink" title="文档在线预览"></a>文档在线预览</h4><ul>
+<li><strong>官网地址</strong>  <a href="https://kkview.cn">https://kkview.cn</a></li>
+<li><strong>开源地址</strong>  <a href="https://gitee.com/kekingcn/file-online-preview">https://gitee.com/kekingcn/file-online-preview</a></li>
+<li><strong>镜像运行</strong> <pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown"><span class="token title important"><span class="token punctuation">####</span> 拉取镜像</span>
+docker load -i kkFileView-4.4.0-docker.tar
+<span class="token title important"><span class="token punctuation">####</span> 运行</span>
+docker run -it -p 8012:8012 keking/kkfileview:4.4.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+        <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker常用镜像运行</title>
+    <url>/2024/02/28/docker-runs/</url>
+    <content><![CDATA[<h4 id="ELK-简单搭建"><a href="#ELK-简单搭建" class="headerlink" title="ELK 简单搭建"></a>ELK 简单搭建</h4><p>docker pull docker.elastic.co/elasticsearch/elasticsearch:7.15.1 </p>
+<p>docker pull docker.elastic.co/logstash/logstash:7.15.1 </p>
+<p>docker pull docker.elastic.co/kibana/kibana:7.15.1</p>
+<p>（也有docker主将 elk 打包成一个镜像 elk,这种方式也简单）</p>
+<p>docker run -d —name elasticsearch -p 9200:9200 -p 9300:9300  -e “discovery.type=single-node”  -m 2g   docker.elastic.co/elasticsearch/elasticsearch:7.15.1</p>
+<p>该命令会在后台启动一个名为elasticsearch的容器，并将主机的9200端口映射到容器的9200端口，同时将主机的9300端口映射到容器的9300端口。</p>
+<p>docker run -d —name logstash —link elasticsearch:elasticsearch -p 5044:5044 -m 1g -v /path/to/logstash.conf:/usr/share/logstash/pipeline/logstash.conf docker.elastic.co/logstash/logstash:7.15.1</p>
+<p>请将/path/to/logstash.conf替换为你本地存储Logstash配置文件的路径。</p>
+<p>docker run -d —name kibana —link elasticsearch:elasticsearch -p 5601:5601 -m 1g docker.elastic.co/kibana/kibana:7.15.1</p>
+<p>Elasticsearch配置：你可以通过访问<a href="http://localhost:9200来验证Elasticsearch是否成功运行。">http://localhost:9200来验证Elasticsearch是否成功运行。</a></p>
+<p>Logstash配置：你可以通过编辑Logstash配置文件/path/to/logstash.conf来定义你的日志处理逻辑。</p>
+<p>Kibana配置：你可以通过访问<a href="http://localhost:5601来打开Kibana的Web界面，并通过它进行数据可视化和管理。">http://localhost:5601来打开Kibana的Web界面，并通过它进行数据可视化和管理。</a></p>
+<p>ps:  es 可以安装中文分词器插件可以支持中文分词</p>
+<p>​       logstash 可以配置beat 和kafka等等多种input方式 </p>
+<p>​        虚拟机内存不够的一定需要带个 -m 参数限制下 容器启动后可以用docker stats 容器 查看 不够可以用 docker update -m 改下（只能改大）</p>
+<p>​      </p>
+<blockquote>
+<p>例如： docker update -m 1G —memory-swap=1G  mysql</p>
+</blockquote>
+<h4 id="filebeat-安装运行"><a href="#filebeat-安装运行" class="headerlink" title="filebeat 安装运行"></a>filebeat 安装运行</h4><pre class="line-numbers language-none"><code class="language-none">docker pull docker.elastic.co&#x2F;beats&#x2F;filebeat:7.15.1
+
+mkdir filebeat 
+
+cd filebeat 
+
+nano filebeat.yml
+
+docker run -d --name&#x3D;filebeat --user&#x3D;root --v&#x3D;&quot;$(pwd)&#x2F;filebeat.yml:&#x2F;usr&#x2F;share&#x2F;filebeat&#x2F;filebeat.yml:ro&quot; --v&#x3D;&quot;&#x2F;var&#x2F;lib&#x2F;docker&#x2F;containers:&#x2F;var&#x2F;lib&#x2F;docker&#x2F;containers:ro&quot; --v&#x3D;&quot;&#x2F;var&#x2F;log:&#x2F;var&#x2F;log:ro&quot; --v&#x3D;&quot;&#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock:ro&quot; docker.elastic.co&#x2F;beats&#x2F;filebeat:7.15.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h4><pre class="line-numbers language-text" data-language="text"><code class="language-text">docker run -d --name zookeeper -p 2181:2181 -m 300M -v /etc/localtime:/etc/localtime --restart=always wurstmeister/zookeeper:3.4.13<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="zk-ui"><a href="#zk-ui" class="headerlink" title="zk ui"></a>zk ui</h4><pre class="line-numbers language-none"><code class="language-none">docker run -d --name zkui -p 9090:9090 -e ZKUI_ZK_SERVER&#x3D;192.168.136.130:2181 -m 500M qnib&#x2F;zkui
+注意这个地方有点坑，容器启动却访问不了，进容器执行 curl http:&#x2F;&#x2F;127.0.0.1:9090 发现没有启动服务
+手动启动就可以了或者重新拉去源码方式编译打包成可执行镜像也成
+简单点手动启动下：
+进入容器 docker exec -it zkui bash
+cd &#x2F;opt&#x2F;zkui&#x2F;target&#x2F;  发现这里没有config.cfg启动会报错
+将 &#x2F;opt&#x2F;zkui 目录下的这个文件拷贝到 &#x2F;opt&#x2F;zkui&#x2F;target&#x2F; 下
+手动配置下文件中的 zkserver （这个地方如果用不了VI命令的话，需要将文件拷贝到宿主机改完后，在拷贝回来 docker cp xxx:xx &#x2F;xxx  docker &#x2F;xxxx xxx:xx）
+最后只需要启动下jar就可以了 
+nohup java -jar zkui-2.0-SNAPSHOT-jar-with-dependencies.jar &gt;out.log 2&gt;&amp;1 &amp;
+
+记：第一次发现启动成功，然后删除容器，又run了一把同样的操作发现启动失败，看来日志和源码发现配置文件（config.cfg）中需要配置这个属性 X-Forwarded-For&#x3D;xxx
+配置完后启动就成功了，不知道为啥一次成功一次还需要加配置。。。
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h4><p>为方便测试，起的zookeeper 容器都在一起 ，直接用—link 方式，如果容器不在KAFKA_ZOOKEEPER_CONNECT需要设置</p>
+<p>docker run -d —name kafka -p 9092:9092 -m 512M —link zookeeper:zookeeper —restart=always —env KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 —env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 —env KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 —env KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 wurstmeister/kafka:2.8.1</p>
+<p>查询topic列表</p>
+<p>/opt/kafka/bin/kafka-topics.sh —zookeeper zookeeper:2181 —list</p>
+<p>发送消息</p>
+<p>/opt/kafka/bin/kafka-console-producer.sh —broker-list localhost:9092 —topic myTopic （）</p>
+<p>消费消息</p>
+<p>/opt/kafka/bin/kafka-console-consumer.sh —bootstrap-server localhost:9092 —topic myTopic —from-beginning</p>
+<h4 id="kafka-manager-cmak-3-0-0-6"><a href="#kafka-manager-cmak-3-0-0-6" class="headerlink" title="kafka-manager (cmak 3.0.0.6)"></a>kafka-manager (cmak 3.0.0.6)</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">https://github.com/yahoo/cmak/releases 下载最新zip 需要自己打包生成镜像文件
+
+<span class="token comment">#Dockerfile</span>
+FROM adoptopenjdk:11-jdk-hotspot-bionic
+ADD cmak-3.0.0.6/ /opt/km3006/
+CMD <span class="token punctuation">[</span><span class="token string">"/opt/km3006/bin/cmak"</span>,<span class="token string">"-Dconfig.file=/opt/km3006/conf/application.conf"</span><span class="token punctuation">]</span>
+
+<span class="token function">docker</span> build <span class="token parameter variable">-t</span> km:3006 <span class="token builtin class-name">.</span>
+
+<span class="token function">docker</span> run <span class="token parameter variable">-d</span> <span class="token parameter variable">--name</span> km <span class="token parameter variable">--link</span> zookeeper:kafka-manager-zookeeper <span class="token parameter variable">-e</span> <span class="token assign-left variable">ZK_HOSTS</span><span class="token operator">=</span>kafka-manager-zookeeper:2181 <span class="token parameter variable">-m</span> 300M <span class="token parameter variable">-p</span> <span class="token number">9104</span>:9000 km:3006<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>cmak第一次启动添加会报错：</strong></p>
+<p><strong>KeeperErrorCode = Unimplemented for /kafka-manager/mutex Try again.</strong></p>
+<p>解决：</p>
+<pre class="line-numbers language-none"><code class="language-none">docker exec -it zookeeper bash 
+
+root@zookeeper:&#x2F;opt&#x2F;zookeeper-3.4.13&#x2F;bin#.&#x2F;zkCli.sh 
+
+[zk: localhost:2181(CONNECTED) 0] ls &#x2F;kafka-manager
+
+[configs, clusters, deleteClusters]
+
+[zk: localhost:2181(CONNECTED) 1] create &#x2F;kafka-manager&#x2F;mutex &quot;&quot;
+
+Created &#x2F;kafka-manager&#x2F;mutex
+
+[zk: localhost:2181(CONNECTED) 2] create &#x2F;kafka-manager&#x2F;mutex&#x2F;locks &quot;&quot;
+
+Created &#x2F;kafka-manager&#x2F;mutex&#x2F;locks
+
+[zk: localhost:2181(CONNECTED) 3] create &#x2F;kafka-manager&#x2F;mutex&#x2F;leases &quot;&quot;
+
+Created &#x2F;kafka-manager&#x2F;mutex&#x2F;leases<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>完美解决。（可以使用zk ui界面上添加比较方便）</p>
+<h4 id="jenkins"><a href="#jenkins" class="headerlink" title="jenkins"></a>jenkins</h4><p>docker run -d —name jenkins -u root -p 14639:8080 -p 50000:50000 —privileged=true  -v /var/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean</p>
+<p>ps： 如果知道 tag 可以给 image 打上 docker tag image:latest image:version</p>
+<h4 id="xwiki"><a href="#xwiki" class="headerlink" title="xwiki"></a>xwiki</h4><p>docker run -d —name xwiki -p 8051:8080 -v D:\share\home\xwiki:/usr/local/xwiki -e DB_USER=root -e DB_PASSWORD=123456 -e DB_DATABASE=xwiki -e DB_HOST=10.92.32.33 xwiki:mysql-tomcat  （这里的运行环境是docker for window 也可以运行起来）</p>
+<h4 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h4><p>1.首先创建数据卷 D:\share\home\redis 下载 <a href="http://download.redis.io/redis-stable/redis.conf">http://download.redis.io/redis-stable/redis.conf</a> 放在目录下<br>2.更改 redis.conf 将 bind 127.0.0.1 注释掉 ，设置appendonly yes开启持久化配置等等<br>3.docker run -d —name redis -p 6377:6379 -v D:\share\home\redis\redis.conf:/etc/redis/redis.conf -v D:\share\home\redis\data:/data  redis:7.2.3</p>
+<h4 id="hertzbeat-监控"><a href="#hertzbeat-监控" class="headerlink" title="hertzbeat 监控"></a>hertzbeat 监控</h4><p>docker run -d -p 1157:1157 -p 1158:1158 -e LANG=zh_CN.UTF-8 -e TZ=Asia/Shanghai -v D:\share\home\hertzbeat\data:/opt/hertzbeat/data -v D:\share\home\hertzbeat\logs:/opt/hertzbeat/logs -v D:\share\home\hertzbeat\application.yml:/opt/hertzbeat/config/application.yml -v D:\share\home\hertzbeat\sureness.yml:/opt/hertzbeat/config/sureness.yml —restart=always —name hertzbeat tancloud/hertzbeat:v1.4.3<br>浏览器访问<a href="http://localhost:1157">http://localhost:1157</a> 默认账号密码 admin/hertzbeat<br>部署采集器集群<br>docker run -d -e IDENTITY=custom-collector-name -e MANAGER_HOST=10.92.32.33 -e MANAGER_PORT=1158 —name hertzbeat-collector tancloud/hertzbeat-collector:v1.4.3<br>-e IDENTITY=custom-collector-name : 配置此采集器的唯一性标识符名称，多个采集器名称不能相同，建议自定义英文名称。<br>-e MODE=public : 配置运行模式(public or private), 公共集群模式或私有云边模式。<br>-e MANAGER_HOST=127.0.0.1 : 配置连接主HertaBeat服务的对外IP。<br>-e MANAGER_PORT=1158 : 配置连接主HertzBeat服务的对外端口，默认1158</p>
+<h4 id="postgres-sql"><a href="#postgres-sql" class="headerlink" title="postgres sql"></a>postgres sql</h4><blockquote>
+<p>docker run —name pgsql —privileged -e POSTGRES_PASSWORD=123456 -p 5432:5432 -v D:\docker_mapping\pgsql\data:/var/lib/postgresql/data -d postgres:14.11</p>
+</blockquote>
+<h4 id="mysql8"><a href="#mysql8" class="headerlink" title="mysql8"></a>mysql8</h4><blockquote>
+<ul>
+<li>先随便启动一个mysql8 ,然后复制出配置文件<blockquote>
+<ul>
+<li>docker run -p 3306:3306 —name mysql8 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.3.0</li>
+<li>docker cp  mysql8:/etc/mysql D:\docker_mapping\mysql</li>
+</ul>
+</blockquote>
+</li>
+<li>docker rm -f mysql8</li>
+<li>docker run  -p 3306:3306  —name mysql8  —privileged=true -v D:\docker_mapping\mysql:/etc/mysql  -v D:\docker_mapping\mysql\data:/var/lib/mysql  -v /etc/localtime:/etc/localtime  -e MYSQL_ROOT_PASSWORD=123456  -d mysql:8.3.0</li>
+</ul>
+</blockquote>
+<h4 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h4><pre class="line-numbers language-none"><code class="language-none">docker run --name mongodb -v D:\docker_mapping\mongo\mongodb:&#x2F;data&#x2F;db -p 27017:27017 -d mongo:6.0.13 --auth
+docker exec -it mongodb mongosh admin (mongo 5.0以下 使用mongo 命令)
+db.createUser(&#123; user:&#39;root&#39;,pwd:&#39;123456&#39;,roles:[ &#123; role:&#39;userAdminAnyDatabase&#39;, db: &#39;admin&#39;&#125;,&quot;readWriteAnyDatabase&quot;]&gt; &#125;);
+db.auth(&#39;root&#39;, &#39;123456&#39;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="NIFI"><a href="#NIFI" class="headerlink" title="NIFI"></a>NIFI</h4><p>docker run —privileged=true —name nifi -p 8443:8443 -p 9999:9999 -e NIFI_WEB_HTTP_PORT=8443 -d apache/nifi:1.24.0</p>
+<h4 id="nacos"><a href="#nacos" class="headerlink" title="nacos"></a>nacos</h4><ol>
+<li>安装容器<br>docker run —name nacos -d -p 8848:8848 -e MODE=standalone  nacos/nacos-server:v2.3.1</li>
+<li>创建挂载需要的目录<br>mkdir -p /mydata/nacos/logs/                      #新建logs目录<br>mkdir -p /mydata/nacos/conf/            #新建conf目录<br>mkdir -p /mydata/nacos/data/            #新建data目录</li>
+<li>复制文件到挂载目录<br>docker cp nacos:/home/nacos/logs/ D:\docker_mapping\nacos<br>docker cp nacos:/home/nacos/conf/ D:\docker_mapping\nacos<br>docker cp nacos:/home/nacos/data/ D:\docker_mapping\nacos</li>
+<li>删除容器<br>docker rm -f nacos</li>
+<li>进入挂载目录找到application.properties完成配置</li>
+<li>重新安装（完成配置文件挂载）<br>docker run -d —name nacos \<br>-p 8848:8848 \<br>-p 9848:9848 \<br>-p 9849:9849 \<br>—env MODE=standalone \<br>—env NACOS_AUTH_ENABLE=true \<br>-v D:\docker_mapping\nacos\conf:/home/nacos/conf \<br>-v D:\docker_mapping\nacos\logs:/home/nacos/logs \<br>-v D:\docker_mapping\nacos\data:/home/nacos/data \<br>nacos/nacos-server:v2.3.1<blockquote>
+<p>注意如果使用数据库方式需要先执行脚本，然后在启动容器不然会报错</p>
+</blockquote>
+</li>
+</ol>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
+<h4 id="Apollo-多环境分布式部署（dev-pro）"><a href="#Apollo-多环境分布式部署（dev-pro）" class="headerlink" title="Apollo 多环境分布式部署（dev,pro）"></a>Apollo 多环境分布式部署（dev,pro）</h4><ol>
+<li><p>新建数据库（多个环境需要建立多个config库）执行sql 文件 文件参考：<br>config库： <a href="https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloconfigdb.sql">https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloconfigdb.sql</a><br>portal库： <a href="https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloportaldb.sql">https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloportaldb.sql</a><br>建立完成后应该有两个config库 和一个 protal库 例如：apollo_config_dev，apollo_config_pro，apollo_portal_db</p>
+</li>
+<li><p>建立本地映射目录 例如D盘下新建Apollo文件夹，随便起一个apollo-configservice容器和apollo-adminservice容器<br>将这两个服务的配置文件拷贝一份到对应的目录中  </p>
+<blockquote>
+<p>docker cp apollo-configservice:/apollo-configservice/config D:\docker_mapping\apollo\config-service-dev<br>docker cp apollo-adminservice容器:/apollo-adminservice/config D:\docker_mapping\apollo\admin-service-dev </p>
+</blockquote>
+</li>
+<li>将配置也复制一份到对应的pro文件夹里  </li>
+</ol>
+<p>完成后的目录结构：<br><pre class="line-numbers language-none"><code class="language-none">├─admin-service-dev
+│  └─config
+├─admin-service-pro
+│  └─config
+├─config-service-dev
+│  └─config
+├─config-service-pro
+│  └─config
+└─protal
+    └─config<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+<ol>
+<li><p>修改本地config-service-dev和config-service-pro下config目录下的配置文件application-github.properties<br>里面只需要配置数据库相关信息即可</p>
+</li>
+<li><p>启动apollo-configservice容器</p>
+<pre class="line-numbers language-none"><code class="language-none">docker run -d -p 8109:8080 --name apollo-configservice-dev -v D:\docker_mapping\apollo\config-service-dev\config:&#x2F;apollo-configservice&#x2F;config apolloconfig&#x2F;apollo-configservice:2.2.0  
+docker run -d -p 8110:8080 --name apollo-configservice-pro -v D:\docker_mapping\apollo\config-service-pro\config:&#x2F;apollo-configservice&#x2F;config apolloconfig&#x2F;apollo-configservice:2.2.0  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<blockquote>
+<p>注意configservice 服务自带注册中心</p>
+</blockquote>
+</li>
+<li><p>注意在 apollo_config 对应的库中找到表ServerConfig，修改eureka.service.url地址，地址为上面的config-service注册中心地址例如：<a href="http://本机IP:8109/eureka/">http://本机IP:8109/eureka/</a><br>dev和 pro config库都需要配置好，否则apollo-adminservice服务注册不上来</p>
+</li>
+<li><p>启动apollo-adminservice容器</p>
+<pre class="line-numbers language-none"><code class="language-none">docker run -d -p 8111:8090 --name apollo-adminservice-dev -v D:\docker_mapping\apollo\admin-service-dev\config:&#x2F;apollo-adminservice&#x2F;config apolloconfig&#x2F;apollo-adminservice:2.2.0  
+docker run -d -p 8112:8090 --name apollo-adminservice-pro -v D:\docker_mapping\apollo\admin-service-pro\config:&#x2F;apollo-adminservice&#x2F;config apolloconfig&#x2F;apollo-adminservice:2.2.0  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
+<li><p>启动apollo-portal容器  </p>
+<ul>
+<li>在apollo_portal_db 中 找到表ServerConfig  <ul>
+<li>修改apollo.portal.envs 配置多环境例如：DEV,PRO </li>
+<li>修改apollo.portal.meta.servers地址，地址为上面的config-service地址例如：{“DEV”:”<a href="http://10.92.33.112:8109&quot;,&quot;PRO&quot;:&quot;http://10.92.33.112:8110&quot;}">http://10.92.33.112:8109&quot;,&quot;PRO&quot;:&quot;http://10.92.33.112:8110&quot;}</a>  </li>
+</ul>
+</li>
+<li>执行命令<br>docker run -p 8120:8070 -d —name apollo-portal -v D:\docker_mapping\apollo\protal\config:/apollo-portal/config apolloconfig/apollo-portal:2.2.0  </li>
+</ul>
+</li>
+</ol>
+<h4 id="naxus3"><a href="#naxus3" class="headerlink" title="naxus3"></a>naxus3</h4><p>docker run —privileged=true —name nexus -p 43633:43633 -p 9081:8081 -v D:\docker_mapping\nexus:/nexus-data -d sonatype/nexus3</p>
+<h4 id="rabbitMQ"><a href="#rabbitMQ" class="headerlink" title="rabbitMQ"></a>rabbitMQ</h4><ol>
+<li>单节点部署<pre class="line-numbers language-none"><code class="language-none">* 运行镜像 - 方式一：默认guest 用户，密码也是 guest
+docker run -d --hostname my-rabbit --name rabbit -p 15672:15672 -p 5672:5672 rabbitmq:management
+
+* 运行镜像 - 方式二：设置用户名和密码
+docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER&#x3D;user -e RABBITMQ_DEFAULT_PASS&#x3D;password -p 15672:15672 -p 5672:5672 rabbitmq:management<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>集群部署<br>命令：<pre class="line-numbers language-none"><code class="language-none">docker run -d --hostname myRabbit1 --name rabbit1 -p 15672:15672 -p 5672:5672 -e RABBITMQ_ERLANG_COOKIE&#x3D;&#39;rabbitcookie&#39; rabbitmq:management
+docker run -d --hostname myRabbit2 --name rabbit2 -p 15672:15672 -p 5672:5672 --link rabbit1:myRabbit1 -e RABBITMQ_ERLANG_COOKIE&#x3D;&#39;rabbitcookie&#39; rabbitmq:management
+docker run -d --hostname myRabbit3 --name rabbit3 -p 15672:15672 -p 5672:5672 --link rabbit1:myRabbit1 --link rabbit2:myRabbit2 -e RABBITMQ_ERLANG_COOKIE&#x3D;&#39;rabbitcookie&#39; rabbitmq:management<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+注意：</li>
+</ol>
+<ul>
+<li>-e RABBITMQ_ERLANG_COOKIE=’rabbitcookie’ 必须设置为相同，因为 Erlang节点间是通过认证Erlang cookie的方式来允许互相通信的。</li>
+<li>—link rabbit1:myRabbit1 —link rabbit2:myRabbit2 不要漏掉，否则会 一直处在 Cluster status of node rabbit@myRabbit3 … 没有反应<br>加入集群：<br>内存节点和磁盘节点的选择：</li>
+</ul>
+<p>每个RabbitMQ节点，要么是内存节点，要么是磁盘节点。内存节点将所有的队列、交换器、绑定、用户等元数据定义都存储在内存中；而磁盘节点将元数据存储在磁盘中。单节点系统只允许磁盘类型的节点，否则当节点重启以后，所有的配置信息都会丢失。如果采用集群的方式，可以选择至少配置一个节点为磁盘节点，其余部分配置为内存节点，，这样可以获得更快的响应。所以本集群中配置节点1位磁盘节点，节点2和节点3位内存节点。</p>
+<p>集群中的第一个节点将初始元数据代入集群中，并且无须被告知加入。而第2个和之后加入的节点将加入它并获取它的元数据。要加入节点，需要进入Docker容器，重启RabbitMQ。<br>设置节点1：<br><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# docker exec -it rabbit1 bash
+root@myRabbit1:&#x2F;# rabbitmqctl stop_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Stopping rabbit application on node rabbit@myRabbit1 ...
+root@myRabbit1:&#x2F;# rabbitmqctl reset
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Resetting node rabbit@myRabbit1 ...
+root@myRabbit1:&#x2F;# rabbitmqctl start_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Starting node rabbit@myRabbit1 ...
+root@myRabbit1:&#x2F;# exit
+exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>设置节点2：<br><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# docker exec -it rabbit2 bash
+root@myRabbit2:&#x2F;# rabbitmqctl stop_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Stopping rabbit application on node rabbit@myRabbit2 ...
+root@myRabbit2:&#x2F;# rabbitmqctl reset
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Resetting node rabbit@myRabbit2 ...
+root@myRabbit2:&#x2F;# rabbitmqctl join_cluster --ram rabbit@myRabbit1 
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Clustering node rabbit@myRabbit2 with rabbit@myRabbit1
+root@myRabbit2:&#x2F;# rabbitmqctl start_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Starting node rabbit@myRabbit2 ...
+root@myRabbit2:&#x2F;# exit
+exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>设置节点3：<br><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# docker exec -it rabbit3 bash
+root@myRabbit3:&#x2F;# rabbitmqctl stop_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Stopping rabbit application on node rabbit@myRabbit3 ...
+root@myRabbit3:&#x2F;# rabbitmqctl reset
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Resetting node rabbit@myRabbit3 ...
+root@myRabbit3:&#x2F;# rabbitmqctl join_cluster --ram rabbit@myRabbit1 
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Clustering node rabbit@myRabbit3 with rabbit@myRabbit1
+root@myRabbit3:&#x2F;# rabbitmqctl start_app
+RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
+Starting node rabbit@myRabbit3 ...
+root@myRabbit3:&#x2F;# exit
+exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+<h4 id="RocketMQ5-0-Local模式-部署"><a href="#RocketMQ5-0-Local模式-部署" class="headerlink" title="RocketMQ5.0 (Local模式)部署"></a>RocketMQ5.0 (Local模式)部署</h4><blockquote>
+<p>详细官方文档参考： <a href="https://rocketmq.apache.org/zh/docs/quickStart/02quickstartWithDocker">https://rocketmq.apache.org/zh/docs/quickStart/02quickstartWithDocker</a> （也有中文）<br>详细中文文档参考： <a href="https://rocketmq.io/">https://rocketmq.io/</a></p>
+<ul>
+<li>拉取RocketMQ镜像<br>docker pull apache/rocketmq:5.3.1</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>创建容器共享网络<br>docker network create rocketmq</p>
+</li>
+<li><p>启动 NameServer<br>docker run -d —name rmqnamesrv -p 9876:9876 —network rocketmq apache/rocketmq:5.3.1 sh mqnamesrv</p>
+</li>
+<li><p>验证 NameServer 是否启动成功<br>docker logs -f rmqnamesrv</p>
+</li>
+<li><p>启动 Broker+Proxy  </p>
+<div class="tabs" id="broker_proxy"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#broker_proxy-1">Linux</button></li><li class="tab"><button type="button" data-href="#broker_proxy-2">Windows</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="broker_proxy-1"><ul>
+<li>配置 Broker 的 IP 地址<br><div class="note warning simple"><p>注意这里官方文档： echo “brokerIP1=127.0.0.1” &gt; broker.conf 这种方式配置后，代码连不上proxy 8081端口</p>
+</div><br>所以改成：本地新建 broker.conf ，写入内容：<br>brokerIP1=127.0.0.1<br>namesrvAddr=xxxx.xxxx.xxx.xxxx:9876 （换成自己服务IP）<br>autoCreateTopicEnable = true<br>brokerClusterName = DefaultCluster<pre class="line-numbers language-none"><code class="language-none">* 启动 Broker 和 Proxy
+docker run -d ^
+--name rmqbroker ^
+--net rocketmq ^
+-p 10912:10912 -p 10911:10911 -p 10909:10909 ^
+-p 8080:8080 -p 8081:8081 \
+-e &quot;NAMESRV_ADDR&#x3D;rmqnamesrv:9876&quot; ^
+-v %cd%\broker.conf:&#x2F;home&#x2F;rocketmq&#x2F;rocketmq-5.3.1&#x2F;conf&#x2F;broker.conf ^
+apache&#x2F;rocketmq:5.3.1 sh mqbroker --enable-proxy \
+-c &#x2F;home&#x2F;rocketmq&#x2F;rocketmq-5.3.1&#x2F;conf&#x2F;broker.conf
+
+* 验证 Broker 是否启动成功
+docker exec -it rmqbroker bash -c &quot;tail -n 10 &#x2F;home&#x2F;rocketmq&#x2F;logs&#x2F;rocketmqlogs&#x2F;proxy.log&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="broker_proxy-2"><ul>
+<li>配置 Broker 的 IP 地址<br>跟上面方式一样<pre class="line-numbers language-none"><code class="language-none">* 启动 Broker 和 Proxy
+docker run -d ^
+--name rmqbroker ^
+--net rocketmq ^
+-p 10912:10912 -p 10911:10911 -p 10909:10909 ^
+-p 8080:8080 -p 8081:8081 \
+-e &quot;NAMESRV_ADDR&#x3D;rmqnamesrv:9876&quot; ^
+-v %cd%\broker.conf:&#x2F;home&#x2F;rocketmq&#x2F;rocketmq-5.3.1&#x2F;conf&#x2F;broker.conf ^
+apache&#x2F;rocketmq:5.3.1 sh mqbroker --enable-proxy \
+-c &#x2F;home&#x2F;rocketmq&#x2F;rocketmq-5.3.1&#x2F;conf&#x2F;broker.conf
+
+* 验证 Broker 是否启动成功
+docker exec -it rmqbroker bash -c &quot;tail -n 10 &#x2F;home&#x2F;rocketmq&#x2F;logs&#x2F;rocketmqlogs&#x2F;proxy.log&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ul><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
+</li>
+</ul>
+<div class="note simple"><p>至此，一个单节点副本的 RocketMQ 集群已经部署起来了，我们可以利用脚本进行简单的消息收发。</p>
+</div>
+<ul>
+<li>SDK测试消息收发验证省略（参照官方文档） </li>
+</ul>
+<div class="note warning simple"><p>注意部署的是rocketmq5.0以上的版时，协议为gprc,而老版本用的是remoting协议，故以前的sdk可能连不上新部署的mq,具体参照官方文档</p>
+</div>
+<h4 id="seata部署"><a href="#seata部署" class="headerlink" title="seata部署"></a>seata部署</h4><p>本地新增配置文件，配置如下:<br><pre class="line-numbers language-none"><code class="language-none">console:
+  user:
+    password: seata@fly
+    username: seata
+logging:
+  config: classpath:logback-spring.xml
+  # extend:
+  #   kafka-appender:
+  #     bootstrap-servers: 127.0.0.1:9092
+  #     topic: logback_to_logstash
+  #   logstash-appender:
+  #     destination: 127.0.0.1:4560
+  file:
+    path: $&#123;log.home:$&#123;user.home&#125;&#x2F;logs&#x2F;seata&#125;
+seata:
+  config:
+    nacos:
+      enabled: true
+      name: fly-seata-server
+      file-extension: yaml
+      group: DEFAULT_GROUP
+      namespace: 34bbe265-cd1f-4a08-a4b9-a02e9ab8ed47
+      data-id: fly-seata-server
+      # password: nacos@fly
+      # username: nacos
+      server-addr: 10.92.21.77:8848
+    type: nacos
+  registry:
+    nacos:
+      application: fly-seata-server
+      group: DEFAULT_GROUP
+      namespace: 34bbe265-cd1f-4a08-a4b9-a02e9ab8ed47
+      # password: nacos@fly
+      # username: nacos
+      server-addr: 10.92.21.77:8848
+    type: nacos
+  security:
+    ignore:
+      urls: &#x2F;,&#x2F;**&#x2F;*.css,&#x2F;**&#x2F;*.js,&#x2F;**&#x2F;*.html,&#x2F;**&#x2F;*.map,&#x2F;**&#x2F;*.svg,&#x2F;**&#x2F;*.png,&#x2F;**&#x2F;*.jpeg,&#x2F;**&#x2F;*.ico,&#x2F;api&#x2F;v1&#x2F;auth&#x2F;login,&#x2F;metadata&#x2F;v1&#x2F;**
+    secretKey: SeataSecretKey0c382ef121d778043159209298fd40bf3850a017
+    tokenValidityInMilliseconds: 1800000
+  store:
+    db:
+      branch-table: branch_table
+      datasource: druid
+      db-type: mysql
+      distributed-lock-table: distributed_lock
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      global-table: global_table
+      lock-table: lock_table
+      max-conn: 100
+      max-wait: 5000
+      min-conn: 10
+      password: $&#123;seata.db.password&#125;
+      query-limit: 1000
+      url: $&#123;seata.db.url&#125;
+      user: $&#123;seata.db.username&#125;
+    mode: db
+server:
+  port: 7091
+spring:
+  application:
+    name: fly-seata-server<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+<div class="note warning simple"><p>注意配置带${xx}的需要再配置中心配上，以防止需要更改</p>
+</div>
+<p>docker run -d —name=seata-server -e SEATA_IP=10.92.21.77 -e HOSTIP=10.92.21.77  —volume=D:\docker_mapping\seata\conf\application.yml:/seata-server/resources/application.yml —volume=D:\docker_mapping\seata\logs:/root/logs/seata -p 7091:7091 -p 8091:8091 —privileged=true seataio/seata-server:2.0.0</p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
         <tag>others</tag>
       </tags>
   </entry>
@@ -1003,52 +1388,6 @@ public class MyController &#123;
       </tags>
   </entry>
   <entry>
-    <title>idea 开启远程访问docker(window)</title>
-    <url>/2024/10/12/idea%20%E5%BC%80%E5%90%AF%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEdocker(window)/</url>
-    <content><![CDATA[<h4 id="docker-for-window"><a href="#docker-for-window" class="headerlink" title="docker for window"></a>docker for window</h4><ol>
-<li>在设置里找到 General 将 “Expose daemon on tcp://localhost:2375 without TLS” 一项勾选中  </li>
-<li>设置里找到 docker engine 将配置新增节点： “hosts”:[“tcp://0.0.0.0:2375”] 参考配置如下：  <pre class="line-numbers language-none"><code class="language-none">&#123;
-  &quot;builder&quot;: &#123;
-    &quot;gc&quot;: &#123;
-      &quot;defaultKeepStorage&quot;: &quot;20GB&quot;,
-      &quot;enabled&quot;: true
-    &#125;
-  &#125;,
-  &quot;experimental&quot;: false,
-  &quot;hosts&quot;: [
-    &quot;tcp:&#x2F;&#x2F;0.0.0.0:2375&quot;
-  ],
-  &quot;registry-mirrors&quot;: [
-    &quot;https:&#x2F;&#x2F;docker.rainbond.cc&quot;,
-    &quot;https:&#x2F;&#x2F;elastic.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;elastic.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;docker.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;gcr.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;ghcr.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;k8s-gcr.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;k8s.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;mcr.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;nvcr.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;quay.m.daocloud.io&quot;,
-    &quot;https:&#x2F;&#x2F;ccr.ccs.tencentyun.com&quot;
-  ]
-&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ol>
-<h4 id="用管理员身份运行CMD命令"><a href="#用管理员身份运行CMD命令" class="headerlink" title="用管理员身份运行CMD命令"></a>用管理员身份运行CMD命令</h4><p>netsh interface portproxy reset<br>netsh interface portproxy add v4tov4 listenport=2375 connectaddress=localhost connectport=2375<br>net start iphlpsvc</p>
-<blockquote>
-<p>查看命令： netsh interface portproxy all</p>
-</blockquote>
-<h4 id="idea-配置"><a href="#idea-配置" class="headerlink" title="idea 配置"></a>idea 配置</h4><p>在services窗口中添加docker connection<br>如果docker for Window 运行在本电脑中，则直接勾选“docker for Window ”选项即可<br>如果是远程访问，则需要选择TCP socket 填写 Engine API URL 例如： tcp://远程计算机IP地址:2375  </p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Hello World</title>
     <url>/2020/04/16/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -1101,6 +1440,52 @@ jobs:
       <tags>
         <tag>hexo</tag>
         <tag>others</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>idea 开启远程访问docker(window)</title>
+    <url>/2024/10/12/idea%20%E5%BC%80%E5%90%AF%E8%BF%9C%E7%A8%8B%E8%AE%BF%E9%97%AEdocker(window)/</url>
+    <content><![CDATA[<h4 id="docker-for-window"><a href="#docker-for-window" class="headerlink" title="docker for window"></a>docker for window</h4><ol>
+<li>在设置里找到 General 将 “Expose daemon on tcp://localhost:2375 without TLS” 一项勾选中  </li>
+<li>设置里找到 docker engine 将配置新增节点： “hosts”:[“tcp://0.0.0.0:2375”] 参考配置如下：  <pre class="line-numbers language-none"><code class="language-none">&#123;
+  &quot;builder&quot;: &#123;
+    &quot;gc&quot;: &#123;
+      &quot;defaultKeepStorage&quot;: &quot;20GB&quot;,
+      &quot;enabled&quot;: true
+    &#125;
+  &#125;,
+  &quot;experimental&quot;: false,
+  &quot;hosts&quot;: [
+    &quot;tcp:&#x2F;&#x2F;0.0.0.0:2375&quot;
+  ],
+  &quot;registry-mirrors&quot;: [
+    &quot;https:&#x2F;&#x2F;docker.rainbond.cc&quot;,
+    &quot;https:&#x2F;&#x2F;elastic.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;elastic.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;docker.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;gcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;ghcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;k8s-gcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;k8s.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;mcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;nvcr.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;quay.m.daocloud.io&quot;,
+    &quot;https:&#x2F;&#x2F;ccr.ccs.tencentyun.com&quot;
+  ]
+&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+</ol>
+<h4 id="用管理员身份运行CMD命令"><a href="#用管理员身份运行CMD命令" class="headerlink" title="用管理员身份运行CMD命令"></a>用管理员身份运行CMD命令</h4><p>netsh interface portproxy reset<br>netsh interface portproxy add v4tov4 listenport=2375 connectaddress=localhost connectport=2375<br>net start iphlpsvc</p>
+<blockquote>
+<p>查看命令： netsh interface portproxy all</p>
+</blockquote>
+<h4 id="idea-配置"><a href="#idea-配置" class="headerlink" title="idea 配置"></a>idea 配置</h4><p>在services窗口中添加docker connection<br>如果docker for Window 运行在本电脑中，则直接勾选“docker for Window ”选项即可<br>如果是远程访问，则需要选择TCP socket 填写 Engine API URL 例如： tcp://远程计算机IP地址:2375  </p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
       </tags>
   </entry>
   <entry>
@@ -1432,6 +1817,50 @@ binlog_expire_logs_seconds&#x3D;604800
       </tags>
   </entry>
   <entry>
+    <title>mysql定期归档历史数据</title>
+    <url>/2025/03/05/mysql%E5%AE%9A%E6%9C%9F%E5%BD%92%E6%A1%A3%E5%8E%86%E5%8F%B2%E6%95%B0%E6%8D%AE/</url>
+    <content><![CDATA[<h4 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h4><p>mysql中fin_invoice_log表一年稳定增加上千万条数据，导致联合查询性能降低，先需将每前两年的数据归档到历史表中。<br>例如表中存在2019,2020,2021,2022,2023,2024,2025，当前归档年份 2025年，则将包括2023年在内之前的数据归档到fin_invoice_log_2023中</p>
+<h4 id="三种解决方案"><a href="#三种解决方案" class="headerlink" title="三种解决方案"></a>三种解决方案</h4><h5 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h5><p>利用event定时调度mysql存储过程实现,具体如下:<br><pre class="line-numbers language-none"><code class="language-none">-- 创建存储过程
+CREATE PROCEDURE fin_invoice_log_record_archive()
+BEGIN
+    DECLARE current_month VARCHAR(7);
+    DECLARE year_month_limit VARCHAR(50);
+    DECLARE archive_table_name VARCHAR(50);
+    DECLARE current_year VARCHAR(50);
+                
+    SET current_year &#x3D; YEAR(NOW()) - 2;
+    SET year_month_limit &#x3D; MAKEDATE(YEAR(CURDATE()) - 1, 1);
+    SET archive_table_name &#x3D; CONCAT(&#39;fin_invoice_log_&#39;, current_year);
+
+                SET @sql &#x3D; CONCAT(&#39;CREATE TABLE &#39;, archive_table_name, &#39;select * from fin_invoice_log where operation_AT &lt; &quot;&#39;,year_month_limit,&#39;&quot;;&#39;);
+                PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+                
+                SET @sql &#x3D; CONCAT(&#39;delete from fin_invoice_log where operation_AT &lt;&quot;&#39;, year_month_limit, &#39;&quot;;&#39;);
+                PREPARE stmt2 FROM @sql ;
+    EXECUTE stmt2;
+end;
+
+-- 创建事件调度任务（1年调用一次）,调度也可以使用其他调度框架定时调用以上存储过程
+CREATE EVENT fin_invoice_log_archive_event
+ON SCHEDULE EVERY 1 YEAR
+STARTS CURRENT_TIMESTAMP
+DO
+CALL fin_invoice_log_record_archive();
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br><b>这个存储过程的逻辑有个弊端，因为它只是将历史数据筛选出来后放到新建的表中，原来表将历史数据删除，这将导致原表的索引随着时间增长还在会继续扩大，从而影响性能；逻辑应该调整为：<br>将原表重命名为历史表，然后将时间节点之后的数据迁入新表中，这样业务使用新表就不会有问题</b></p>
+<h5 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h5><p>利用后端代码+定时调度框架去实现，比较容易实现具体不多做展示</p>
+<h5 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h5><p>利用后端分库分表去实现按照年度去入库分表，也比较容易不多做展示</p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>mysql</tag>
+        <tag>sql</tag>
+        <tag>小工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>poi结合模板引擎导出word</title>
     <url>/2024/03/05/poi%E7%BB%93%E5%90%88%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E%E5%AF%BC%E5%87%BAword/</url>
     <content><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>最近一期需求开发遇到导出一个复杂的word用代码实现巨难受，特意找了个便捷方法实现  </p>
@@ -1588,61 +2017,6 @@ binlog_expire_logs_seconds&#x3D;604800
       </tags>
   </entry>
   <entry>
-    <title>mysql定期归档历史数据</title>
-    <url>/2025/03/05/mysql%E5%AE%9A%E6%9C%9F%E5%BD%92%E6%A1%A3%E5%8E%86%E5%8F%B2%E6%95%B0%E6%8D%AE/</url>
-    <content><![CDATA[<h4 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h4><p>mysql中fin_invoice_log表一年稳定增加上千万条数据，导致联合查询性能降低，先需将每前两年的数据归档到历史表中。<br>例如表中存在2019,2020,2021,2022,2023,2024,2025，当前归档年份 2025年，则将包括2023年在内之前的数据归档到fin_invoice_log_2023中</p>
-<h4 id="三种解决方案"><a href="#三种解决方案" class="headerlink" title="三种解决方案"></a>三种解决方案</h4><h5 id="解决方案1"><a href="#解决方案1" class="headerlink" title="解决方案1"></a>解决方案1</h5><p>利用event定时调度mysql存储过程实现,具体如下:<br><pre class="line-numbers language-none"><code class="language-none">-- 创建存储过程
-CREATE PROCEDURE fin_invoice_log_record_archive()
-BEGIN
-    DECLARE current_month VARCHAR(7);
-    DECLARE year_month_limit VARCHAR(50);
-    DECLARE archive_table_name VARCHAR(50);
-    DECLARE current_year VARCHAR(50);
-                
-    SET current_year &#x3D; YEAR(NOW()) - 2;
-    SET year_month_limit &#x3D; MAKEDATE(YEAR(CURDATE()) - 1, 1);
-    SET archive_table_name &#x3D; CONCAT(&#39;fin_invoice_log_&#39;, current_year);
-
-                SET @sql &#x3D; CONCAT(&#39;CREATE TABLE &#39;, archive_table_name, &#39;select * from fin_invoice_log where operation_AT &lt; &quot;&#39;,year_month_limit,&#39;&quot;;&#39;);
-                PREPARE stmt FROM @sql;
-    EXECUTE stmt;
-                
-                SET @sql &#x3D; CONCAT(&#39;delete from fin_invoice_log where operation_AT &lt;&quot;&#39;, year_month_limit, &#39;&quot;;&#39;);
-                PREPARE stmt2 FROM @sql ;
-    EXECUTE stmt2;
-end;
-
--- 创建事件调度任务（1年调用一次）,调度也可以使用其他调度框架定时调用以上存储过程
-CREATE EVENT fin_invoice_log_archive_event
-ON SCHEDULE EVERY 1 YEAR
-STARTS CURRENT_TIMESTAMP
-DO
-CALL fin_invoice_log_record_archive();
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br><b>这个存储过程的逻辑有个弊端，因为它只是将历史数据筛选出来后放到新建的表中，原来表将历史数据删除，这将导致原表的索引随着时间增长还在会继续扩大，从而影响性能；逻辑应该调整为：<br>将原表重命名为历史表，然后将时间节点之后的数据迁入新表中，这样业务使用新表就不会有问题</b></p>
-<h5 id="解决方案2"><a href="#解决方案2" class="headerlink" title="解决方案2"></a>解决方案2</h5><p>利用后端代码+定时调度框架去实现，比较容易实现具体不多做展示</p>
-<h5 id="解决方案3"><a href="#解决方案3" class="headerlink" title="解决方案3"></a>解决方案3</h5><p>利用后端分库分表去实现按照年度去入库分表，也比较容易不多做展示</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>mysql</tag>
-        <tag>sql</tag>
-        <tag>小工具</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>spring cloud alibaba相关笔记</title>
-    <url>/2023/10/23/spring%20cloud%20alibaba%20%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>spring</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>rabbitMQ延时消息问题</title>
     <url>/2025/02/13/rabbitMQ%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<h4 id="rabbitMQ延时消息问题描述"><a href="#rabbitMQ延时消息问题描述" class="headerlink" title="rabbitMQ延时消息问题描述"></a>rabbitMQ延时消息问题描述</h4><p>rabbit延时消息 可以设置为队列延时和消息延时，队列延时时队列里的每条消息都会延时一样的时间，而消息设置TTL时可以为每一条消息设置延时<br>此时，消息延时有个严重问题，如果前面的消息延时时间大于后面的消息，就会发生堵塞。<br>例如：消息A 设置延时 10S ,后一条消息B设置延时 3S，这个时候按需求来讲，3秒过后消息B应该会被消费者消费，但实际上消息B被堵塞了，直到消息A的TTL过期后A,B消息同时放出</p>
@@ -1663,6 +2037,17 @@ CALL fin_invoice_log_record_archive();
       </categories>
       <tags>
         <tag>MQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>spring cloud alibaba相关笔记</title>
+    <url>/2023/10/23/spring%20cloud%20alibaba%20%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>spring</tag>
       </tags>
   </entry>
   <entry>
@@ -1743,30 +2128,64 @@ source setproxy.sh off<span aria-hidden="true" class="line-numbers-rows"><span><
       </tags>
   </entry>
   <entry>
-    <title>好用的docker镜像</title>
-    <url>/2025/09/18/docker-runs(%E7%BB%AD)/</url>
-    <content><![CDATA[<h4 id="Markdown-编辑器"><a href="#Markdown-编辑器" class="headerlink" title="Markdown 编辑器"></a>Markdown 编辑器</h4><ul>
-<li><strong>官网地址</strong>  <a href="https://md.doocs.org">https://md.doocs.org</a></li>
-<li><strong>开源地址</strong>  <a href="https://gitee.com/doocs/md">https://gitee.com/doocs/md</a></li>
-<li><strong>镜像运行</strong> <pre class="line-numbers language-none"><code class="language-none">docker run --name md-editor -d -p 8080:80 doocs&#x2F;md:latest<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-</li>
-</ul>
-<h4 id="文档在线预览"><a href="#文档在线预览" class="headerlink" title="文档在线预览"></a>文档在线预览</h4><ul>
-<li><strong>官网地址</strong>  <a href="https://kkview.cn">https://kkview.cn</a></li>
-<li><strong>开源地址</strong>  <a href="https://gitee.com/kekingcn/file-online-preview">https://gitee.com/kekingcn/file-online-preview</a></li>
-<li><strong>镜像运行</strong> <pre class="line-numbers language-markdown" data-language="markdown"><code class="language-markdown"><span class="token title important"><span class="token punctuation">####</span> 拉取镜像</span>
-docker load -i kkFileView-4.4.0-docker.tar
-<span class="token title important"><span class="token punctuation">####</span> 运行</span>
-docker run -it -p 8012:8012 keking/kkfileview:4.4.0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul>
+    <title>食物科普</title>
+    <url>/2023/10/25/%E5%81%A5%E5%BA%B7%E9%A3%9F%E7%89%A9%E7%A7%91%E6%99%AE/</url>
+    <content><![CDATA[<h4 id="低热量和低脂肪食物有哪些"><a href="#低热量和低脂肪食物有哪些" class="headerlink" title="低热量和低脂肪食物有哪些"></a>低热量和低脂肪食物有哪些</h4><p>低热量和低脂肪食物通常含有较少的能量和脂肪，适合需要控制体重或减少脂肪摄入的人群。以下是一些常见的低热量和低脂肪食物：</p>
+<ol>
+<li>蔬菜：蔬菜通常富含纤维、维生素和矿物质，而且热量较低。例如，西兰花、胡萝卜、黄瓜、芹菜等。</li>
+<li>水果：水果是低热量的健康食物，富含维生素、矿物质和纤维。常见的低热量水果包括苹果、柑橘类水果、草莓、蓝莓等。</li>
+<li>瘦肉：选择低脂肪的瘦肉，如鸡胸肉、鱼肉（比如鲈鱼、鳕鱼）、火鸡肉等。这些肉类含有较少的脂肪，但提供丰富的蛋白质。</li>
+<li>蛋白质来源：蛋白质是重要的营养素，但部分蛋白质来源可能含有较高的脂肪。选择低脂肪的蛋白质来源，如鸡蛋白、豆腐、低脂奶制品（如低脂牛奶、低脂奶酪）等。</li>
+<li>全谷类食物：全谷类食物富含纤维和复杂碳水化合物，而且相对较低热量。例如燕麦、全麦面包、糙米等。</li>
+<li>低脂奶制品：选择低脂或非脂肪的奶制品，如低脂牛奶、非脂肪酸奶等，这些食物提供丰富的蛋白质和钙，但脂肪含量较低。</li>
+<li>蔬果汁：新鲜榨取的蔬果汁是低热量且富含营养的选择，可以尽量选择无糖添加的纯果汁。</li>
+<li>豆类：豆类是良好的蛋白质和纤维来源，同时含有较低的脂肪，如豆腐、扁豆、黑豆等。</li>
+<li>高纤维谷物：除了全谷类食物，还有其他高纤维的谷物，如燕麦片、麦片、全麦面条等。</li>
+<li>蔬菜汤：以蔬菜为主的汤食，可以提供丰富的营养，同时热量较低。</li>
+<li>低脂冰淇淋和酸奶：选择低脂或无脂的冰淇淋和酸奶，可以满足甜食的欲望，同时控制脂肪摄入。</li>
+<li>烤、蒸或煮的食物：相比于油炸或炒制的食物，烤、蒸或煮的食物通常含有更低的脂肪，是更健康的选择。</li>
+</ol>
+<h4 id="高热量和高脂肪食物有哪些"><a href="#高热量和高脂肪食物有哪些" class="headerlink" title="高热量和高脂肪食物有哪些"></a>高热量和高脂肪食物有哪些</h4><p>高热量和高脂肪食物通常富含能量，但过多摄入可能导致体重增加和健康问题。以下是一些常见的高热量和高脂肪食物：</p>
+<ol>
+<li>油炸食品：如薯条、炸鸡、炸鱼等，这些食物通常在烹饪过程中吸收了大量的油脂。</li>
+<li>快餐：快餐通常含有较高的脂肪和热量，例如汉堡包、炸鸡块、薯条等。</li>
+<li>糕点和甜点：蛋糕、巧克力、饼干、冰淇淋等含有大量的糖和脂肪，很容易导致热量过剩。</li>
+<li>奶油和奶制品：奶油、黄油、乳酪等含有较高的脂肪，需要适量消费。</li>
+<li>高脂肪肉类：肥牛、猪肉肥瘦相间的部位、鸭肉等富含脂肪的肉类，尽量适量食用。</li>
+<li>坚果和种子：虽然坚果和种子富含健康的脂肪，但它们也具有较高的热量，适量食用为宜。</li>
+</ol>
+<p>请注意，脂肪在适量的情况下是身体所需的重要营养素之一，但过量摄入可能对健康产生不良影响。在饮食中要注意平衡，选择低脂肪、低热量的食物，搭配丰富的蔬菜、水果和全谷类食物，以维持健康的饮食平衡。</p>
+<h4 id="高碘食物"><a href="#高碘食物" class="headerlink" title="高碘食物"></a>高碘食物</h4><ol>
+<li>海带</li>
+<li>紫菜</li>
+<li>海鱼 如：鳕鱼、鲑鱼、鳗鱼等</li>
+<li>昆布</li>
+<li>海虾 如：黑河虾</li>
+</ol>
+<h4 id="低碘食物"><a href="#低碘食物" class="headerlink" title="低碘食物"></a>低碘食物</h4><ol>
+<li>花甲</li>
+<li>碘盐</li>
+<li>螃蟹</li>
+<li>绿豆</li>
+<li>胡萝卜</li>
+<li>菠菜</li>
+<li>白芝麻</li>
+</ol>
+<h4 id="无碘食物"><a href="#无碘食物" class="headerlink" title="无碘食物"></a>无碘食物</h4><h4 id="低脂食物"><a href="#低脂食物" class="headerlink" title="低脂食物"></a>低脂食物</h4><h4 id="维生素A丰富的食物"><a href="#维生素A丰富的食物" class="headerlink" title="维生素A丰富的食物"></a>维生素A丰富的食物</h4><p>动物肝脏：猪肝、鹅肝、鸡肝等动物肝脏 含有大量的维生素A，能够快速被人体吸收。(4971ug/100g)</p>
+<p>西兰花 :(1202ug/100g)</p>
+<p>胡萝卜：这主要是胡萝卜中的胡萝卜素是维生素A的主要来源，胡萝卜素可以在人体内能转化成维生素A，同时也含维生素C (688ug/100g)</p>
+<p>菠菜：有丰富的维生素A,同时富含也含铁</p>
+<p>青蟹：也叫膏蟹 （402ug/100g）</p>
+<p>紫苋菜：（248ug/100g）</p>
+<p>韭菜</p>
+<p>鸡蛋</p>
+<h4 id="维生素B丰富的食物"><a href="#维生素B丰富的食物" class="headerlink" title="维生素B丰富的食物"></a>维生素B丰富的食物</h4><p>绿豆：绿豆含有丰富的B族维生素、矿物质等营养成分，其中维生素B1是鸡肉的17.5倍，维生素B2是禾谷类的2～4倍且高于猪肉、牛奶、鸡肉、鱼，钙是禾谷类的4倍、鸡肉的7倍，铁是鸡肉的4倍，磷是禾谷类及猪肉、鸡肉、鱼、鸡蛋的2倍，还含有多种人体所需的磷脂。同时也是低脂食物</p>
 ]]></content>
       <categories>
-        <category>后端技术</category>
+        <category>健康</category>
       </categories>
       <tags>
-        <tag>docker</tag>
-        <tag>others</tag>
+        <tag>食物</tag>
       </tags>
   </entry>
   <entry>
@@ -1855,67 +2274,6 @@ docker run -it -p 8012:8012 keking/kkfileview:4.4.0<span aria-hidden="true" clas
       </tags>
   </entry>
   <entry>
-    <title>食物科普</title>
-    <url>/2023/10/25/%E5%81%A5%E5%BA%B7%E9%A3%9F%E7%89%A9%E7%A7%91%E6%99%AE/</url>
-    <content><![CDATA[<h4 id="低热量和低脂肪食物有哪些"><a href="#低热量和低脂肪食物有哪些" class="headerlink" title="低热量和低脂肪食物有哪些"></a>低热量和低脂肪食物有哪些</h4><p>低热量和低脂肪食物通常含有较少的能量和脂肪，适合需要控制体重或减少脂肪摄入的人群。以下是一些常见的低热量和低脂肪食物：</p>
-<ol>
-<li>蔬菜：蔬菜通常富含纤维、维生素和矿物质，而且热量较低。例如，西兰花、胡萝卜、黄瓜、芹菜等。</li>
-<li>水果：水果是低热量的健康食物，富含维生素、矿物质和纤维。常见的低热量水果包括苹果、柑橘类水果、草莓、蓝莓等。</li>
-<li>瘦肉：选择低脂肪的瘦肉，如鸡胸肉、鱼肉（比如鲈鱼、鳕鱼）、火鸡肉等。这些肉类含有较少的脂肪，但提供丰富的蛋白质。</li>
-<li>蛋白质来源：蛋白质是重要的营养素，但部分蛋白质来源可能含有较高的脂肪。选择低脂肪的蛋白质来源，如鸡蛋白、豆腐、低脂奶制品（如低脂牛奶、低脂奶酪）等。</li>
-<li>全谷类食物：全谷类食物富含纤维和复杂碳水化合物，而且相对较低热量。例如燕麦、全麦面包、糙米等。</li>
-<li>低脂奶制品：选择低脂或非脂肪的奶制品，如低脂牛奶、非脂肪酸奶等，这些食物提供丰富的蛋白质和钙，但脂肪含量较低。</li>
-<li>蔬果汁：新鲜榨取的蔬果汁是低热量且富含营养的选择，可以尽量选择无糖添加的纯果汁。</li>
-<li>豆类：豆类是良好的蛋白质和纤维来源，同时含有较低的脂肪，如豆腐、扁豆、黑豆等。</li>
-<li>高纤维谷物：除了全谷类食物，还有其他高纤维的谷物，如燕麦片、麦片、全麦面条等。</li>
-<li>蔬菜汤：以蔬菜为主的汤食，可以提供丰富的营养，同时热量较低。</li>
-<li>低脂冰淇淋和酸奶：选择低脂或无脂的冰淇淋和酸奶，可以满足甜食的欲望，同时控制脂肪摄入。</li>
-<li>烤、蒸或煮的食物：相比于油炸或炒制的食物，烤、蒸或煮的食物通常含有更低的脂肪，是更健康的选择。</li>
-</ol>
-<h4 id="高热量和高脂肪食物有哪些"><a href="#高热量和高脂肪食物有哪些" class="headerlink" title="高热量和高脂肪食物有哪些"></a>高热量和高脂肪食物有哪些</h4><p>高热量和高脂肪食物通常富含能量，但过多摄入可能导致体重增加和健康问题。以下是一些常见的高热量和高脂肪食物：</p>
-<ol>
-<li>油炸食品：如薯条、炸鸡、炸鱼等，这些食物通常在烹饪过程中吸收了大量的油脂。</li>
-<li>快餐：快餐通常含有较高的脂肪和热量，例如汉堡包、炸鸡块、薯条等。</li>
-<li>糕点和甜点：蛋糕、巧克力、饼干、冰淇淋等含有大量的糖和脂肪，很容易导致热量过剩。</li>
-<li>奶油和奶制品：奶油、黄油、乳酪等含有较高的脂肪，需要适量消费。</li>
-<li>高脂肪肉类：肥牛、猪肉肥瘦相间的部位、鸭肉等富含脂肪的肉类，尽量适量食用。</li>
-<li>坚果和种子：虽然坚果和种子富含健康的脂肪，但它们也具有较高的热量，适量食用为宜。</li>
-</ol>
-<p>请注意，脂肪在适量的情况下是身体所需的重要营养素之一，但过量摄入可能对健康产生不良影响。在饮食中要注意平衡，选择低脂肪、低热量的食物，搭配丰富的蔬菜、水果和全谷类食物，以维持健康的饮食平衡。</p>
-<h4 id="高碘食物"><a href="#高碘食物" class="headerlink" title="高碘食物"></a>高碘食物</h4><ol>
-<li>海带</li>
-<li>紫菜</li>
-<li>海鱼 如：鳕鱼、鲑鱼、鳗鱼等</li>
-<li>昆布</li>
-<li>海虾 如：黑河虾</li>
-</ol>
-<h4 id="低碘食物"><a href="#低碘食物" class="headerlink" title="低碘食物"></a>低碘食物</h4><ol>
-<li>花甲</li>
-<li>碘盐</li>
-<li>螃蟹</li>
-<li>绿豆</li>
-<li>胡萝卜</li>
-<li>菠菜</li>
-<li>白芝麻</li>
-</ol>
-<h4 id="无碘食物"><a href="#无碘食物" class="headerlink" title="无碘食物"></a>无碘食物</h4><h4 id="低脂食物"><a href="#低脂食物" class="headerlink" title="低脂食物"></a>低脂食物</h4><h4 id="维生素A丰富的食物"><a href="#维生素A丰富的食物" class="headerlink" title="维生素A丰富的食物"></a>维生素A丰富的食物</h4><p>动物肝脏：猪肝、鹅肝、鸡肝等动物肝脏 含有大量的维生素A，能够快速被人体吸收。(4971ug/100g)</p>
-<p>西兰花 :(1202ug/100g)</p>
-<p>胡萝卜：这主要是胡萝卜中的胡萝卜素是维生素A的主要来源，胡萝卜素可以在人体内能转化成维生素A，同时也含维生素C (688ug/100g)</p>
-<p>菠菜：有丰富的维生素A,同时富含也含铁</p>
-<p>青蟹：也叫膏蟹 （402ug/100g）</p>
-<p>紫苋菜：（248ug/100g）</p>
-<p>韭菜</p>
-<p>鸡蛋</p>
-<h4 id="维生素B丰富的食物"><a href="#维生素B丰富的食物" class="headerlink" title="维生素B丰富的食物"></a>维生素B丰富的食物</h4><p>绿豆：绿豆含有丰富的B族维生素、矿物质等营养成分，其中维生素B1是鸡肉的17.5倍，维生素B2是禾谷类的2～4倍且高于猪肉、牛奶、鸡肉、鱼，钙是禾谷类的4倍、鸡肉的7倍，铁是鸡肉的4倍，磷是禾谷类及猪肉、鸡肉、鱼、鸡蛋的2倍，还含有多种人体所需的磷脂。同时也是低脂食物</p>
-]]></content>
-      <categories>
-        <category>健康</category>
-      </categories>
-      <tags>
-        <tag>食物</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>装修清单</title>
     <url>/2023/10/17/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E6%B8%85%E5%8D%95/</url>
     <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
@@ -1946,30 +2304,6 @@ docker run -it -p 8012:8012 keking/kkfileview:4.4.0<span aria-hidden="true" clas
       </tags>
   </entry>
   <entry>
-    <title>吉丽装修记【2】</title>
-    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
-    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
-<blockquote>
-<blockquote>
-<p>装修整理文档1.1版</p>
-<p><iframe 
-style="width: 100%;
-    height: 90%" 
-src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
-</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
-<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
-<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
-</blockquote>
-</blockquote>
-]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>吉丽装修记【1】</title>
     <url>/2022/12/09/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%901%E3%80%91/</url>
     <content><![CDATA[<div style = "border:1px; width:100%; height:800px">
@@ -1994,6 +2328,30 @@ src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlm
     src="https://files.guzlife.top/video/%E6%94%B6%E6%88%BF.mp4">
 </iframe>
 </div>]]></content>
+      <categories>
+        <category>吉丽装修记</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>吉丽装修记【2】</title>
+    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
+    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
+<blockquote>
+<blockquote>
+<p>装修整理文档1.1版</p>
+<p><iframe 
+style="width: 100%;
+    height: 90%" 
+src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
+</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
+<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
+<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
+</blockquote>
+</blockquote>
+]]></content>
       <categories>
         <category>吉丽装修记</category>
       </categories>
@@ -2037,6 +2395,57 @@ src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZ
       </categories>
       <tags>
         <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>字符串强制换行工具</title>
+    <url>/2025/09/04/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BC%BA%E5%88%B6%E6%8D%A2%E8%A1%8C%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<blockquote>
+<p>HTML中 table列内容自动换行<br><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
+        <span class="token selector">table</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+            <span class="token property">border-collapse</span><span class="token punctuation">:</span> collapse<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token selector">th, td</span> <span class="token punctuation">&#123;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 1px solid<span class="token punctuation">;</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token property">padding</span><span class="token punctuation">:</span> 5px<span class="token punctuation">;</span>
+            <span class="token property">word-break</span><span class="token punctuation">:</span> break-all<span class="token punctuation">;</span>
+            <span class="token property">white-space</span><span class="token punctuation">:</span> pre-wrap<span class="token punctuation">;</span>
+            <span class="token property">max-width</span><span class="token punctuation">:</span>200px<span class="token punctuation">;</span>
+            <span class="token property">overflow-wrap</span><span class="token punctuation">:</span> break-word<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>设置white-space: pre-wrap;是因为内容中可能有换行符，也需要换行</p>
+</blockquote>
+<h4 id="后台设置强制换行"><a href="#后台设置强制换行" class="headerlink" title="后台设置强制换行"></a>后台设置强制换行</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">insertLineBreak</span><span class="token punctuation">(</span><span class="token class-name">String</span> value<span class="token punctuation">,</span> <span class="token keyword">int</span> lineLength<span class="token punctuation">,</span> <span class="token class-name">String</span> lineBreak<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">//value遇到已有换行符，从0开始计数</span>
+        <span class="token keyword">int</span> index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token class-name">StringBuilder</span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//value获取每一个字符</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> value<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token function">isBlank</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">continue</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            result<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token char">'\n'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">>=</span> lineLength <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    result<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>lineBreak<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    index <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+                index<span class="token operator">++</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> result<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>java</tag>
       </tags>
   </entry>
   <entry>
@@ -2112,54 +2521,45 @@ public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUni
       </tags>
   </entry>
   <entry>
-    <title>字符串强制换行工具</title>
-    <url>/2025/09/04/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%BC%BA%E5%88%B6%E6%8D%A2%E8%A1%8C%E5%B7%A5%E5%85%B7/</url>
-    <content><![CDATA[<blockquote>
-<p>HTML中 table列内容自动换行<br><pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">></span></span><span class="token style"><span class="token language-css">
-        <span class="token selector">table</span> <span class="token punctuation">&#123;</span>
-            <span class="token property">width</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
-            <span class="token property">border-collapse</span><span class="token punctuation">:</span> collapse<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
+    <title>结合apollo动态刷新日志级别</title>
+    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><blockquote>
+<p>/**</p>
+<ul>
+<li>结合apollo动态刷新日志级别</li>
+<li>@author: zhumh17</li>
+<li><p>@date: 11点50分<br>*/<br> @Configuration<br> public class LogListenerConfig {</p>
+<p> private static final Logger logger = LoggerFactory.getLogger&gt; (LoggerConfiguration.class);<br> /**</p>
+<ul>
+<li><p>监听关键字，当配置中心的依次开头的配置发生变化时，日志级别刷新<br>*/<br>private static final String LOGGER_TAG = “logging.level”;</p>
+<p>private LoggingSystem loggingSystem;<br>public LogListenerConfig(LoggingSystem loggingSystem) {<br> Assert.notNull(loggingSystem, “LoggingSystem must not be null”);<br> this.loggingSystem = loggingSystem;<br>}</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>@ApolloConfigChangeListener(value = &quot;application.yml&quot;)
+public void configChangeLister(ConfigChangeEvent changeEvent) &#123;
+    refreshLoggingLevels(changeEvent);
+&#125;
 
-        <span class="token selector">th, td</span> <span class="token punctuation">&#123;</span>
-            <span class="token property">border</span><span class="token punctuation">:</span> 1px solid<span class="token punctuation">;</span>
-            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
-            <span class="token property">padding</span><span class="token punctuation">:</span> 5px<span class="token punctuation">;</span>
-            <span class="token property">word-break</span><span class="token punctuation">:</span> break-all<span class="token punctuation">;</span>
-            <span class="token property">white-space</span><span class="token punctuation">:</span> pre-wrap<span class="token punctuation">;</span>
-            <span class="token property">max-width</span><span class="token punctuation">:</span>200px<span class="token punctuation">;</span>
-            <span class="token property">overflow-wrap</span><span class="token punctuation">:</span> break-word<span class="token punctuation">;</span>
-        <span class="token punctuation">&#125;</span>
-</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>设置white-space: pre-wrap;是因为内容中可能有换行符，也需要换行</p>
+private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
+    ConfigChange configChange = changeEvent.getChange(LOGGER_TAG);
+    String strLevel = configChange.getNewValue();
+    LogLevel level = LogLevel.valueOf(strLevel.toUpperCase());
+    loggingSystem.setLogLevel(&quot;com.vx&quot;, level);
+    logger.info(&quot;日志级别变化&#123;&#125;:&#123;&#125;&quot;,LOGGER_TAG,strLevel);
+&#125;
+</code></pre><p>}</p>
 </blockquote>
-<h4 id="后台设置强制换行"><a href="#后台设置强制换行" class="headerlink" title="后台设置强制换行"></a>后台设置强制换行</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">String</span> <span class="token function">insertLineBreak</span><span class="token punctuation">(</span><span class="token class-name">String</span> value<span class="token punctuation">,</span> <span class="token keyword">int</span> lineLength<span class="token punctuation">,</span> <span class="token class-name">String</span> lineBreak<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">//value遇到已有换行符，从0开始计数</span>
-        <span class="token keyword">int</span> index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        <span class="token class-name">StringBuilder</span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">StringBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment">//value获取每一个字符</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> value<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span><span class="token function">isBlank</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">.</span><span class="token function">valueOf</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                <span class="token keyword">continue</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-            result<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>value<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token char">'\n'</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                index <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
-                <span class="token keyword">if</span> <span class="token punctuation">(</span>index <span class="token operator">>=</span> lineLength <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
-                    result<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span>lineBreak<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                    index <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-                <span class="token punctuation">&#125;</span>
-                index<span class="token operator">++</span><span class="token punctuation">;</span>
-            <span class="token punctuation">&#125;</span>
-        <span class="token punctuation">&#125;</span>
-        <span class="token keyword">return</span> result<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>]]></content>
+<h2 id="这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别"><a href="#这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别" class="headerlink" title="这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别"></a>这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别</h2><h2 id="末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog"><a href="#末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog" class="headerlink" title="末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog"></a>末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog</h2><blockquote>
+<p>TLog提供了一种最简单的方式来解决日志追踪问题，它不收集日志，也不需要另外的存储空间，它只是自动的对你的日志进行打标签，自动生成TraceId贯穿你微服务的一整条链路。并且提供上下游节点信息。适合中小型企业以及想快速解决日志追踪问题的公司项目使用。</p>
+</blockquote>
+]]></content>
       <categories>
-        <category>开发</category>
+        <category>后端技术</category>
       </categories>
       <tags>
-        <tag>工具</tag>
-        <tag>java</tag>
+        <tag>日志</tag>
       </tags>
   </entry>
   <entry>
@@ -2270,48 +2670,6 @@ public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUni
       </categories>
       <tags>
         <tag>sql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>结合apollo动态刷新日志级别</title>
-    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><blockquote>
-<p>/**</p>
-<ul>
-<li>结合apollo动态刷新日志级别</li>
-<li>@author: zhumh17</li>
-<li><p>@date: 11点50分<br>*/<br> @Configuration<br> public class LogListenerConfig {</p>
-<p> private static final Logger logger = LoggerFactory.getLogger&gt; (LoggerConfiguration.class);<br> /**</p>
-<ul>
-<li><p>监听关键字，当配置中心的依次开头的配置发生变化时，日志级别刷新<br>*/<br>private static final String LOGGER_TAG = “logging.level”;</p>
-<p>private LoggingSystem loggingSystem;<br>public LogListenerConfig(LoggingSystem loggingSystem) {<br> Assert.notNull(loggingSystem, “LoggingSystem must not be null”);<br> this.loggingSystem = loggingSystem;<br>}</p>
-</li>
-</ul>
-</li>
-</ul>
-<pre><code>@ApolloConfigChangeListener(value = &quot;application.yml&quot;)
-public void configChangeLister(ConfigChangeEvent changeEvent) &#123;
-    refreshLoggingLevels(changeEvent);
-&#125;
-
-private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
-    ConfigChange configChange = changeEvent.getChange(LOGGER_TAG);
-    String strLevel = configChange.getNewValue();
-    LogLevel level = LogLevel.valueOf(strLevel.toUpperCase());
-    loggingSystem.setLogLevel(&quot;com.vx&quot;, level);
-    logger.info(&quot;日志级别变化&#123;&#125;:&#123;&#125;&quot;,LOGGER_TAG,strLevel);
-&#125;
-</code></pre><p>}</p>
-</blockquote>
-<h2 id="这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别"><a href="#这样只需要在apollo-配置-logging-level-随时可以做配置变更发布都能监听改变日志级别" class="headerlink" title="这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别"></a>这样只需要在apollo 配置 logging.level 随时可以做配置变更发布都能监听改变日志级别</h2><h2 id="末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog"><a href="#末尾分享一个特别好用的日志框架，与logback等无缝对接-框架名称：TLog" class="headerlink" title="末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog"></a>末尾分享一个特别好用的日志框架，与logback等无缝对接 框架名称：TLog</h2><blockquote>
-<p>TLog提供了一种最简单的方式来解决日志追踪问题，它不收集日志，也不需要另外的存储空间，它只是自动的对你的日志进行打标签，自动生成TraceId贯穿你微服务的一整条链路。并且提供上下游节点信息。适合中小型企业以及想快速解决日志追踪问题的公司项目使用。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>日志</tag>
       </tags>
   </entry>
   <entry>
@@ -2920,364 +3278,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </categories>
       <tags>
         <tag>sql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker常用镜像运行</title>
-    <url>/2024/02/28/docker-runs/</url>
-    <content><![CDATA[<h4 id="ELK-简单搭建"><a href="#ELK-简单搭建" class="headerlink" title="ELK 简单搭建"></a>ELK 简单搭建</h4><p>docker pull docker.elastic.co/elasticsearch/elasticsearch:7.15.1 </p>
-<p>docker pull docker.elastic.co/logstash/logstash:7.15.1 </p>
-<p>docker pull docker.elastic.co/kibana/kibana:7.15.1</p>
-<p>（也有docker主将 elk 打包成一个镜像 elk,这种方式也简单）</p>
-<p>docker run -d —name elasticsearch -p 9200:9200 -p 9300:9300  -e “discovery.type=single-node”  -m 2g   docker.elastic.co/elasticsearch/elasticsearch:7.15.1</p>
-<p>该命令会在后台启动一个名为elasticsearch的容器，并将主机的9200端口映射到容器的9200端口，同时将主机的9300端口映射到容器的9300端口。</p>
-<p>docker run -d —name logstash —link elasticsearch:elasticsearch -p 5044:5044 -m 1g -v /path/to/logstash.conf:/usr/share/logstash/pipeline/logstash.conf docker.elastic.co/logstash/logstash:7.15.1</p>
-<p>请将/path/to/logstash.conf替换为你本地存储Logstash配置文件的路径。</p>
-<p>docker run -d —name kibana —link elasticsearch:elasticsearch -p 5601:5601 -m 1g docker.elastic.co/kibana/kibana:7.15.1</p>
-<p>Elasticsearch配置：你可以通过访问<a href="http://localhost:9200来验证Elasticsearch是否成功运行。">http://localhost:9200来验证Elasticsearch是否成功运行。</a></p>
-<p>Logstash配置：你可以通过编辑Logstash配置文件/path/to/logstash.conf来定义你的日志处理逻辑。</p>
-<p>Kibana配置：你可以通过访问<a href="http://localhost:5601来打开Kibana的Web界面，并通过它进行数据可视化和管理。">http://localhost:5601来打开Kibana的Web界面，并通过它进行数据可视化和管理。</a></p>
-<p>ps:  es 可以安装中文分词器插件可以支持中文分词</p>
-<p>​       logstash 可以配置beat 和kafka等等多种input方式 </p>
-<p>​        虚拟机内存不够的一定需要带个 -m 参数限制下 容器启动后可以用docker stats 容器 查看 不够可以用 docker update -m 改下（只能改大）</p>
-<p>​      </p>
-<blockquote>
-<p>例如： docker update -m 1G —memory-swap=1G  mysql</p>
-</blockquote>
-<h4 id="filebeat-安装运行"><a href="#filebeat-安装运行" class="headerlink" title="filebeat 安装运行"></a>filebeat 安装运行</h4><pre class="line-numbers language-none"><code class="language-none">docker pull docker.elastic.co&#x2F;beats&#x2F;filebeat:7.15.1
-
-mkdir filebeat 
-
-cd filebeat 
-
-nano filebeat.yml
-
-docker run -d --name&#x3D;filebeat --user&#x3D;root --v&#x3D;&quot;$(pwd)&#x2F;filebeat.yml:&#x2F;usr&#x2F;share&#x2F;filebeat&#x2F;filebeat.yml:ro&quot; --v&#x3D;&quot;&#x2F;var&#x2F;lib&#x2F;docker&#x2F;containers:&#x2F;var&#x2F;lib&#x2F;docker&#x2F;containers:ro&quot; --v&#x3D;&quot;&#x2F;var&#x2F;log:&#x2F;var&#x2F;log:ro&quot; --v&#x3D;&quot;&#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock:ro&quot; docker.elastic.co&#x2F;beats&#x2F;filebeat:7.15.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="zookeeper"><a href="#zookeeper" class="headerlink" title="zookeeper"></a>zookeeper</h4><pre class="line-numbers language-text" data-language="text"><code class="language-text">docker run -d --name zookeeper -p 2181:2181 -m 300M -v /etc/localtime:/etc/localtime --restart=always wurstmeister/zookeeper:3.4.13<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-<h4 id="zk-ui"><a href="#zk-ui" class="headerlink" title="zk ui"></a>zk ui</h4><pre class="line-numbers language-none"><code class="language-none">docker run -d --name zkui -p 9090:9090 -e ZKUI_ZK_SERVER&#x3D;192.168.136.130:2181 -m 500M qnib&#x2F;zkui
-注意这个地方有点坑，容器启动却访问不了，进容器执行 curl http:&#x2F;&#x2F;127.0.0.1:9090 发现没有启动服务
-手动启动就可以了或者重新拉去源码方式编译打包成可执行镜像也成
-简单点手动启动下：
-进入容器 docker exec -it zkui bash
-cd &#x2F;opt&#x2F;zkui&#x2F;target&#x2F;  发现这里没有config.cfg启动会报错
-将 &#x2F;opt&#x2F;zkui 目录下的这个文件拷贝到 &#x2F;opt&#x2F;zkui&#x2F;target&#x2F; 下
-手动配置下文件中的 zkserver （这个地方如果用不了VI命令的话，需要将文件拷贝到宿主机改完后，在拷贝回来 docker cp xxx:xx &#x2F;xxx  docker &#x2F;xxxx xxx:xx）
-最后只需要启动下jar就可以了 
-nohup java -jar zkui-2.0-SNAPSHOT-jar-with-dependencies.jar &gt;out.log 2&gt;&amp;1 &amp;
-
-记：第一次发现启动成功，然后删除容器，又run了一把同样的操作发现启动失败，看来日志和源码发现配置文件（config.cfg）中需要配置这个属性 X-Forwarded-For&#x3D;xxx
-配置完后启动就成功了，不知道为啥一次成功一次还需要加配置。。。
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="kafka"><a href="#kafka" class="headerlink" title="kafka"></a>kafka</h4><p>为方便测试，起的zookeeper 容器都在一起 ，直接用—link 方式，如果容器不在KAFKA_ZOOKEEPER_CONNECT需要设置</p>
-<p>docker run -d —name kafka -p 9092:9092 -m 512M —link zookeeper:zookeeper —restart=always —env KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 —env KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 —env KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 —env KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 wurstmeister/kafka:2.8.1</p>
-<p>查询topic列表</p>
-<p>/opt/kafka/bin/kafka-topics.sh —zookeeper zookeeper:2181 —list</p>
-<p>发送消息</p>
-<p>/opt/kafka/bin/kafka-console-producer.sh —broker-list localhost:9092 —topic myTopic （）</p>
-<p>消费消息</p>
-<p>/opt/kafka/bin/kafka-console-consumer.sh —bootstrap-server localhost:9092 —topic myTopic —from-beginning</p>
-<h4 id="kafka-manager-cmak-3-0-0-6"><a href="#kafka-manager-cmak-3-0-0-6" class="headerlink" title="kafka-manager (cmak 3.0.0.6)"></a>kafka-manager (cmak 3.0.0.6)</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">https://github.com/yahoo/cmak/releases 下载最新zip 需要自己打包生成镜像文件
-
-<span class="token comment">#Dockerfile</span>
-FROM adoptopenjdk:11-jdk-hotspot-bionic
-ADD cmak-3.0.0.6/ /opt/km3006/
-CMD <span class="token punctuation">[</span><span class="token string">"/opt/km3006/bin/cmak"</span>,<span class="token string">"-Dconfig.file=/opt/km3006/conf/application.conf"</span><span class="token punctuation">]</span>
-
-<span class="token function">docker</span> build <span class="token parameter variable">-t</span> km:3006 <span class="token builtin class-name">.</span>
-
-<span class="token function">docker</span> run <span class="token parameter variable">-d</span> <span class="token parameter variable">--name</span> km <span class="token parameter variable">--link</span> zookeeper:kafka-manager-zookeeper <span class="token parameter variable">-e</span> <span class="token assign-left variable">ZK_HOSTS</span><span class="token operator">=</span>kafka-manager-zookeeper:2181 <span class="token parameter variable">-m</span> 300M <span class="token parameter variable">-p</span> <span class="token number">9104</span>:9000 km:3006<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p><strong>cmak第一次启动添加会报错：</strong></p>
-<p><strong>KeeperErrorCode = Unimplemented for /kafka-manager/mutex Try again.</strong></p>
-<p>解决：</p>
-<pre class="line-numbers language-none"><code class="language-none">docker exec -it zookeeper bash 
-
-root@zookeeper:&#x2F;opt&#x2F;zookeeper-3.4.13&#x2F;bin#.&#x2F;zkCli.sh 
-
-[zk: localhost:2181(CONNECTED) 0] ls &#x2F;kafka-manager
-
-[configs, clusters, deleteClusters]
-
-[zk: localhost:2181(CONNECTED) 1] create &#x2F;kafka-manager&#x2F;mutex &quot;&quot;
-
-Created &#x2F;kafka-manager&#x2F;mutex
-
-[zk: localhost:2181(CONNECTED) 2] create &#x2F;kafka-manager&#x2F;mutex&#x2F;locks &quot;&quot;
-
-Created &#x2F;kafka-manager&#x2F;mutex&#x2F;locks
-
-[zk: localhost:2181(CONNECTED) 3] create &#x2F;kafka-manager&#x2F;mutex&#x2F;leases &quot;&quot;
-
-Created &#x2F;kafka-manager&#x2F;mutex&#x2F;leases<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<p>完美解决。（可以使用zk ui界面上添加比较方便）</p>
-<h4 id="jenkins"><a href="#jenkins" class="headerlink" title="jenkins"></a>jenkins</h4><p>docker run -d —name jenkins -u root -p 14639:8080 -p 50000:50000 —privileged=true  -v /var/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkinsci/blueocean</p>
-<p>ps： 如果知道 tag 可以给 image 打上 docker tag image:latest image:version</p>
-<h4 id="xwiki"><a href="#xwiki" class="headerlink" title="xwiki"></a>xwiki</h4><p>docker run -d —name xwiki -p 8051:8080 -v D:\share\home\xwiki:/usr/local/xwiki -e DB_USER=root -e DB_PASSWORD=123456 -e DB_DATABASE=xwiki -e DB_HOST=10.92.32.33 xwiki:mysql-tomcat  （这里的运行环境是docker for window 也可以运行起来）</p>
-<h4 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h4><p>1.首先创建数据卷 D:\share\home\redis 下载 <a href="http://download.redis.io/redis-stable/redis.conf">http://download.redis.io/redis-stable/redis.conf</a> 放在目录下<br>2.更改 redis.conf 将 bind 127.0.0.1 注释掉 ，设置appendonly yes开启持久化配置等等<br>3.docker run -d —name redis -p 6377:6379 -v D:\share\home\redis\redis.conf:/etc/redis/redis.conf -v D:\share\home\redis\data:/data  redis:7.2.3</p>
-<h4 id="hertzbeat-监控"><a href="#hertzbeat-监控" class="headerlink" title="hertzbeat 监控"></a>hertzbeat 监控</h4><p>docker run -d -p 1157:1157 -p 1158:1158 -e LANG=zh_CN.UTF-8 -e TZ=Asia/Shanghai -v D:\share\home\hertzbeat\data:/opt/hertzbeat/data -v D:\share\home\hertzbeat\logs:/opt/hertzbeat/logs -v D:\share\home\hertzbeat\application.yml:/opt/hertzbeat/config/application.yml -v D:\share\home\hertzbeat\sureness.yml:/opt/hertzbeat/config/sureness.yml —restart=always —name hertzbeat tancloud/hertzbeat:v1.4.3<br>浏览器访问<a href="http://localhost:1157">http://localhost:1157</a> 默认账号密码 admin/hertzbeat<br>部署采集器集群<br>docker run -d -e IDENTITY=custom-collector-name -e MANAGER_HOST=10.92.32.33 -e MANAGER_PORT=1158 —name hertzbeat-collector tancloud/hertzbeat-collector:v1.4.3<br>-e IDENTITY=custom-collector-name : 配置此采集器的唯一性标识符名称，多个采集器名称不能相同，建议自定义英文名称。<br>-e MODE=public : 配置运行模式(public or private), 公共集群模式或私有云边模式。<br>-e MANAGER_HOST=127.0.0.1 : 配置连接主HertaBeat服务的对外IP。<br>-e MANAGER_PORT=1158 : 配置连接主HertzBeat服务的对外端口，默认1158</p>
-<h4 id="postgres-sql"><a href="#postgres-sql" class="headerlink" title="postgres sql"></a>postgres sql</h4><blockquote>
-<p>docker run —name pgsql —privileged -e POSTGRES_PASSWORD=123456 -p 5432:5432 -v D:\docker_mapping\pgsql\data:/var/lib/postgresql/data -d postgres:14.11</p>
-</blockquote>
-<h4 id="mysql8"><a href="#mysql8" class="headerlink" title="mysql8"></a>mysql8</h4><blockquote>
-<ul>
-<li>先随便启动一个mysql8 ,然后复制出配置文件<blockquote>
-<ul>
-<li>docker run -p 3306:3306 —name mysql8 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.3.0</li>
-<li>docker cp  mysql8:/etc/mysql D:\docker_mapping\mysql</li>
-</ul>
-</blockquote>
-</li>
-<li>docker rm -f mysql8</li>
-<li>docker run  -p 3306:3306  —name mysql8  —privileged=true -v D:\docker_mapping\mysql:/etc/mysql  -v D:\docker_mapping\mysql\data:/var/lib/mysql  -v /etc/localtime:/etc/localtime  -e MYSQL_ROOT_PASSWORD=123456  -d mysql:8.3.0</li>
-</ul>
-</blockquote>
-<h4 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h4><pre class="line-numbers language-none"><code class="language-none">docker run --name mongodb -v D:\docker_mapping\mongo\mongodb:&#x2F;data&#x2F;db -p 27017:27017 -d mongo:6.0.13 --auth
-docker exec -it mongodb mongosh admin (mongo 5.0以下 使用mongo 命令)
-db.createUser(&#123; user:&#39;root&#39;,pwd:&#39;123456&#39;,roles:[ &#123; role:&#39;userAdminAnyDatabase&#39;, db: &#39;admin&#39;&#125;,&quot;readWriteAnyDatabase&quot;]&gt; &#125;);
-db.auth(&#39;root&#39;, &#39;123456&#39;);<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="NIFI"><a href="#NIFI" class="headerlink" title="NIFI"></a>NIFI</h4><p>docker run —privileged=true —name nifi -p 8443:8443 -p 9999:9999 -e NIFI_WEB_HTTP_PORT=8443 -d apache/nifi:1.24.0</p>
-<h4 id="nacos"><a href="#nacos" class="headerlink" title="nacos"></a>nacos</h4><ol>
-<li>安装容器<br>docker run —name nacos -d -p 8848:8848 -e MODE=standalone  nacos/nacos-server:v2.3.1</li>
-<li>创建挂载需要的目录<br>mkdir -p /mydata/nacos/logs/                      #新建logs目录<br>mkdir -p /mydata/nacos/conf/            #新建conf目录<br>mkdir -p /mydata/nacos/data/            #新建data目录</li>
-<li>复制文件到挂载目录<br>docker cp nacos:/home/nacos/logs/ D:\docker_mapping\nacos<br>docker cp nacos:/home/nacos/conf/ D:\docker_mapping\nacos<br>docker cp nacos:/home/nacos/data/ D:\docker_mapping\nacos</li>
-<li>删除容器<br>docker rm -f nacos</li>
-<li>进入挂载目录找到application.properties完成配置</li>
-<li>重新安装（完成配置文件挂载）<br>docker run -d —name nacos \<br>-p 8848:8848 \<br>-p 9848:9848 \<br>-p 9849:9849 \<br>—env MODE=standalone \<br>—env NACOS_AUTH_ENABLE=true \<br>-v D:\docker_mapping\nacos\conf:/home/nacos/conf \<br>-v D:\docker_mapping\nacos\logs:/home/nacos/logs \<br>-v D:\docker_mapping\nacos\data:/home/nacos/data \<br>nacos/nacos-server:v2.3.1<blockquote>
-<p>注意如果使用数据库方式需要先执行脚本，然后在启动容器不然会报错</p>
-</blockquote>
-</li>
-</ol>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</p>
-<h4 id="Apollo-多环境分布式部署（dev-pro）"><a href="#Apollo-多环境分布式部署（dev-pro）" class="headerlink" title="Apollo 多环境分布式部署（dev,pro）"></a>Apollo 多环境分布式部署（dev,pro）</h4><ol>
-<li><p>新建数据库（多个环境需要建立多个config库）执行sql 文件 文件参考：<br>config库： <a href="https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloconfigdb.sql">https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloconfigdb.sql</a><br>portal库： <a href="https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloportaldb.sql">https://github.com/apolloconfig/apollo/blob/master/scripts/sql/src/apolloportaldb.sql</a><br>建立完成后应该有两个config库 和一个 protal库 例如：apollo_config_dev，apollo_config_pro，apollo_portal_db</p>
-</li>
-<li><p>建立本地映射目录 例如D盘下新建Apollo文件夹，随便起一个apollo-configservice容器和apollo-adminservice容器<br>将这两个服务的配置文件拷贝一份到对应的目录中  </p>
-<blockquote>
-<p>docker cp apollo-configservice:/apollo-configservice/config D:\docker_mapping\apollo\config-service-dev<br>docker cp apollo-adminservice容器:/apollo-adminservice/config D:\docker_mapping\apollo\admin-service-dev </p>
-</blockquote>
-</li>
-<li>将配置也复制一份到对应的pro文件夹里  </li>
-</ol>
-<p>完成后的目录结构：<br><pre class="line-numbers language-none"><code class="language-none">├─admin-service-dev
-│  └─config
-├─admin-service-pro
-│  └─config
-├─config-service-dev
-│  └─config
-├─config-service-pro
-│  └─config
-└─protal
-    └─config<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-<ol>
-<li><p>修改本地config-service-dev和config-service-pro下config目录下的配置文件application-github.properties<br>里面只需要配置数据库相关信息即可</p>
-</li>
-<li><p>启动apollo-configservice容器</p>
-<pre class="line-numbers language-none"><code class="language-none">docker run -d -p 8109:8080 --name apollo-configservice-dev -v D:\docker_mapping\apollo\config-service-dev\config:&#x2F;apollo-configservice&#x2F;config apolloconfig&#x2F;apollo-configservice:2.2.0  
-docker run -d -p 8110:8080 --name apollo-configservice-pro -v D:\docker_mapping\apollo\config-service-pro\config:&#x2F;apollo-configservice&#x2F;config apolloconfig&#x2F;apollo-configservice:2.2.0  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
-<blockquote>
-<p>注意configservice 服务自带注册中心</p>
-</blockquote>
-</li>
-<li><p>注意在 apollo_config 对应的库中找到表ServerConfig，修改eureka.service.url地址，地址为上面的config-service注册中心地址例如：<a href="http://本机IP:8109/eureka/">http://本机IP:8109/eureka/</a><br>dev和 pro config库都需要配置好，否则apollo-adminservice服务注册不上来</p>
-</li>
-<li><p>启动apollo-adminservice容器</p>
-<pre class="line-numbers language-none"><code class="language-none">docker run -d -p 8111:8090 --name apollo-adminservice-dev -v D:\docker_mapping\apollo\admin-service-dev\config:&#x2F;apollo-adminservice&#x2F;config apolloconfig&#x2F;apollo-adminservice:2.2.0  
-docker run -d -p 8112:8090 --name apollo-adminservice-pro -v D:\docker_mapping\apollo\admin-service-pro\config:&#x2F;apollo-adminservice&#x2F;config apolloconfig&#x2F;apollo-adminservice:2.2.0  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre></li>
-<li><p>启动apollo-portal容器  </p>
-<ul>
-<li>在apollo_portal_db 中 找到表ServerConfig  <ul>
-<li>修改apollo.portal.envs 配置多环境例如：DEV,PRO </li>
-<li>修改apollo.portal.meta.servers地址，地址为上面的config-service地址例如：{“DEV”:”<a href="http://10.92.33.112:8109&quot;,&quot;PRO&quot;:&quot;http://10.92.33.112:8110&quot;}">http://10.92.33.112:8109&quot;,&quot;PRO&quot;:&quot;http://10.92.33.112:8110&quot;}</a>  </li>
-</ul>
-</li>
-<li>执行命令<br>docker run -p 8120:8070 -d —name apollo-portal -v D:\docker_mapping\apollo\protal\config:/apollo-portal/config apolloconfig/apollo-portal:2.2.0  </li>
-</ul>
-</li>
-</ol>
-<h4 id="naxus3"><a href="#naxus3" class="headerlink" title="naxus3"></a>naxus3</h4><p>docker run —privileged=true —name nexus -p 43633:43633 -p 9081:8081 -v D:\docker_mapping\nexus:/nexus-data -d sonatype/nexus3</p>
-<h4 id="rabbitMQ"><a href="#rabbitMQ" class="headerlink" title="rabbitMQ"></a>rabbitMQ</h4><ol>
-<li>单节点部署<pre class="line-numbers language-none"><code class="language-none">* 运行镜像 - 方式一：默认guest 用户，密码也是 guest
-docker run -d --hostname my-rabbit --name rabbit -p 15672:15672 -p 5672:5672 rabbitmq:management
-
-* 运行镜像 - 方式二：设置用户名和密码
-docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER&#x3D;user -e RABBITMQ_DEFAULT_PASS&#x3D;password -p 15672:15672 -p 5672:5672 rabbitmq:management<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li>集群部署<br>命令：<pre class="line-numbers language-none"><code class="language-none">docker run -d --hostname myRabbit1 --name rabbit1 -p 15672:15672 -p 5672:5672 -e RABBITMQ_ERLANG_COOKIE&#x3D;&#39;rabbitcookie&#39; rabbitmq:management
-docker run -d --hostname myRabbit2 --name rabbit2 -p 15672:15672 -p 5672:5672 --link rabbit1:myRabbit1 -e RABBITMQ_ERLANG_COOKIE&#x3D;&#39;rabbitcookie&#39; rabbitmq:management
-docker run -d --hostname myRabbit3 --name rabbit3 -p 15672:15672 -p 5672:5672 --link rabbit1:myRabbit1 --link rabbit2:myRabbit2 -e RABBITMQ_ERLANG_COOKIE&#x3D;&#39;rabbitcookie&#39; rabbitmq:management<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
-注意：</li>
-</ol>
-<ul>
-<li>-e RABBITMQ_ERLANG_COOKIE=’rabbitcookie’ 必须设置为相同，因为 Erlang节点间是通过认证Erlang cookie的方式来允许互相通信的。</li>
-<li>—link rabbit1:myRabbit1 —link rabbit2:myRabbit2 不要漏掉，否则会 一直处在 Cluster status of node rabbit@myRabbit3 … 没有反应<br>加入集群：<br>内存节点和磁盘节点的选择：</li>
-</ul>
-<p>每个RabbitMQ节点，要么是内存节点，要么是磁盘节点。内存节点将所有的队列、交换器、绑定、用户等元数据定义都存储在内存中；而磁盘节点将元数据存储在磁盘中。单节点系统只允许磁盘类型的节点，否则当节点重启以后，所有的配置信息都会丢失。如果采用集群的方式，可以选择至少配置一个节点为磁盘节点，其余部分配置为内存节点，，这样可以获得更快的响应。所以本集群中配置节点1位磁盘节点，节点2和节点3位内存节点。</p>
-<p>集群中的第一个节点将初始元数据代入集群中，并且无须被告知加入。而第2个和之后加入的节点将加入它并获取它的元数据。要加入节点，需要进入Docker容器，重启RabbitMQ。<br>设置节点1：<br><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# docker exec -it rabbit1 bash
-root@myRabbit1:&#x2F;# rabbitmqctl stop_app
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Stopping rabbit application on node rabbit@myRabbit1 ...
-root@myRabbit1:&#x2F;# rabbitmqctl reset
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Resetting node rabbit@myRabbit1 ...
-root@myRabbit1:&#x2F;# rabbitmqctl start_app
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Starting node rabbit@myRabbit1 ...
-root@myRabbit1:&#x2F;# exit
-exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>设置节点2：<br><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# docker exec -it rabbit2 bash
-root@myRabbit2:&#x2F;# rabbitmqctl stop_app
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Stopping rabbit application on node rabbit@myRabbit2 ...
-root@myRabbit2:&#x2F;# rabbitmqctl reset
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Resetting node rabbit@myRabbit2 ...
-root@myRabbit2:&#x2F;# rabbitmqctl join_cluster --ram rabbit@myRabbit1 
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Clustering node rabbit@myRabbit2 with rabbit@myRabbit1
-root@myRabbit2:&#x2F;# rabbitmqctl start_app
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Starting node rabbit@myRabbit2 ...
-root@myRabbit2:&#x2F;# exit
-exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>设置节点3：<br><pre class="line-numbers language-none"><code class="language-none">[root@localhost ~]# docker exec -it rabbit3 bash
-root@myRabbit3:&#x2F;# rabbitmqctl stop_app
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Stopping rabbit application on node rabbit@myRabbit3 ...
-root@myRabbit3:&#x2F;# rabbitmqctl reset
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Resetting node rabbit@myRabbit3 ...
-root@myRabbit3:&#x2F;# rabbitmqctl join_cluster --ram rabbit@myRabbit1 
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Clustering node rabbit@myRabbit3 with rabbit@myRabbit1
-root@myRabbit3:&#x2F;# rabbitmqctl start_app
-RABBITMQ_ERLANG_COOKIE env variable support is deprecated and will be REMOVED in a future version. Use the $HOME&#x2F;.erlang.cookie file or the --erlang-cookie switch instead.
-Starting node rabbit@myRabbit3 ...
-root@myRabbit3:&#x2F;# exit
-exit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-<h4 id="RocketMQ5-0-Local模式-部署"><a href="#RocketMQ5-0-Local模式-部署" class="headerlink" title="RocketMQ5.0 (Local模式)部署"></a>RocketMQ5.0 (Local模式)部署</h4><blockquote>
-<p>详细官方文档参考： <a href="https://rocketmq.apache.org/zh/docs/quickStart/02quickstartWithDocker">https://rocketmq.apache.org/zh/docs/quickStart/02quickstartWithDocker</a> （也有中文）<br>详细中文文档参考： <a href="https://rocketmq.io/">https://rocketmq.io/</a></p>
-<ul>
-<li>拉取RocketMQ镜像<br>docker pull apache/rocketmq:5.3.1</li>
-</ul>
-</blockquote>
-<ul>
-<li><p>创建容器共享网络<br>docker network create rocketmq</p>
-</li>
-<li><p>启动 NameServer<br>docker run -d —name rmqnamesrv -p 9876:9876 —network rocketmq apache/rocketmq:5.3.1 sh mqnamesrv</p>
-</li>
-<li><p>验证 NameServer 是否启动成功<br>docker logs -f rmqnamesrv</p>
-</li>
-<li><p>启动 Broker+Proxy  </p>
-<div class="tabs" id="broker_proxy"><ul class="nav-tabs"><li class="tab active"><button type="button" data-href="#broker_proxy-1">Linux</button></li><li class="tab"><button type="button" data-href="#broker_proxy-2">Windows</button></li></ul><div class="tab-contents"><div class="tab-item-content active" id="broker_proxy-1"><ul>
-<li>配置 Broker 的 IP 地址<br><div class="note warning simple"><p>注意这里官方文档： echo “brokerIP1=127.0.0.1” &gt; broker.conf 这种方式配置后，代码连不上proxy 8081端口</p>
-</div><br>所以改成：本地新建 broker.conf ，写入内容：<br>brokerIP1=127.0.0.1<br>namesrvAddr=xxxx.xxxx.xxx.xxxx:9876 （换成自己服务IP）<br>autoCreateTopicEnable = true<br>brokerClusterName = DefaultCluster<pre class="line-numbers language-none"><code class="language-none">* 启动 Broker 和 Proxy
-docker run -d ^
---name rmqbroker ^
---net rocketmq ^
--p 10912:10912 -p 10911:10911 -p 10909:10909 ^
--p 8080:8080 -p 8081:8081 \
--e &quot;NAMESRV_ADDR&#x3D;rmqnamesrv:9876&quot; ^
--v %cd%\broker.conf:&#x2F;home&#x2F;rocketmq&#x2F;rocketmq-5.3.1&#x2F;conf&#x2F;broker.conf ^
-apache&#x2F;rocketmq:5.3.1 sh mqbroker --enable-proxy \
--c &#x2F;home&#x2F;rocketmq&#x2F;rocketmq-5.3.1&#x2F;conf&#x2F;broker.conf
-
-* 验证 Broker 是否启动成功
-docker exec -it rmqbroker bash -c &quot;tail -n 10 &#x2F;home&#x2F;rocketmq&#x2F;logs&#x2F;rocketmqlogs&#x2F;proxy.log&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div><div class="tab-item-content" id="broker_proxy-2"><ul>
-<li>配置 Broker 的 IP 地址<br>跟上面方式一样<pre class="line-numbers language-none"><code class="language-none">* 启动 Broker 和 Proxy
-docker run -d ^
---name rmqbroker ^
---net rocketmq ^
--p 10912:10912 -p 10911:10911 -p 10909:10909 ^
--p 8080:8080 -p 8081:8081 \
--e &quot;NAMESRV_ADDR&#x3D;rmqnamesrv:9876&quot; ^
--v %cd%\broker.conf:&#x2F;home&#x2F;rocketmq&#x2F;rocketmq-5.3.1&#x2F;conf&#x2F;broker.conf ^
-apache&#x2F;rocketmq:5.3.1 sh mqbroker --enable-proxy \
--c &#x2F;home&#x2F;rocketmq&#x2F;rocketmq-5.3.1&#x2F;conf&#x2F;broker.conf
-
-* 验证 Broker 是否启动成功
-docker exec -it rmqbroker bash -c &quot;tail -n 10 &#x2F;home&#x2F;rocketmq&#x2F;logs&#x2F;rocketmqlogs&#x2F;proxy.log&quot;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-</ul><button type="button" class="tab-to-top" aria-label="scroll to top"><i class="fas fa-arrow-up"></i></button></div></div></div>
-</li>
-</ul>
-<div class="note simple"><p>至此，一个单节点副本的 RocketMQ 集群已经部署起来了，我们可以利用脚本进行简单的消息收发。</p>
-</div>
-<ul>
-<li>SDK测试消息收发验证省略（参照官方文档） </li>
-</ul>
-<div class="note warning simple"><p>注意部署的是rocketmq5.0以上的版时，协议为gprc,而老版本用的是remoting协议，故以前的sdk可能连不上新部署的mq,具体参照官方文档</p>
-</div>
-<h4 id="seata部署"><a href="#seata部署" class="headerlink" title="seata部署"></a>seata部署</h4><p>本地新增配置文件，配置如下:<br><pre class="line-numbers language-none"><code class="language-none">console:
-  user:
-    password: seata@fly
-    username: seata
-logging:
-  config: classpath:logback-spring.xml
-  # extend:
-  #   kafka-appender:
-  #     bootstrap-servers: 127.0.0.1:9092
-  #     topic: logback_to_logstash
-  #   logstash-appender:
-  #     destination: 127.0.0.1:4560
-  file:
-    path: $&#123;log.home:$&#123;user.home&#125;&#x2F;logs&#x2F;seata&#125;
-seata:
-  config:
-    nacos:
-      enabled: true
-      name: fly-seata-server
-      file-extension: yaml
-      group: DEFAULT_GROUP
-      namespace: 34bbe265-cd1f-4a08-a4b9-a02e9ab8ed47
-      data-id: fly-seata-server
-      # password: nacos@fly
-      # username: nacos
-      server-addr: 10.92.21.77:8848
-    type: nacos
-  registry:
-    nacos:
-      application: fly-seata-server
-      group: DEFAULT_GROUP
-      namespace: 34bbe265-cd1f-4a08-a4b9-a02e9ab8ed47
-      # password: nacos@fly
-      # username: nacos
-      server-addr: 10.92.21.77:8848
-    type: nacos
-  security:
-    ignore:
-      urls: &#x2F;,&#x2F;**&#x2F;*.css,&#x2F;**&#x2F;*.js,&#x2F;**&#x2F;*.html,&#x2F;**&#x2F;*.map,&#x2F;**&#x2F;*.svg,&#x2F;**&#x2F;*.png,&#x2F;**&#x2F;*.jpeg,&#x2F;**&#x2F;*.ico,&#x2F;api&#x2F;v1&#x2F;auth&#x2F;login,&#x2F;metadata&#x2F;v1&#x2F;**
-    secretKey: SeataSecretKey0c382ef121d778043159209298fd40bf3850a017
-    tokenValidityInMilliseconds: 1800000
-  store:
-    db:
-      branch-table: branch_table
-      datasource: druid
-      db-type: mysql
-      distributed-lock-table: distributed_lock
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      global-table: global_table
-      lock-table: lock_table
-      max-conn: 100
-      max-wait: 5000
-      min-conn: 10
-      password: $&#123;seata.db.password&#125;
-      query-limit: 1000
-      url: $&#123;seata.db.url&#125;
-      user: $&#123;seata.db.username&#125;
-    mode: db
-server:
-  port: 7091
-spring:
-  application:
-    name: fly-seata-server<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-<div class="note warning simple"><p>注意配置带${xx}的需要再配置中心配上，以防止需要更改</p>
-</div>
-<p>docker run -d —name=seata-server -e SEATA_IP=10.92.21.77 -e HOSTIP=10.92.21.77  —volume=D:\docker_mapping\seata\conf\application.yml:/seata-server/resources/application.yml —volume=D:\docker_mapping\seata\logs:/root/logs/seata -p 7091:7091 -p 8091:8091 —privileged=true seataio/seata-server:2.0.0</p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>others</tag>
       </tags>
   </entry>
 </search>
