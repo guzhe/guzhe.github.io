@@ -150,6 +150,35 @@ if($(this).text().length &gt; length)&#123;
       </tags>
   </entry>
   <entry>
+    <title>ai工具</title>
+    <url>/2026/05/14/ai%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h4 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h4><ul>
+<li><p>claude code</p>
+</li>
+<li><p>cc-switch</p>
+</li>
+<li><p>9router</p>
+</li>
+</ul>
+<h4 id="claude-插件"><a href="#claude-插件" class="headerlink" title="claude 插件"></a>claude 插件</h4><ul>
+<li><p>superpowers</p>
+</li>
+<li><p>openspec</p>
+</li>
+<li><p>ecc</p>
+</li>
+<li><p>codegarph</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>ai</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Jenkins+Docker 一键自动化部署 SpringBoot 项目</title>
     <url>/2024/01/24/Jenkins+Docker%20%E4%B8%80%E9%94%AE%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%20SpringBoot%20%E9%A1%B9%E7%9B%AE/</url>
     <content><![CDATA[<p>本文章实现最简单全面的<code>Jenkins+docker+springboot</code> 一键自动部署项目，步骤齐全，少走坑路。</p>
@@ -1361,6 +1390,33 @@ public class MyController &#123;
       </tags>
   </entry>
   <entry>
+    <title>git快捷操作</title>
+    <url>/2023/07/04/git%20%E5%BF%AB%E6%8D%B7%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h4 id="git-删除本地分支"><a href="#git-删除本地分支" class="headerlink" title="git 删除本地分支"></a>git 删除本地分支</h4><p>git branch -d 本地分支名称  </p>
+<h4 id="git-删除远程分支"><a href="#git-删除远程分支" class="headerlink" title="git 删除远程分支"></a>git 删除远程分支</h4><p>方式一. git push origin —delete <branch_name><br>方式二. git push origin :<branch_name>  </p>
+<h4 id="创建-切换分支操作"><a href="#创建-切换分支操作" class="headerlink" title="创建/切换分支操作"></a>创建/切换分支操作</h4><p>git branch (查看本地分支)<br>git branch -r (查看远程分支)<br>git branch -a (查看本地和远程分支)<br>git checkout -b <branch_name> (创建分支)<br>git branch -m 旧分支  新分支（重命名分支）<br>git checkout <branch_name> （切换到指定分支）<br>git switch <branch_name> （切换分支）<br>git switch -c <branch_name> （创建新分支）<br>git checkout <branch_name> <commit_hash> （指定提交切换分支）</p>
+<h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h4><p>git merge <branch_name> （将指定分支合并到当前分支）<br>‌git cherry-pick‌ <commit_id> （只合并分支提交的改动内容，非整个分支合并） </p>
+<h4 id="git丢弃已暂存的修改"><a href="#git丢弃已暂存的修改" class="headerlink" title="git丢弃已暂存的修改"></a>git丢弃已暂存的修改</h4><p>git reset HEAD <file> (<file>不指定= 丢弃所有已暂存的文件)<br>git reset —hard HEAD （同时丢弃暂存区和工作区的修改）<br>此命令将工作区和暂存区重置到最后一次提交的状态，所有未提交的更改都会被丢弃，不可恢复。</p>
+<h4 id="取消最近的-commit"><a href="#取消最近的-commit" class="headerlink" title="取消最近的 commit"></a>取消最近的 commit</h4><p>git reset —soft HEAD~1 （保留文件变更） </p>
+<ul>
+<li>—soft：将 HEAD 指针回退到前一个提交（即 HEAD~1），但是保留工作区和暂存区的变更，变 更会被放回到暂存区。 </li>
+<li>HEAD~1：表示上一个提交。<br>git reset —hard HEAD~1 (不保留文件变更)<br>git reset —hard <commit_id>(回退到某个历史提交)  </li>
+</ul>
+<h4 id="git-设置‌基础配置"><a href="#git-设置‌基础配置" class="headerlink" title="git 设置‌基础配置"></a>git 设置‌基础配置</h4><ol>
+<li>设置用户信息<br>git config —global user.name “姓名”<br>git config —global user.email “邮箱”  </li>
+<li>查看配置‌<br>git config —list<br>git config —global xxx</li>
+</ol>
+<h4 id="git-文件操作与提交"><a href="#git-文件操作与提交" class="headerlink" title="git 文件操作与提交"></a>git 文件操作与提交</h4><p>‌暂存文件‌：<br>git add [file]（添加指定文件）。<br>git add .（添加所有修改）。‌‌<br>1‌‌<br>‌提交更改‌：git commit -m “提交信息”（含—amend修改最后一次提交）。‌‌<br>2‌‌<br>‌状态与差异‌：<br>git status（查看状态）。<br>git diff（比较工作区与暂存区）。‌‌</p>
+<h4 id="git-查询分支创建点"><a href="#git-查询分支创建点" class="headerlink" title="git 查询分支创建点"></a>git 查询分支创建点</h4><p>git reflog —date=iso 分支名称</p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/04/16/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -1413,33 +1469,6 @@ jobs:
       <tags>
         <tag>hexo</tag>
         <tag>others</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git快捷操作</title>
-    <url>/2023/07/04/git%20%E5%BF%AB%E6%8D%B7%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h4 id="git-删除本地分支"><a href="#git-删除本地分支" class="headerlink" title="git 删除本地分支"></a>git 删除本地分支</h4><p>git branch -d 本地分支名称  </p>
-<h4 id="git-删除远程分支"><a href="#git-删除远程分支" class="headerlink" title="git 删除远程分支"></a>git 删除远程分支</h4><p>方式一. git push origin —delete <branch_name><br>方式二. git push origin :<branch_name>  </p>
-<h4 id="创建-切换分支操作"><a href="#创建-切换分支操作" class="headerlink" title="创建/切换分支操作"></a>创建/切换分支操作</h4><p>git branch (查看本地分支)<br>git branch -r (查看远程分支)<br>git branch -a (查看本地和远程分支)<br>git checkout -b <branch_name> (创建分支)<br>git branch -m 旧分支  新分支（重命名分支）<br>git checkout <branch_name> （切换到指定分支）<br>git switch <branch_name> （切换分支）<br>git switch -c <branch_name> （创建新分支）<br>git checkout <branch_name> <commit_hash> （指定提交切换分支）</p>
-<h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支"></a>合并分支</h4><p>git merge <branch_name> （将指定分支合并到当前分支）<br>‌git cherry-pick‌ <commit_id> （只合并分支提交的改动内容，非整个分支合并） </p>
-<h4 id="git丢弃已暂存的修改"><a href="#git丢弃已暂存的修改" class="headerlink" title="git丢弃已暂存的修改"></a>git丢弃已暂存的修改</h4><p>git reset HEAD <file> (<file>不指定= 丢弃所有已暂存的文件)<br>git reset —hard HEAD （同时丢弃暂存区和工作区的修改）<br>此命令将工作区和暂存区重置到最后一次提交的状态，所有未提交的更改都会被丢弃，不可恢复。</p>
-<h4 id="取消最近的-commit"><a href="#取消最近的-commit" class="headerlink" title="取消最近的 commit"></a>取消最近的 commit</h4><p>git reset —soft HEAD~1 （保留文件变更） </p>
-<ul>
-<li>—soft：将 HEAD 指针回退到前一个提交（即 HEAD~1），但是保留工作区和暂存区的变更，变 更会被放回到暂存区。 </li>
-<li>HEAD~1：表示上一个提交。<br>git reset —hard HEAD~1 (不保留文件变更)<br>git reset —hard <commit_id>(回退到某个历史提交)  </li>
-</ul>
-<h4 id="git-设置‌基础配置"><a href="#git-设置‌基础配置" class="headerlink" title="git 设置‌基础配置"></a>git 设置‌基础配置</h4><ol>
-<li>设置用户信息<br>git config —global user.name “姓名”<br>git config —global user.email “邮箱”  </li>
-<li>查看配置‌<br>git config —list<br>git config —global xxx</li>
-</ol>
-<h4 id="git-文件操作与提交"><a href="#git-文件操作与提交" class="headerlink" title="git 文件操作与提交"></a>git 文件操作与提交</h4><p>‌暂存文件‌：<br>git add [file]（添加指定文件）。<br>git add .（添加所有修改）。‌‌<br>1‌‌<br>‌提交更改‌：git commit -m “提交信息”（含—amend修改最后一次提交）。‌‌<br>2‌‌<br>‌状态与差异‌：<br>git status（查看状态）。<br>git diff（比较工作区与暂存区）。‌‌</p>
-<h4 id="git-查询分支创建点"><a href="#git-查询分支创建点" class="headerlink" title="git 查询分支创建点"></a>git 查询分支创建点</h4><p>git reflog —date=iso 分支名称</p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -1861,42 +1890,6 @@ binlog_expire_logs_seconds&#x3D;604800
       </tags>
   </entry>
   <entry>
-    <title>rabbitMQ延时消息问题</title>
-    <url>/2025/02/13/rabbitMQ%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h4 id="rabbitMQ延时消息问题描述"><a href="#rabbitMQ延时消息问题描述" class="headerlink" title="rabbitMQ延时消息问题描述"></a>rabbitMQ延时消息问题描述</h4><p>rabbit延时消息 可以设置为队列延时和消息延时，队列延时时队列里的每条消息都会延时一样的时间，而消息设置TTL时可以为每一条消息设置延时<br>此时，消息延时有个严重问题，如果前面的消息延时时间大于后面的消息，就会发生堵塞。<br>例如：消息A 设置延时 10S ,后一条消息B设置延时 3S，这个时候按需求来讲，3秒过后消息B应该会被消费者消费，但实际上消息B被堵塞了，直到消息A的TTL过期后A,B消息同时放出</p>
-<h4 id="rabbitMQ延时消息解决方案"><a href="#rabbitMQ延时消息解决方案" class="headerlink" title="rabbitMQ延时消息解决方案"></a>rabbitMQ延时消息解决方案</h4><ol>
-<li>可以使用rabbitMQ 的一个延时队列插件，使用下载安装参考： <a href="https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases">https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases</a>    </li>
-<li>使用定时任务框架或平台动态创建临时任务控制下发消息  </li>
-<li>建立多个不同延时时间的队列，基于业务向相应队列添加消息  </li>
-</ol>
-<h4 id="rabbitMQ延时消息的思考与优化"><a href="#rabbitMQ延时消息的思考与优化" class="headerlink" title="rabbitMQ延时消息的思考与优化"></a>rabbitMQ延时消息的思考与优化</h4><p>延时消息对rabbitMQ压力很大，一般来讲TTL设置的时间不应过长，比如一个订单业务等待客户付款，等待30分钟后发送消息检测订单支付状态并完成取消超时订单<br>设置30分钟检查订单状态存在两个问题：</p>
-<ol>
-<li>如果并发较高，30分钟可能堆积消息过多，对MQ压力过大</li>
-<li>大多数订单再下单后很短时间内就会支付，但是却需要在MQ内等待30分钟，浪费资源。</li>
-</ol>
-<p>解决措施：设置不同的等待时间：10s、10s、10s、15s、15s….，这些时间相加得到30分钟，不同延迟时间过滤掉大部分的消息，给MQ减压<br>每次延时消息消费时首先先查询支付状态，判断是否支付，如果状态显示未支付，则获取下次延迟时间，判断是否有延迟时间，有则重发延迟消息，没有延迟消息则取消订单。如果订单显示已支付，则标记未已支付。<br>这种方式也叫做多级延时消息处理方案</p>
-]]></content>
-      <categories>
-        <category>开发</category>
-      </categories>
-      <tags>
-        <tag>MQ</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sentinel api分组限流调用链路</title>
-    <url>/2026/05/14/sentinel%20api%E5%88%86%E7%BB%84%E9%99%90%E6%B5%81%E8%B0%83%E7%94%A8%E9%93%BE%E8%B7%AF/</url>
-    <content><![CDATA[<h4 id="启动加载api分组"><a href="#启动加载api分组" class="headerlink" title="启动加载api分组"></a>启动加载api分组</h4><p>SpringCloudGatewayApiDefinitionChangeObserver -&gt; GatewayApiMatcherManager.loadApiDefinitions  -&gt; WebExchangeApiMatcher.initializeMatchers</p>
-<h4 id="请求时调用链"><a href="#请求时调用链" class="headerlink" title="请求时调用链"></a>请求时调用链</h4><p>SentinelGatewayFilter -&gt; pickMatchingApiDefinitions -&gt; GatewayApiMatcherManager.getApiMatcherMap().filter(m -&gt; m.test(exchange))</p>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>sentinel</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>poi结合模板引擎导出word</title>
     <url>/2024/03/05/poi%E7%BB%93%E5%90%88%E6%A8%A1%E7%89%88%E5%BC%95%E6%93%8E%E5%AF%BC%E5%87%BAword/</url>
     <content><![CDATA[<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><p>最近一期需求开发遇到导出一个复杂的word用代码实现巨难受，特意找了个便捷方法实现  </p>
@@ -2050,6 +2043,42 @@ binlog_expire_logs_seconds&#x3D;604800
         <tag>java</tag>
         <tag>poi</tag>
         <tag>word</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sentinel api分组限流调用链路</title>
+    <url>/2026/05/14/sentinel%20api%E5%88%86%E7%BB%84%E9%99%90%E6%B5%81%E8%B0%83%E7%94%A8%E9%93%BE%E8%B7%AF/</url>
+    <content><![CDATA[<h4 id="启动加载api分组"><a href="#启动加载api分组" class="headerlink" title="启动加载api分组"></a>启动加载api分组</h4><p>SpringCloudGatewayApiDefinitionChangeObserver -&gt; GatewayApiMatcherManager.loadApiDefinitions  -&gt; WebExchangeApiMatcher.initializeMatchers</p>
+<h4 id="请求时调用链"><a href="#请求时调用链" class="headerlink" title="请求时调用链"></a>请求时调用链</h4><p>SentinelGatewayFilter -&gt; pickMatchingApiDefinitions -&gt; GatewayApiMatcherManager.getApiMatcherMap().filter(m -&gt; m.test(exchange))</p>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>sentinel</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>rabbitMQ延时消息问题</title>
+    <url>/2025/02/13/rabbitMQ%E5%BB%B6%E6%97%B6%E6%B6%88%E6%81%AF%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h4 id="rabbitMQ延时消息问题描述"><a href="#rabbitMQ延时消息问题描述" class="headerlink" title="rabbitMQ延时消息问题描述"></a>rabbitMQ延时消息问题描述</h4><p>rabbit延时消息 可以设置为队列延时和消息延时，队列延时时队列里的每条消息都会延时一样的时间，而消息设置TTL时可以为每一条消息设置延时<br>此时，消息延时有个严重问题，如果前面的消息延时时间大于后面的消息，就会发生堵塞。<br>例如：消息A 设置延时 10S ,后一条消息B设置延时 3S，这个时候按需求来讲，3秒过后消息B应该会被消费者消费，但实际上消息B被堵塞了，直到消息A的TTL过期后A,B消息同时放出</p>
+<h4 id="rabbitMQ延时消息解决方案"><a href="#rabbitMQ延时消息解决方案" class="headerlink" title="rabbitMQ延时消息解决方案"></a>rabbitMQ延时消息解决方案</h4><ol>
+<li>可以使用rabbitMQ 的一个延时队列插件，使用下载安装参考： <a href="https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases">https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases</a>    </li>
+<li>使用定时任务框架或平台动态创建临时任务控制下发消息  </li>
+<li>建立多个不同延时时间的队列，基于业务向相应队列添加消息  </li>
+</ol>
+<h4 id="rabbitMQ延时消息的思考与优化"><a href="#rabbitMQ延时消息的思考与优化" class="headerlink" title="rabbitMQ延时消息的思考与优化"></a>rabbitMQ延时消息的思考与优化</h4><p>延时消息对rabbitMQ压力很大，一般来讲TTL设置的时间不应过长，比如一个订单业务等待客户付款，等待30分钟后发送消息检测订单支付状态并完成取消超时订单<br>设置30分钟检查订单状态存在两个问题：</p>
+<ol>
+<li>如果并发较高，30分钟可能堆积消息过多，对MQ压力过大</li>
+<li>大多数订单再下单后很短时间内就会支付，但是却需要在MQ内等待30分钟，浪费资源。</li>
+</ol>
+<p>解决措施：设置不同的等待时间：10s、10s、10s、15s、15s….，这些时间相加得到30分钟，不同延迟时间过滤掉大部分的消息，给MQ减压<br>每次延时消息消费时首先先查询支付状态，判断是否支付，如果状态显示未支付，则获取下次延迟时间，判断是否有延迟时间，有则重发延迟消息，没有延迟消息则取消订单。如果订单显示已支付，则标记未已支付。<br>这种方式也叫做多级延时消息处理方案</p>
+]]></content>
+      <categories>
+        <category>开发</category>
+      </categories>
+      <tags>
+        <tag>MQ</tag>
       </tags>
   </entry>
   <entry>
@@ -2349,30 +2378,6 @@ src="https://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlm
       </tags>
   </entry>
   <entry>
-    <title>吉丽装修记【2】</title>
-    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
-    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
-<blockquote>
-<blockquote>
-<p>装修整理文档1.1版</p>
-<p><iframe 
-style="width: 100%;
-    height: 90%" 
-src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
-</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
-<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
-<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
-</blockquote>
-</blockquote>
-]]></content>
-      <categories>
-        <category>吉丽装修记</category>
-      </categories>
-      <tags>
-        <tag>装修</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>吉丽装修记【终】</title>
     <url>/2023/08/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%90%E7%BB%88%E3%80%91/</url>
     <content><![CDATA[<h5 id="装修交付视频1-0"><a href="#装修交付视频1-0" class="headerlink" title="装修交付视频1.0"></a>装修交付视频1.0</h5><div style="position: relative;
@@ -2402,6 +2407,30 @@ src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZ
 <h5 id="PDF设计图纸下载"><a href="#PDF设计图纸下载" class="headerlink" title="PDF设计图纸下载"></a>PDF设计图纸下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/白沙洲阅江府.pdf">点击下载—&gt;</a></p>
 <h5 id="10栋总平面图下载"><a href="#10栋总平面图下载" class="headerlink" title="10栋总平面图下载"></a>10栋总平面图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋总平面图.pdf">点击下载—&gt;</a></p>
 <h5 id="10栋2单元dwg户型图下载"><a href="#10栋2单元dwg户型图下载" class="headerlink" title="10栋2单元dwg户型图下载"></a>10栋2单元dwg户型图下载</h5><p><a href="https://files.guzlife.site/hexo/zhuangxiu/10栋01户户型平面图_t3.dwg">点击下载—&gt;</a></p>
+]]></content>
+      <categories>
+        <category>吉丽装修记</category>
+      </categories>
+      <tags>
+        <tag>装修</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>吉丽装修记【2】</title>
+    <url>/2023/02/08/%E5%90%89%E4%B8%BD%E8%A3%85%E4%BF%AE%E8%AE%B0%E3%80%902%E3%80%91/</url>
+    <content><![CDATA[<p><div style = "border:1px; width:100%; height:800px"></p>
+<blockquote>
+<blockquote>
+<p>装修整理文档1.1版</p>
+<p><iframe 
+style="width: 100%;
+    height: 90%" 
+src="https://preview.guzlife.top/onlinePreview?url=aHR0cHM6Ly9maWxlcy5ndXpsaWZlLnRvcC9oZXhvL3podWFuZ3hpdS%2Foo4Xkv65WMS4xLmRvY3g%3D">
+</iframe><br>&lt;/div&gt;<br><a href="https://files.guzlife.top/hexo/zhuangxiu/装修V1.1.docx">点击下载—&gt;</a></p>
+<p>装修设计方案1<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿1.png" alt="设计稿1"></p>
+<p>装修设计方案2<br><img src="https://files.guzlife.top/hexo/zhuangxiu/设计稿2.jpg" alt="设计稿2"></p>
+</blockquote>
+</blockquote>
 ]]></content>
       <categories>
         <category>吉丽装修记</category>
@@ -2459,78 +2488,6 @@ src="http://preview.guzlife.site/onlinePreview?url=aHR0cDovL3ByZXZpZXcuZ3V6bGlmZ
       <tags>
         <tag>工具</tag>
         <tag>java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>利用List函数式接口比较集合</title>
-    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%B8%80%EF%BC%89/</url>
-    <content><![CDATA[<h2 id="结果集合封装类"><a href="#结果集合封装类" class="headerlink" title="结果集合封装类"></a>结果集合封装类</h2><blockquote>
-<p> / <em>*
-     </em></p>
-<pre><code> * 比较结果集合封装类
- * /
-</code></pre><p>public class CompareListSameResponseModel<T> {<br>    /**</p>
-<pre><code> * 新增数组，入参
- * /
-private List&lt;T&gt; addList;
-/**
- * 修改数组，入参
- * /
-private List&lt;T&gt; updateList;
-/**
- * 删除数组，数据库
- * /
-private List&lt;T&gt; deleteList;
-</code></pre><p>}</p>
-</blockquote>
-<h2 id="比较工具类方法"><a href="#比较工具类方法" class="headerlink" title="比较工具类方法"></a>比较工具类方法</h2><blockquote>
-<p> /**</p>
-<pre><code> * 获取新增列表、更新列表、删除列表
- * 数据库未存在uniqueKey，新增数据有uniqueKey，则为新增数据
- * 数据库未存在uniqueKey，新增数据也没有uniqueKey，无操作
- * 数据库存在uniqueKey，新增数据有uniqueKey，则为修改数据
- * 数据库存在uniqueKey，新增数据没有uniqueKey，则为删除数据
- *
- * @param uniqueKey 根据uniqueKey是否存在于数据库中来进行比较
- * @return
- * /
-public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUniqueKey(List&lt;T&gt; requestList, List&lt;T&gt; dbList, Function&lt;? super T, ?&gt; uniqueKey) &#123;
-    CompareListSameResponseModel&lt;T&gt; responseModel = new CompareListSameResponseModel&lt;&gt;();
-    List&lt;T&gt; insertList;
-    List&lt;T&gt; updateList;
-    List&lt;T&gt; deleteList;
-    //list 为空处理
-    requestList = Optional.ofNullable(requestList).orElse(new ArrayList&lt;&gt;());
-    dbList = Optional.ofNullable(dbList).orElse(new ArrayList&lt;&gt;());
-    Set&lt;?&gt; requestKeySet = requestList
-            .stream()
-            .map(uniqueKey)
-            .collect(Collectors.toSet());
-    Set&lt;?&gt; dbKeySet = dbList
-            .stream()
-            .map(uniqueKey)
-            .collect(Collectors.toSet());
-    //新增，从request数据中，去除db中已存在的数据
-    insertList = requestList
-            .stream()
-            .filter(x -&gt; !dbKeySet.contains(uniqueKey.apply(x)))
-            .collect(Collectors.toList());
-    //修改，找出request数据，与db都有的相同的数据
-    updateList = requestList
-            .stream()
-            .filter(x -&gt; requestKeySet.contains(uniqueKey.apply(x)) &amp;&amp; dbKeySet.contains(uniqueKey.apply(x)))
-            .collect(Collectors.toList());
-</code></pre><p> //       删除，从dblist中找出，request没有的数据<br>        deleteList = dbList<br>                .stream()<br>                .filter(x -&gt; !requestKeySet.contains(uniqueKey.apply(x)))<br>                .collect(Collectors.toList());<br>        responseModel.setAddList(insertList);<br>        responseModel.setUpdateList(updateList);<br>        responseModel.setDeleteList(deleteList);<br>        return responseModel;<br>    }</p>
-</blockquote>
-<h4 id="上面方式用于比较对象泛型一致的情况，但开发的过程中一般是-请求集合-List-和数据库集合List-进行比对，使用方法是需要先将-List-转成-List-后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是-DbModel，原来requestModel里的属性-DbModel中没有就会存在后续代码-増删改集合中就无法使用到-requestModel中的一些属性"><a href="#上面方式用于比较对象泛型一致的情况，但开发的过程中一般是-请求集合-List-和数据库集合List-进行比对，使用方法是需要先将-List-转成-List-后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是-DbModel，原来requestModel里的属性-DbModel中没有就会存在后续代码-増删改集合中就无法使用到-requestModel中的一些属性" class="headerlink" title="上面方式用于比较对象泛型一致的情况，但开发的过程中一般是 请求集合 List 和数据库集合List 进行比对，使用方法是需要先将 List 转成 List 后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是 DbModel，原来requestModel里的属性 DbModel中没有就会存在后续代码 増删改集合中就无法使用到 requestModel中的一些属性"></a>上面方式用于比较对象泛型一致的情况，但开发的过程中一般是 请求集合 List<requestModel> 和数据库集合List<DbModel> 进行比对，使用方法是需要先将 List<requestModel> 转成 List<DbModel> 后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是 DbModel，原来requestModel里的属性 DbModel中没有就会存在后续代码 増删改集合中就无法使用到 requestModel中的一些属性</h4><h2 id="优化上面的代码方案"><a href="#优化上面的代码方案" class="headerlink" title="优化上面的代码方案"></a>优化上面的代码方案</h2><blockquote>
-<p>可以将泛型定义成两个 CompareListSameResponseModel<T,V> ,入参传入两个Function即可</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>集合</tag>
       </tags>
   </entry>
   <entry>
@@ -2644,6 +2601,78 @@ public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUni
       </tags>
   </entry>
   <entry>
+    <title>利用List函数式接口比较集合</title>
+    <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%B8%80%EF%BC%89/</url>
+    <content><![CDATA[<h2 id="结果集合封装类"><a href="#结果集合封装类" class="headerlink" title="结果集合封装类"></a>结果集合封装类</h2><blockquote>
+<p> / <em>*
+     </em></p>
+<pre><code> * 比较结果集合封装类
+ * /
+</code></pre><p>public class CompareListSameResponseModel<T> {<br>    /**</p>
+<pre><code> * 新增数组，入参
+ * /
+private List&lt;T&gt; addList;
+/**
+ * 修改数组，入参
+ * /
+private List&lt;T&gt; updateList;
+/**
+ * 删除数组，数据库
+ * /
+private List&lt;T&gt; deleteList;
+</code></pre><p>}</p>
+</blockquote>
+<h2 id="比较工具类方法"><a href="#比较工具类方法" class="headerlink" title="比较工具类方法"></a>比较工具类方法</h2><blockquote>
+<p> /**</p>
+<pre><code> * 获取新增列表、更新列表、删除列表
+ * 数据库未存在uniqueKey，新增数据有uniqueKey，则为新增数据
+ * 数据库未存在uniqueKey，新增数据也没有uniqueKey，无操作
+ * 数据库存在uniqueKey，新增数据有uniqueKey，则为修改数据
+ * 数据库存在uniqueKey，新增数据没有uniqueKey，则为删除数据
+ *
+ * @param uniqueKey 根据uniqueKey是否存在于数据库中来进行比较
+ * @return
+ * /
+public static &lt;T&gt; CompareListSameResponseModel&lt;T&gt; getChangeListByUniqueKey(List&lt;T&gt; requestList, List&lt;T&gt; dbList, Function&lt;? super T, ?&gt; uniqueKey) &#123;
+    CompareListSameResponseModel&lt;T&gt; responseModel = new CompareListSameResponseModel&lt;&gt;();
+    List&lt;T&gt; insertList;
+    List&lt;T&gt; updateList;
+    List&lt;T&gt; deleteList;
+    //list 为空处理
+    requestList = Optional.ofNullable(requestList).orElse(new ArrayList&lt;&gt;());
+    dbList = Optional.ofNullable(dbList).orElse(new ArrayList&lt;&gt;());
+    Set&lt;?&gt; requestKeySet = requestList
+            .stream()
+            .map(uniqueKey)
+            .collect(Collectors.toSet());
+    Set&lt;?&gt; dbKeySet = dbList
+            .stream()
+            .map(uniqueKey)
+            .collect(Collectors.toSet());
+    //新增，从request数据中，去除db中已存在的数据
+    insertList = requestList
+            .stream()
+            .filter(x -&gt; !dbKeySet.contains(uniqueKey.apply(x)))
+            .collect(Collectors.toList());
+    //修改，找出request数据，与db都有的相同的数据
+    updateList = requestList
+            .stream()
+            .filter(x -&gt; requestKeySet.contains(uniqueKey.apply(x)) &amp;&amp; dbKeySet.contains(uniqueKey.apply(x)))
+            .collect(Collectors.toList());
+</code></pre><p> //       删除，从dblist中找出，request没有的数据<br>        deleteList = dbList<br>                .stream()<br>                .filter(x -&gt; !requestKeySet.contains(uniqueKey.apply(x)))<br>                .collect(Collectors.toList());<br>        responseModel.setAddList(insertList);<br>        responseModel.setUpdateList(updateList);<br>        responseModel.setDeleteList(deleteList);<br>        return responseModel;<br>    }</p>
+</blockquote>
+<h4 id="上面方式用于比较对象泛型一致的情况，但开发的过程中一般是-请求集合-List-和数据库集合List-进行比对，使用方法是需要先将-List-转成-List-后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是-DbModel，原来requestModel里的属性-DbModel中没有就会存在后续代码-増删改集合中就无法使用到-requestModel中的一些属性"><a href="#上面方式用于比较对象泛型一致的情况，但开发的过程中一般是-请求集合-List-和数据库集合List-进行比对，使用方法是需要先将-List-转成-List-后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是-DbModel，原来requestModel里的属性-DbModel中没有就会存在后续代码-増删改集合中就无法使用到-requestModel中的一些属性" class="headerlink" title="上面方式用于比较对象泛型一致的情况，但开发的过程中一般是 请求集合 List 和数据库集合List 进行比对，使用方法是需要先将 List 转成 List 后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是 DbModel，原来requestModel里的属性 DbModel中没有就会存在后续代码 増删改集合中就无法使用到 requestModel中的一些属性"></a>上面方式用于比较对象泛型一致的情况，但开发的过程中一般是 请求集合 List<requestModel> 和数据库集合List<DbModel> 进行比对，使用方法是需要先将 List<requestModel> 转成 List<DbModel> 后再去使用工具进行比较得到增删改。此时满足大部分情况，但这种先转换的方式带来问题，那就是转换之后得的增删改对象都是 DbModel，原来requestModel里的属性 DbModel中没有就会存在后续代码 増删改集合中就无法使用到 requestModel中的一些属性</h4><h2 id="优化上面的代码方案"><a href="#优化上面的代码方案" class="headerlink" title="优化上面的代码方案"></a>优化上面的代码方案</h2><blockquote>
+<p>可以将泛型定义成两个 CompareListSameResponseModel<T,V> ,入参传入两个Function即可</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>集合</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>结合apollo动态刷新日志级别</title>
     <url>/2022/12/08/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB%EF%BC%88%E4%BA%8C%EF%BC%89/</url>
     <content><![CDATA[<h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><blockquote>
@@ -2683,6 +2712,101 @@ private void refreshLoggingLevels(ConfigChangeEvent changeEvent) &#123;
       </categories>
       <tags>
         <tag>日志</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>父工程从springboot2.7.18升级到3.4.2总结</title>
+    <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot2.7.18%E5%8D%87%E7%BA%A7%E5%88%B03.4.2%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
+<li>组织变更导致 javax.xxx 需要改成 jakarta.xxx </li>
+<li>mybatisplus 问题<br> 2.1 mybatisplus版本需要升级，本次升级到3.5.9; baomidou的dynamic-datasource换包升级 （dynamic-datasource-spring-boot3-starter）4.3.0  <blockquote>
+<p>注意原来dynamic-datasource-spring-boot-starter 不支持springboot3.x的版本，使用dynamic-datasource-spring-boot3-starter<br> 2.2 升级后分页插件等class找不到需要单独引入 mybatis-plus-jsqlparser 最低版本3.5.9<br> 2.3 升级后 封装继承AbstractMethod时注意写法需要有构造器，传入methodName参数<br> 2.4 pagehelper-spring-boot-starter 需要升级2.1.1,老版本没兼容分页有问题<br> 2.5 自定义sql注入器中生成的sql ,由于连续参数为null，导致动态sql中有连续空行的情况会报错，这个兼容处理<br> 2.6 xml sql中 不能连续空多行，不然pagehelper分页sql不完整（应该是pagehelper升级导致的）,ide工具搜索多个空行的正则：(^[ \t]*\r?\n){2,}</p>
+</blockquote>
+</li>
+<li>加载数据库驱动，springboot3.0开始mysql驱动改为com.mysql.cj.jdbc.Driver，而非com.mysql.jdbc.Driver    </li>
+<li>hutool 从5.7.10升级到5.8.34, guava 从30.0-jre升级到33.3.1-jre</li>
+<li>如果项目应用了apollo老版本也需要升级，本次升级到2.3.0</li>
+<li>jdk升级到17/21,项目以及maven编译等级也需要升到17/21,gradle升级到8.12，gradle模块向上传递依赖的方式更改为api关键字等等</li>
+<li>如果使用了spring cloud 升级到2024.0.0之后  </li>
+<li>需要手动配置开启spring循环依赖<br>spring:<br>main:<br> allow-circular-references: true  </li>
+<li>springfox注解改成springdoc注解，api接口地址更改验证<blockquote>
+<pre class="line-numbers language-none"><code class="language-none">@EnableEurekaClient 换成 @EnableDiscoveryClient
+	RedisTemplate引入需指定，包里会自动注入StringRedisTemplate
+	
+	import io.swagger.annotations.ApiModelProperty;  全量替换  import io.swagger.v3.oas.annotations.media.Schema;
+	@ApiModelProperty(value &#x3D;    全量替换    @Schema(description &#x3D;
+	
+	@ApiModel(value &#x3D;    全量替换   @Schema(description &#x3D;
+	
+	import io.swagger.annotations.Api;  全量替换  import io.swagger.v3.oas.annotations.tags.Tag;
+	@Api(tags &#x3D;   全量替换   @Tag(name &#x3D;
+	
+	import io.swagger.annotations.ApiOperation; 全量替换 import io.swagger.v3.oas.annotations.Operation;
+	@ApiOperation(value &#x3D;  全量替换  @Operation(summary &#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</blockquote>
+</li>
+</ol>
+<h4 id="根据具体需求新增部署jvm参数"><a href="#根据具体需求新增部署jvm参数" class="headerlink" title="根据具体需求新增部署jvm参数"></a>根据具体需求新增部署jvm参数</h4><pre class="line-numbers language-none"><code class="language-none">--add-opens java.base&#x2F;java.lang&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.lang.reflect&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.io&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.net&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.util&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;sun.nio.ch&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;sun.net.www.protocol.http&#x3D;ALL-UNNAMED
+--add-opens java.management&#x2F;sun.management&#x3D;ALL-UNNAMED
+--add-opens jdk.management&#x2F;com.sun.management.internal&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;sun.security.ssl&#x3D;ALL-UNNAMED
+--add-opens java.base&#x2F;java.time&#x3D;ALL-UNNAMED<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h4 id="配置写法问题"><a href="#配置写法问题" class="headerlink" title="配置写法问题"></a>配置写法问题</h4><p>redis原来写法为：<br><pre class="line-numbers language-none"><code class="language-none">spring:
+  redis:
+    # MIT
+    database: 0
+    host: 10.92.33.193
+    password: root
+    jedis:
+      pool:
+        max-active: 2
+        max-idle: 2
+        max-wait: -1
+        min-idle: 2
+    port: 6379
+    timeout: 60000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>现在写法为：<br><pre class="line-numbers language-none"><code class="language-none">spring:
+  data:
+    redis:
+      # MIT
+      database: 0
+      host: 10.92.33.193
+      password: root
+      jedis:
+        pool:
+          max-active: 2
+          max-idle: 2
+          max-wait: -1
+          min-idle: 2
+      port: 6379
+      timeout: 60000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
+<h4 id="可接入Spring-AI-1-0-0-M6"><a href="#可接入Spring-AI-1-0-0-M6" class="headerlink" title="可接入Spring AI 1.0.0-M6"></a>可接入Spring AI 1.0.0-M6</h4><pre class="line-numbers language-none"><code class="language-none">&lt;dependencyManagement&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.springframework.ai&lt;&#x2F;groupId&gt;
+                &lt;artifactId&gt;spring-ai-bom&lt;&#x2F;artifactId&gt;
+                &lt;version&gt;1.0.0-M6&lt;&#x2F;version&gt;
+                &lt;type&gt;pom&lt;&#x2F;type&gt;
+                &lt;scope&gt;import&lt;&#x2F;scope&gt;
+            &lt;&#x2F;dependency&gt;
+&lt;&#x2F;dependencyManagement&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.ai&lt;&#x2F;groupId&gt;
+    &lt;artifactId&gt;spring-ai-openai-spring-boot-starter&lt;&#x2F;artifactId&gt;
+&lt;&#x2F;dependency&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+]]></content>
+      <categories>
+        <category>后端技术</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>springboot</tag>
+        <tag>gradle</tag>
       </tags>
   </entry>
   <entry>
@@ -2833,101 +2957,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
       </tags>
   </entry>
   <entry>
-    <title>父工程从springboot2.7.18升级到3.4.2总结</title>
-    <url>/2024/04/23/%E7%88%B6%E5%B7%A5%E7%A8%8B%E4%BB%8Espringboot2.7.18%E5%8D%87%E7%BA%A7%E5%88%B03.4.2%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h4 id="包冲突"><a href="#包冲突" class="headerlink" title="包冲突"></a>包冲突</h4><ol>
-<li>组织变更导致 javax.xxx 需要改成 jakarta.xxx </li>
-<li>mybatisplus 问题<br> 2.1 mybatisplus版本需要升级，本次升级到3.5.9; baomidou的dynamic-datasource换包升级 （dynamic-datasource-spring-boot3-starter）4.3.0  <blockquote>
-<p>注意原来dynamic-datasource-spring-boot-starter 不支持springboot3.x的版本，使用dynamic-datasource-spring-boot3-starter<br> 2.2 升级后分页插件等class找不到需要单独引入 mybatis-plus-jsqlparser 最低版本3.5.9<br> 2.3 升级后 封装继承AbstractMethod时注意写法需要有构造器，传入methodName参数<br> 2.4 pagehelper-spring-boot-starter 需要升级2.1.1,老版本没兼容分页有问题<br> 2.5 自定义sql注入器中生成的sql ,由于连续参数为null，导致动态sql中有连续空行的情况会报错，这个兼容处理<br> 2.6 xml sql中 不能连续空多行，不然pagehelper分页sql不完整（应该是pagehelper升级导致的）,ide工具搜索多个空行的正则：(^[ \t]*\r?\n){2,}</p>
-</blockquote>
-</li>
-<li>加载数据库驱动，springboot3.0开始mysql驱动改为com.mysql.cj.jdbc.Driver，而非com.mysql.jdbc.Driver    </li>
-<li>hutool 从5.7.10升级到5.8.34, guava 从30.0-jre升级到33.3.1-jre</li>
-<li>如果项目应用了apollo老版本也需要升级，本次升级到2.3.0</li>
-<li>jdk升级到17/21,项目以及maven编译等级也需要升到17/21,gradle升级到8.12，gradle模块向上传递依赖的方式更改为api关键字等等</li>
-<li>如果使用了spring cloud 升级到2024.0.0之后  </li>
-<li>需要手动配置开启spring循环依赖<br>spring:<br>main:<br> allow-circular-references: true  </li>
-<li>springfox注解改成springdoc注解，api接口地址更改验证<blockquote>
-<pre class="line-numbers language-none"><code class="language-none">@EnableEurekaClient 换成 @EnableDiscoveryClient
-	RedisTemplate引入需指定，包里会自动注入StringRedisTemplate
-	
-	import io.swagger.annotations.ApiModelProperty;  全量替换  import io.swagger.v3.oas.annotations.media.Schema;
-	@ApiModelProperty(value &#x3D;    全量替换    @Schema(description &#x3D;
-	
-	@ApiModel(value &#x3D;    全量替换   @Schema(description &#x3D;
-	
-	import io.swagger.annotations.Api;  全量替换  import io.swagger.v3.oas.annotations.tags.Tag;
-	@Api(tags &#x3D;   全量替换   @Tag(name &#x3D;
-	
-	import io.swagger.annotations.ApiOperation; 全量替换 import io.swagger.v3.oas.annotations.Operation;
-	@ApiOperation(value &#x3D;  全量替换  @Operation(summary &#x3D;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-</blockquote>
-</li>
-</ol>
-<h4 id="根据具体需求新增部署jvm参数"><a href="#根据具体需求新增部署jvm参数" class="headerlink" title="根据具体需求新增部署jvm参数"></a>根据具体需求新增部署jvm参数</h4><pre class="line-numbers language-none"><code class="language-none">--add-opens java.base&#x2F;java.lang&#x3D;ALL-UNNAMED
---add-opens java.base&#x2F;java.lang.reflect&#x3D;ALL-UNNAMED
---add-opens java.base&#x2F;java.io&#x3D;ALL-UNNAMED
---add-opens java.base&#x2F;java.net&#x3D;ALL-UNNAMED
---add-opens java.base&#x2F;java.util&#x3D;ALL-UNNAMED
---add-opens java.base&#x2F;sun.nio.ch&#x3D;ALL-UNNAMED
---add-opens java.base&#x2F;sun.net.www.protocol.http&#x3D;ALL-UNNAMED
---add-opens java.management&#x2F;sun.management&#x3D;ALL-UNNAMED
---add-opens jdk.management&#x2F;com.sun.management.internal&#x3D;ALL-UNNAMED
---add-opens java.base&#x2F;sun.security.ssl&#x3D;ALL-UNNAMED
---add-opens java.base&#x2F;java.time&#x3D;ALL-UNNAMED<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h4 id="配置写法问题"><a href="#配置写法问题" class="headerlink" title="配置写法问题"></a>配置写法问题</h4><p>redis原来写法为：<br><pre class="line-numbers language-none"><code class="language-none">spring:
-  redis:
-    # MIT
-    database: 0
-    host: 10.92.33.193
-    password: root
-    jedis:
-      pool:
-        max-active: 2
-        max-idle: 2
-        max-wait: -1
-        min-idle: 2
-    port: 6379
-    timeout: 60000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><br>现在写法为：<br><pre class="line-numbers language-none"><code class="language-none">spring:
-  data:
-    redis:
-      # MIT
-      database: 0
-      host: 10.92.33.193
-      password: root
-      jedis:
-        pool:
-          max-active: 2
-          max-idle: 2
-          max-wait: -1
-          min-idle: 2
-      port: 6379
-      timeout: 60000<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></p>
-<h4 id="可接入Spring-AI-1-0-0-M6"><a href="#可接入Spring-AI-1-0-0-M6" class="headerlink" title="可接入Spring AI 1.0.0-M6"></a>可接入Spring AI 1.0.0-M6</h4><pre class="line-numbers language-none"><code class="language-none">&lt;dependencyManagement&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.ai&lt;&#x2F;groupId&gt;
-                &lt;artifactId&gt;spring-ai-bom&lt;&#x2F;artifactId&gt;
-                &lt;version&gt;1.0.0-M6&lt;&#x2F;version&gt;
-                &lt;type&gt;pom&lt;&#x2F;type&gt;
-                &lt;scope&gt;import&lt;&#x2F;scope&gt;
-            &lt;&#x2F;dependency&gt;
-&lt;&#x2F;dependencyManagement&gt;
-
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.ai&lt;&#x2F;groupId&gt;
-    &lt;artifactId&gt;spring-ai-openai-spring-boot-starter&lt;&#x2F;artifactId&gt;
-&lt;&#x2F;dependency&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-]]></content>
-      <categories>
-        <category>后端技术</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>springboot</tag>
-        <tag>gradle</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>生活录【2022-11】</title>
     <url>/2022/11/30/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902022-11%E3%80%91/</url>
     <content><![CDATA[<ul>
@@ -2937,59 +2966,6 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
 </li>
 <li>[2022-11-29]<blockquote>
 <p>新冠疫情已距今三年有余，何日方休~                                         </p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>日常</category>
-      </categories>
-      <tags>
-        <tag>小记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>生活录【2023-01】</title>
-    <url>/2023/01/01/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-01%E3%80%91/</url>
-    <content><![CDATA[<ul>
-<li>[2023-01-01]<blockquote>
-<p>2023元旦，新年快乐，愿新一年里诸事顺利~</p>
-</blockquote>
-</li>
-<li>[2023-01-03]<blockquote>
-<p>开始了一年一度最激动最刺激的抢票环节，冲啊冲啊冲啊，尼玛秒没，携程外加抢票软件都没抢到，哭</p>
-</blockquote>
-</li>
-<li>[2023-01-04]<blockquote>
-<p>改回家行程，请五天假，14号一早6点虹桥高铁去武汉</p>
-</blockquote>
-</li>
-<li>[2023-01-05]<blockquote>
-<p>哇塞，公司发的新年礼物收到了，小兔子带带一个，里面还有很多小礼品</p>
-</blockquote>
-</li>
-<li>[2023-01-06]<blockquote>
-<p>万科也发的新年礼物了，还发了一箱车厘子，车厘子短暂自由了，笑哭</p>
-</blockquote>
-</li>
-<li>[2023-01-09]<blockquote>
-<p>经过周末两天的思考，觉得装修还是亲戚比较靠谱</p>
-</blockquote>
-</li>
-<li>[2023-01-14]<blockquote>
-<p>回家过春节咯，把育儿假提前请了回去陪儿子玩嘻嘻</p>
-</blockquote>
-</li>
-<li>[2023-01-21]<blockquote>
-<p>得知今年家里终于可以放烟花了，除夕夜早早吃完年夜饭开车去梅家塘大桥看了各种烟花。空中不间断传来烟花爆破声像是诉说着大家疫情三年来的不易终于要结束</p>
-</blockquote>
-</li>
-<li>[2023-01-26]<blockquote>
-<p>今日初六。凌晨4点半就出发，没想到路上还是堵成屎 都赶最后一天的高速</p>
-</blockquote>
-</li>
-<li>[2023-01-28]<blockquote>
-<p>从早上凌晨4点半出发到第二天凌晨接近三点到，历经22小时的返程，开车从日出看到日落。 一大早6点又从昆山赶回上海这边上班拿到一波开工利是~</p>
 </blockquote>
 </li>
 </ul>
@@ -3084,6 +3060,59 @@ Caused by: java.net.ConnectException: Connection timed out (Connection timed out
 </li>
 <li>[2022-12-29]<blockquote>
 <p>一早起来还以为到周五，结果还是周四，丧</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>日常</category>
+      </categories>
+      <tags>
+        <tag>小记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>生活录【2023-01】</title>
+    <url>/2023/01/01/%E7%94%9F%E6%B4%BB%E5%BD%95%E3%80%902023-01%E3%80%91/</url>
+    <content><![CDATA[<ul>
+<li>[2023-01-01]<blockquote>
+<p>2023元旦，新年快乐，愿新一年里诸事顺利~</p>
+</blockquote>
+</li>
+<li>[2023-01-03]<blockquote>
+<p>开始了一年一度最激动最刺激的抢票环节，冲啊冲啊冲啊，尼玛秒没，携程外加抢票软件都没抢到，哭</p>
+</blockquote>
+</li>
+<li>[2023-01-04]<blockquote>
+<p>改回家行程，请五天假，14号一早6点虹桥高铁去武汉</p>
+</blockquote>
+</li>
+<li>[2023-01-05]<blockquote>
+<p>哇塞，公司发的新年礼物收到了，小兔子带带一个，里面还有很多小礼品</p>
+</blockquote>
+</li>
+<li>[2023-01-06]<blockquote>
+<p>万科也发的新年礼物了，还发了一箱车厘子，车厘子短暂自由了，笑哭</p>
+</blockquote>
+</li>
+<li>[2023-01-09]<blockquote>
+<p>经过周末两天的思考，觉得装修还是亲戚比较靠谱</p>
+</blockquote>
+</li>
+<li>[2023-01-14]<blockquote>
+<p>回家过春节咯，把育儿假提前请了回去陪儿子玩嘻嘻</p>
+</blockquote>
+</li>
+<li>[2023-01-21]<blockquote>
+<p>得知今年家里终于可以放烟花了，除夕夜早早吃完年夜饭开车去梅家塘大桥看了各种烟花。空中不间断传来烟花爆破声像是诉说着大家疫情三年来的不易终于要结束</p>
+</blockquote>
+</li>
+<li>[2023-01-26]<blockquote>
+<p>今日初六。凌晨4点半就出发，没想到路上还是堵成屎 都赶最后一天的高速</p>
+</blockquote>
+</li>
+<li>[2023-01-28]<blockquote>
+<p>从早上凌晨4点半出发到第二天凌晨接近三点到，历经22小时的返程，开车从日出看到日落。 一大早6点又从昆山赶回上海这边上班拿到一波开工利是~</p>
 </blockquote>
 </li>
 </ul>
